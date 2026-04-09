@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique @db.VarChar(255)
+  name         String?     @db.VarChar(255)
+  passwordHash String?     @map("password_hash")
+  image        String?
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @default(now()) @updatedAt @map("updated_at")
+
+  decks          Deck[]
+  reviewLogs     ReviewLog[]
+  reviewSessions ReviewSession[]
+
+  @@map("users")
+}
+
+model Deck {
+  id             String    @id @default(uuid())
+  userId         String    @map("user_id")
+  title          String    @db.VarChar(255)
+  description    String?
+  sourceFilename String?   @map("source_filename") @db.VarChar(255)
+  emoji          String?   @default("📚") @db.VarChar(10)
+  totalCards     Int       @default(0) @map("total_cards")
+  newCards       Int       @default(0) @map("new_cards")
+  dueCards       Int       @default(0) @map("due_cards")
+  masteredCards  Int       @default(0) @map("mastered_cards")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @default(now()) @updatedAt @map("updated_at")
+  lastStudiedAt  DateTime? @map("last_studied_at")
+  lastOpenedAt   DateTime? @map("last_opened_at")
+
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cards            Card[]
+  reviewSessions   ReviewSession[]
+
+  @@index([userId], map: "decks_user_id_idx")
+  @@index([userId, lastOpenedAt], map: "decks_user_last_opened_idx")
+  @@map("decks")
+}
+
+model ReviewSession {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  deckId         String   @map("deck_id")
+  cardIds        String[] @default([]) @map("card_ids")
+  currentIndex   Int      @default(0) @map("current_index")
+  pendingRatings Json     @default("[]") @map("pending_ratings")
+  status         String   @default("active") @db.VarChar(20)
+  lastActivityAt DateTime @default(now()) @updatedAt @map("last_activity_at")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deck Deck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status], map: "review_sessions_user_status_idx")
+  @@index([deckId], map: "review_sessions_deck_id_idx")
+  @@map("review_sessions")
+}
+
+model Card {
+  id           String    @id @default(uuid())
+  deckId       String    @map("deck_id")
+  front        String
+  back         String
+  tags         String[]
+  easeFactor   Float     @default(2.5) @map("ease_factor")
+  interval     Int       @default(0)
+  repetitions  Int       @default(0)
+  dueDate      DateTime  @default(now()) @map("due_date")
+  lastReviewed DateTime? @map("last_reviewed")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  deck       Deck        @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  reviewLogs ReviewLog[]
+
+  @@index([deckId], map: "cards_deck_id_idx")
+  @@index([dueDate], map: "cards_due_date_idx")
+  @@map("cards")
+}
+
+model ReviewLog {
+  id             String   @id @default(uuid())
+  cardId         String   @map("card_id")
+  userId         String   @map("user_id")
+  rating         Int
+  easeBefore     Float    @map("ease_before")
+  intervalBefore Int      @map("interval_before")
+  reviewedAt     DateTime @default(now()) @map("reviewed_at")
+
+  card Card @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([cardId], map: "review_logs_card_id_idx")
+  @@index([userId], map: "review_logs_user_id_idx")
+  @@index([reviewedAt], map: "review_logs_reviewed_at_idx")
+  @@map("review_logs")
+}

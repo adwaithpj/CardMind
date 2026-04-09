@@ -1,0 +1,38 @@
+---
+description: Core standards for the PDF Flashcard Engine project
+alwaysApply: true
+---
+
+# Project Standards
+
+## Stack
+- Next.js 15 App Router · TypeScript strict · Tailwind CSS
+- Neon PostgreSQL + Drizzle ORM (`@neondatabase/serverless`)
+- Gemini API (`gemini-1.5-flash`) for AI features
+- NextAuth.js for auth
+
+## Key Patterns
+
+**Server Components by default** — add `"use client"` only when needed for interactivity.
+
+**API routes** return `{ data } | { error }` shape via `NextResponse.json()`.
+
+**Database**: Use `db` from `@/lib/db`. Never use raw SQL strings — use Drizzle query builder.
+
+**Auth guard**: All dashboard routes check session server-side and redirect to `/login`.
+
+**SM-2**: Use `calculateSM2()` from `@/lib/srs/sm2` for all review submissions. Never update card fields manually.
+
+**Error handling**: API routes catch errors and return appropriate HTTP status codes.
+
+## File Conventions
+- Components: PascalCase (`DeckCard.tsx`)
+- Utilities/libs: camelCase (`sm2.ts`)
+- API routes: `route.ts` in `app/api/` directories
+- DB columns: snake_case; TypeScript fields: camelCase (Drizzle handles mapping)
+
+## Do Not
+- Never use `pages/api/` — use App Router `route.ts` only
+- Never skip input validation (use Zod for all API inputs)
+- Never expose `passwordHash` or database IDs in client-facing types unnecessarily
+- Never let `easeFactor` drop below 1.3 in SM-2 calculations

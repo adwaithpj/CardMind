@@ -1,0 +1,28 @@
+---
+description: Gemini API usage patterns for this project
+globs: src/lib/gemini/**/*.ts
+alwaysApply: false
+---
+
+# Gemini API Rules
+
+## Models
+- Card generation: `gemini-1.5-flash` (fast, good quality)
+- Complex analysis: `gemini-1.5-pro` (slower, higher quality)
+
+## Rate Limits & Retry
+- Free tier: ~15 RPM flash, 2 RPM pro
+- Always implement exponential backoff with at least 2 retries
+- Sleep 500ms between chunk requests to avoid 429s
+
+## Card Generation
+- Chunk PDF text to ~3000 tokens per request
+- Always validate JSON response before inserting to DB
+- Deduplicate cards by front text (first 60 chars)
+- Cap at 60 cards per deck
+
+## Prompt Rules
+- System prompt must request JSON-only output
+- Extract with regex `/\[[\s\S]*\]/` in case of markdown wrapping
+- Require both `front` and `back` fields; reject cards missing either
+- `tags` is optional, default to empty array if missing

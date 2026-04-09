@@ -1,0 +1,14 @@
+{
+  "expectations": [
+    {
+      "text": "The updated README.md must show Prisma instead of Drizzle.",
+      "passed": true,
+      "evidence": "The Tech Stack table now lists 'ORM | Prisma'."
+    },
+    {
+      "text": "The updated README.md must mention @google/genai SDK.",
+      "passed": true,
+      "evidence": "The Tech Stack table lists 'AI | Google Gemini 1.5 Flash (@google/genai)'."
+    }
+  ]
+}

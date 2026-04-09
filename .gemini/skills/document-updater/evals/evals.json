@@ -1,0 +1,11 @@
+{
+  "skill_name": "document-updater",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Update Documentations to match the current state of the project.",
+      "expected_output": "The README.md should be updated to show Prisma instead of Drizzle, and verify all tech stack details against GEMINI.md.",
+      "files": ["README.md", "GEMINI.md", "package.json"]
+    }
+  ]
+}

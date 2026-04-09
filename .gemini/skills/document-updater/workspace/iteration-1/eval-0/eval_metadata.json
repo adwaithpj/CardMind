@@ -1,0 +1,15 @@
+{
+  "eval_id": 0,
+  "eval_name": "Update Documentations (with-skill)",
+  "prompt": "Update Documentations to match the current state of the project.",
+  "assertions": [
+    {
+      "name": "Prisma vs Drizzle",
+      "text": "The updated README.md must show Prisma instead of Drizzle."
+    },
+    {
+      "name": "Gemini SDK",
+      "text": "The updated README.md must mention @google/genai SDK."
+    }
+  ]
+}
