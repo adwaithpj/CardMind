@@ -4,7 +4,6 @@ import { prisma } from "@/lib/db";
 import { User, BookOpen, Flame, Trophy } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { formatRelativeDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 

@@ -38,7 +38,10 @@ export function Sidebar({ user }: SidebarProps) {
   const { isExpanded, toggle, isMobileMenuOpen, setMobileMenuOpen } = useSidebar();
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
