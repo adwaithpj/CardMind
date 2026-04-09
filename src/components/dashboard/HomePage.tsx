@@ -13,9 +13,14 @@ import {
   FirstReviewBanner,
 } from "@/components/dashboard/StudyMomentumCard";
 
-export const dynamic = "force-dynamic";
+function getGreeting() {
+  const h = new Date().getHours();
+  if (h < 12) return "morning";
+  if (h < 17) return "afternoon";
+  return "evening";
+}
 
-export default async function HomePage() {
+export async function HomePage() {
   const session = await getServerSession(authOptions);
   const userId = session!.user.id;
 
@@ -96,11 +101,4 @@ export default async function HomePage() {
       </div>
     </div>
   );
-}
-
-function getGreeting() {
-  const h = new Date().getHours();
-  if (h < 12) return "morning";
-  if (h < 17) return "afternoon";
-  return "evening";
 }
