@@ -16,13 +16,17 @@ model User {
   createdAt    DateTime    @default(now()) @map("created_at")
   updatedAt    DateTime    @default(now()) @updatedAt @map("updated_at")
 
-  decks          Deck[]
-  reviewLogs     ReviewLog[]
-  reviewSessions ReviewSession[]
+  decks                Deck[]
+  reviewLogs           ReviewLog[]
+  reviewSessions       ReviewSession[]
+  examCountdowns       ExamCountdown[]
+  videoRecommendations VideoRecommendation[]
+  studyGoal            StudyGoal?
 
   @@map("users")
 }
 
+/// Deleting a deck removes its cards, review sessions, and nested review logs (see onDelete on relations).
 model Deck {
   id             String    @id @default(uuid())
   userId         String    @map("user_id")
@@ -39,9 +43,11 @@ model Deck {
   lastStudiedAt  DateTime? @map("last_studied_at")
   lastOpenedAt   DateTime? @map("last_opened_at")
 
-  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cards            Card[]
-  reviewSessions   ReviewSession[]
+  user                 User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cards                Card[]
+  reviewSessions       ReviewSession[]
+  examCountdowns       ExamCountdown[]
+  videoRecommendations VideoRecommendation[]
 
   @@index([userId], map: "decks_user_id_idx")
   @@index([userId, lastOpenedAt], map: "decks_user_last_opened_idx")
@@ -80,12 +86,62 @@ model Card {
   lastReviewed DateTime? @map("last_reviewed")
   createdAt    DateTime  @default(now()) @map("created_at")
 
-  deck       Deck        @relation(fields: [deckId], references: [id], onDelete: Cascade)
-  reviewLogs ReviewLog[]
+  deck                 Deck                  @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  reviewLogs           ReviewLog[]
+  videoRecommendations VideoRecommendation[]
 
   @@index([deckId], map: "cards_deck_id_idx")
   @@index([dueDate], map: "cards_due_date_idx")
   @@map("cards")
+}
+
+model ExamCountdown {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  deckId    String?  @map("deck_id")
+  title     String   @db.VarChar(255)
+  examDate  DateTime @map("exam_date")
+  dailyGoal Int      @default(10) @map("daily_goal")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deck Deck? @relation(fields: [deckId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "exam_countdowns_user_id_idx")
+  @@map("exam_countdowns")
+}
+
+model VideoRecommendation {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  cardId       String   @map("card_id")
+  deckId       String   @map("deck_id")
+  videoId      String   @map("video_id") @db.VarChar(32)
+  title        String   @db.VarChar(500)
+  channelName  String   @map("channel_name") @db.VarChar(255)
+  thumbnailUrl String   @map("thumbnail_url") @db.VarChar(500)
+  videoUrl     String   @map("video_url") @db.VarChar(500)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  card Card @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  deck Deck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "video_recommendations_user_id_idx")
+  @@index([deckId], map: "video_recommendations_deck_id_idx")
+  @@map("video_recommendations")
+}
+
+model StudyGoal {
+  id              String   @id @default(uuid())
+  userId          String   @unique @map("user_id")
+  dailyCardTarget Int      @default(20) @map("daily_card_target")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @default(now()) @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("study_goals")
 }
 
 model ReviewLog {

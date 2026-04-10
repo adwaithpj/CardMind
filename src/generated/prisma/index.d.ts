@@ -20,7 +20,7 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
  * Model Deck
- * 
+ * Deleting a deck removes its cards, review sessions, and nested review logs (see onDelete on relations).
  */
 export type Deck = $Result.DefaultSelection<Prisma.$DeckPayload>
 /**
@@ -33,6 +33,21 @@ export type ReviewSession = $Result.DefaultSelection<Prisma.$ReviewSessionPayloa
  * 
  */
 export type Card = $Result.DefaultSelection<Prisma.$CardPayload>
+/**
+ * Model ExamCountdown
+ * 
+ */
+export type ExamCountdown = $Result.DefaultSelection<Prisma.$ExamCountdownPayload>
+/**
+ * Model VideoRecommendation
+ * 
+ */
+export type VideoRecommendation = $Result.DefaultSelection<Prisma.$VideoRecommendationPayload>
+/**
+ * Model StudyGoal
+ * 
+ */
+export type StudyGoal = $Result.DefaultSelection<Prisma.$StudyGoalPayload>
 /**
  * Model ReviewLog
  * 
@@ -199,6 +214,36 @@ export class PrismaClient<
     * ```
     */
   get card(): Prisma.CardDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.examCountdown`: Exposes CRUD operations for the **ExamCountdown** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ExamCountdowns
+    * const examCountdowns = await prisma.examCountdown.findMany()
+    * ```
+    */
+  get examCountdown(): Prisma.ExamCountdownDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.videoRecommendation`: Exposes CRUD operations for the **VideoRecommendation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VideoRecommendations
+    * const videoRecommendations = await prisma.videoRecommendation.findMany()
+    * ```
+    */
+  get videoRecommendation(): Prisma.VideoRecommendationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.studyGoal`: Exposes CRUD operations for the **StudyGoal** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StudyGoals
+    * const studyGoals = await prisma.studyGoal.findMany()
+    * ```
+    */
+  get studyGoal(): Prisma.StudyGoalDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.reviewLog`: Exposes CRUD operations for the **ReviewLog** model.
@@ -647,6 +692,9 @@ export namespace Prisma {
     Deck: 'Deck',
     ReviewSession: 'ReviewSession',
     Card: 'Card',
+    ExamCountdown: 'ExamCountdown',
+    VideoRecommendation: 'VideoRecommendation',
+    StudyGoal: 'StudyGoal',
     ReviewLog: 'ReviewLog'
   };
 
@@ -663,7 +711,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "deck" | "reviewSession" | "card" | "reviewLog"
+      modelProps: "user" | "deck" | "reviewSession" | "card" | "examCountdown" | "videoRecommendation" | "studyGoal" | "reviewLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -963,6 +1011,228 @@ export namespace Prisma {
           }
         }
       }
+      ExamCountdown: {
+        payload: Prisma.$ExamCountdownPayload<ExtArgs>
+        fields: Prisma.ExamCountdownFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ExamCountdownFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamCountdownPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ExamCountdownFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamCountdownPayload>
+          }
+          findFirst: {
+            args: Prisma.ExamCountdownFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamCountdownPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ExamCountdownFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamCountdownPayload>
+          }
+          findMany: {
+            args: Prisma.ExamCountdownFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamCountdownPayload>[]
+          }
+          create: {
+            args: Prisma.ExamCountdownCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamCountdownPayload>
+          }
+          createMany: {
+            args: Prisma.ExamCountdownCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ExamCountdownCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamCountdownPayload>[]
+          }
+          delete: {
+            args: Prisma.ExamCountdownDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamCountdownPayload>
+          }
+          update: {
+            args: Prisma.ExamCountdownUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamCountdownPayload>
+          }
+          deleteMany: {
+            args: Prisma.ExamCountdownDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ExamCountdownUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ExamCountdownUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamCountdownPayload>[]
+          }
+          upsert: {
+            args: Prisma.ExamCountdownUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExamCountdownPayload>
+          }
+          aggregate: {
+            args: Prisma.ExamCountdownAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateExamCountdown>
+          }
+          groupBy: {
+            args: Prisma.ExamCountdownGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ExamCountdownGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ExamCountdownCountArgs<ExtArgs>
+            result: $Utils.Optional<ExamCountdownCountAggregateOutputType> | number
+          }
+        }
+      }
+      VideoRecommendation: {
+        payload: Prisma.$VideoRecommendationPayload<ExtArgs>
+        fields: Prisma.VideoRecommendationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VideoRecommendationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoRecommendationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VideoRecommendationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoRecommendationPayload>
+          }
+          findFirst: {
+            args: Prisma.VideoRecommendationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoRecommendationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VideoRecommendationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoRecommendationPayload>
+          }
+          findMany: {
+            args: Prisma.VideoRecommendationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoRecommendationPayload>[]
+          }
+          create: {
+            args: Prisma.VideoRecommendationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoRecommendationPayload>
+          }
+          createMany: {
+            args: Prisma.VideoRecommendationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VideoRecommendationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoRecommendationPayload>[]
+          }
+          delete: {
+            args: Prisma.VideoRecommendationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoRecommendationPayload>
+          }
+          update: {
+            args: Prisma.VideoRecommendationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoRecommendationPayload>
+          }
+          deleteMany: {
+            args: Prisma.VideoRecommendationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VideoRecommendationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VideoRecommendationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoRecommendationPayload>[]
+          }
+          upsert: {
+            args: Prisma.VideoRecommendationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VideoRecommendationPayload>
+          }
+          aggregate: {
+            args: Prisma.VideoRecommendationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVideoRecommendation>
+          }
+          groupBy: {
+            args: Prisma.VideoRecommendationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VideoRecommendationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VideoRecommendationCountArgs<ExtArgs>
+            result: $Utils.Optional<VideoRecommendationCountAggregateOutputType> | number
+          }
+        }
+      }
+      StudyGoal: {
+        payload: Prisma.$StudyGoalPayload<ExtArgs>
+        fields: Prisma.StudyGoalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StudyGoalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGoalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StudyGoalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGoalPayload>
+          }
+          findFirst: {
+            args: Prisma.StudyGoalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGoalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StudyGoalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGoalPayload>
+          }
+          findMany: {
+            args: Prisma.StudyGoalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGoalPayload>[]
+          }
+          create: {
+            args: Prisma.StudyGoalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGoalPayload>
+          }
+          createMany: {
+            args: Prisma.StudyGoalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StudyGoalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGoalPayload>[]
+          }
+          delete: {
+            args: Prisma.StudyGoalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGoalPayload>
+          }
+          update: {
+            args: Prisma.StudyGoalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGoalPayload>
+          }
+          deleteMany: {
+            args: Prisma.StudyGoalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StudyGoalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StudyGoalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGoalPayload>[]
+          }
+          upsert: {
+            args: Prisma.StudyGoalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudyGoalPayload>
+          }
+          aggregate: {
+            args: Prisma.StudyGoalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStudyGoal>
+          }
+          groupBy: {
+            args: Prisma.StudyGoalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StudyGoalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StudyGoalCountArgs<ExtArgs>
+            result: $Utils.Optional<StudyGoalCountAggregateOutputType> | number
+          }
+        }
+      }
       ReviewLog: {
         payload: Prisma.$ReviewLogPayload<ExtArgs>
         fields: Prisma.ReviewLogFieldRefs
@@ -1149,6 +1419,9 @@ export namespace Prisma {
     deck?: DeckOmit
     reviewSession?: ReviewSessionOmit
     card?: CardOmit
+    examCountdown?: ExamCountdownOmit
+    videoRecommendation?: VideoRecommendationOmit
+    studyGoal?: StudyGoalOmit
     reviewLog?: ReviewLogOmit
   }
 
@@ -1233,12 +1506,16 @@ export namespace Prisma {
     decks: number
     reviewLogs: number
     reviewSessions: number
+    examCountdowns: number
+    videoRecommendations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     decks?: boolean | UserCountOutputTypeCountDecksArgs
     reviewLogs?: boolean | UserCountOutputTypeCountReviewLogsArgs
     reviewSessions?: boolean | UserCountOutputTypeCountReviewSessionsArgs
+    examCountdowns?: boolean | UserCountOutputTypeCountExamCountdownsArgs
+    videoRecommendations?: boolean | UserCountOutputTypeCountVideoRecommendationsArgs
   }
 
   // Custom InputTypes
@@ -1273,6 +1550,20 @@ export namespace Prisma {
     where?: ReviewSessionWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountExamCountdownsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExamCountdownWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountVideoRecommendationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VideoRecommendationWhereInput
+  }
+
 
   /**
    * Count Type DeckCountOutputType
@@ -1281,11 +1572,15 @@ export namespace Prisma {
   export type DeckCountOutputType = {
     cards: number
     reviewSessions: number
+    examCountdowns: number
+    videoRecommendations: number
   }
 
   export type DeckCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cards?: boolean | DeckCountOutputTypeCountCardsArgs
     reviewSessions?: boolean | DeckCountOutputTypeCountReviewSessionsArgs
+    examCountdowns?: boolean | DeckCountOutputTypeCountExamCountdownsArgs
+    videoRecommendations?: boolean | DeckCountOutputTypeCountVideoRecommendationsArgs
   }
 
   // Custom InputTypes
@@ -1313,6 +1608,20 @@ export namespace Prisma {
     where?: ReviewSessionWhereInput
   }
 
+  /**
+   * DeckCountOutputType without action
+   */
+  export type DeckCountOutputTypeCountExamCountdownsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExamCountdownWhereInput
+  }
+
+  /**
+   * DeckCountOutputType without action
+   */
+  export type DeckCountOutputTypeCountVideoRecommendationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VideoRecommendationWhereInput
+  }
+
 
   /**
    * Count Type CardCountOutputType
@@ -1320,10 +1629,12 @@ export namespace Prisma {
 
   export type CardCountOutputType = {
     reviewLogs: number
+    videoRecommendations: number
   }
 
   export type CardCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reviewLogs?: boolean | CardCountOutputTypeCountReviewLogsArgs
+    videoRecommendations?: boolean | CardCountOutputTypeCountVideoRecommendationsArgs
   }
 
   // Custom InputTypes
@@ -1342,6 +1653,13 @@ export namespace Prisma {
    */
   export type CardCountOutputTypeCountReviewLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReviewLogWhereInput
+  }
+
+  /**
+   * CardCountOutputType without action
+   */
+  export type CardCountOutputTypeCountVideoRecommendationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VideoRecommendationWhereInput
   }
 
 
@@ -1532,6 +1850,9 @@ export namespace Prisma {
     decks?: boolean | User$decksArgs<ExtArgs>
     reviewLogs?: boolean | User$reviewLogsArgs<ExtArgs>
     reviewSessions?: boolean | User$reviewSessionsArgs<ExtArgs>
+    examCountdowns?: boolean | User$examCountdownsArgs<ExtArgs>
+    videoRecommendations?: boolean | User$videoRecommendationsArgs<ExtArgs>
+    studyGoal?: boolean | User$studyGoalArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1570,6 +1891,9 @@ export namespace Prisma {
     decks?: boolean | User$decksArgs<ExtArgs>
     reviewLogs?: boolean | User$reviewLogsArgs<ExtArgs>
     reviewSessions?: boolean | User$reviewSessionsArgs<ExtArgs>
+    examCountdowns?: boolean | User$examCountdownsArgs<ExtArgs>
+    videoRecommendations?: boolean | User$videoRecommendationsArgs<ExtArgs>
+    studyGoal?: boolean | User$studyGoalArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1581,6 +1905,9 @@ export namespace Prisma {
       decks: Prisma.$DeckPayload<ExtArgs>[]
       reviewLogs: Prisma.$ReviewLogPayload<ExtArgs>[]
       reviewSessions: Prisma.$ReviewSessionPayload<ExtArgs>[]
+      examCountdowns: Prisma.$ExamCountdownPayload<ExtArgs>[]
+      videoRecommendations: Prisma.$VideoRecommendationPayload<ExtArgs>[]
+      studyGoal: Prisma.$StudyGoalPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1987,6 +2314,9 @@ export namespace Prisma {
     decks<T extends User$decksArgs<ExtArgs> = {}>(args?: Subset<T, User$decksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviewLogs<T extends User$reviewLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviewSessions<T extends User$reviewSessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    examCountdowns<T extends User$examCountdownsArgs<ExtArgs> = {}>(args?: Subset<T, User$examCountdownsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    videoRecommendations<T extends User$videoRecommendationsArgs<ExtArgs> = {}>(args?: Subset<T, User$videoRecommendationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    studyGoal<T extends User$studyGoalArgs<ExtArgs> = {}>(args?: Subset<T, User$studyGoalArgs<ExtArgs>>): Prisma__StudyGoalClient<$Result.GetResult<Prisma.$StudyGoalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2488,6 +2818,73 @@ export namespace Prisma {
   }
 
   /**
+   * User.examCountdowns
+   */
+  export type User$examCountdownsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownInclude<ExtArgs> | null
+    where?: ExamCountdownWhereInput
+    orderBy?: ExamCountdownOrderByWithRelationInput | ExamCountdownOrderByWithRelationInput[]
+    cursor?: ExamCountdownWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExamCountdownScalarFieldEnum | ExamCountdownScalarFieldEnum[]
+  }
+
+  /**
+   * User.videoRecommendations
+   */
+  export type User$videoRecommendationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+    where?: VideoRecommendationWhereInput
+    orderBy?: VideoRecommendationOrderByWithRelationInput | VideoRecommendationOrderByWithRelationInput[]
+    cursor?: VideoRecommendationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VideoRecommendationScalarFieldEnum | VideoRecommendationScalarFieldEnum[]
+  }
+
+  /**
+   * User.studyGoal
+   */
+  export type User$studyGoalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalInclude<ExtArgs> | null
+    where?: StudyGoalWhereInput
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2791,6 +3188,8 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     cards?: boolean | Deck$cardsArgs<ExtArgs>
     reviewSessions?: boolean | Deck$reviewSessionsArgs<ExtArgs>
+    examCountdowns?: boolean | Deck$examCountdownsArgs<ExtArgs>
+    videoRecommendations?: boolean | Deck$videoRecommendationsArgs<ExtArgs>
     _count?: boolean | DeckCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["deck"]>
 
@@ -2852,6 +3251,8 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     cards?: boolean | Deck$cardsArgs<ExtArgs>
     reviewSessions?: boolean | Deck$reviewSessionsArgs<ExtArgs>
+    examCountdowns?: boolean | Deck$examCountdownsArgs<ExtArgs>
+    videoRecommendations?: boolean | Deck$videoRecommendationsArgs<ExtArgs>
     _count?: boolean | DeckCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type DeckIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2867,6 +3268,8 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
       cards: Prisma.$CardPayload<ExtArgs>[]
       reviewSessions: Prisma.$ReviewSessionPayload<ExtArgs>[]
+      examCountdowns: Prisma.$ExamCountdownPayload<ExtArgs>[]
+      videoRecommendations: Prisma.$VideoRecommendationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3280,6 +3683,8 @@ export namespace Prisma {
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     cards<T extends Deck$cardsArgs<ExtArgs> = {}>(args?: Subset<T, Deck$cardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviewSessions<T extends Deck$reviewSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Deck$reviewSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    examCountdowns<T extends Deck$examCountdownsArgs<ExtArgs> = {}>(args?: Subset<T, Deck$examCountdownsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    videoRecommendations<T extends Deck$videoRecommendationsArgs<ExtArgs> = {}>(args?: Subset<T, Deck$videoRecommendationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3769,6 +4174,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReviewSessionScalarFieldEnum | ReviewSessionScalarFieldEnum[]
+  }
+
+  /**
+   * Deck.examCountdowns
+   */
+  export type Deck$examCountdownsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownInclude<ExtArgs> | null
+    where?: ExamCountdownWhereInput
+    orderBy?: ExamCountdownOrderByWithRelationInput | ExamCountdownOrderByWithRelationInput[]
+    cursor?: ExamCountdownWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExamCountdownScalarFieldEnum | ExamCountdownScalarFieldEnum[]
+  }
+
+  /**
+   * Deck.videoRecommendations
+   */
+  export type Deck$videoRecommendationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+    where?: VideoRecommendationWhereInput
+    orderBy?: VideoRecommendationOrderByWithRelationInput | VideoRecommendationOrderByWithRelationInput[]
+    cursor?: VideoRecommendationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VideoRecommendationScalarFieldEnum | VideoRecommendationScalarFieldEnum[]
   }
 
   /**
@@ -5191,6 +5644,7 @@ export namespace Prisma {
     createdAt?: boolean
     deck?: boolean | DeckDefaultArgs<ExtArgs>
     reviewLogs?: boolean | Card$reviewLogsArgs<ExtArgs>
+    videoRecommendations?: boolean | Card$videoRecommendationsArgs<ExtArgs>
     _count?: boolean | CardCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["card"]>
 
@@ -5242,6 +5696,7 @@ export namespace Prisma {
   export type CardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     deck?: boolean | DeckDefaultArgs<ExtArgs>
     reviewLogs?: boolean | Card$reviewLogsArgs<ExtArgs>
+    videoRecommendations?: boolean | Card$videoRecommendationsArgs<ExtArgs>
     _count?: boolean | CardCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5256,6 +5711,7 @@ export namespace Prisma {
     objects: {
       deck: Prisma.$DeckPayload<ExtArgs>
       reviewLogs: Prisma.$ReviewLogPayload<ExtArgs>[]
+      videoRecommendations: Prisma.$VideoRecommendationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5665,6 +6121,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     deck<T extends DeckDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DeckDefaultArgs<ExtArgs>>): Prisma__DeckClient<$Result.GetResult<Prisma.$DeckPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     reviewLogs<T extends Card$reviewLogsArgs<ExtArgs> = {}>(args?: Subset<T, Card$reviewLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    videoRecommendations<T extends Card$videoRecommendationsArgs<ExtArgs> = {}>(args?: Subset<T, Card$videoRecommendationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6130,6 +6587,30 @@ export namespace Prisma {
   }
 
   /**
+   * Card.videoRecommendations
+   */
+  export type Card$videoRecommendationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+    where?: VideoRecommendationWhereInput
+    orderBy?: VideoRecommendationOrderByWithRelationInput | VideoRecommendationOrderByWithRelationInput[]
+    cursor?: VideoRecommendationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VideoRecommendationScalarFieldEnum | VideoRecommendationScalarFieldEnum[]
+  }
+
+  /**
    * Card without action
    */
   export type CardDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6145,6 +6626,3397 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CardInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ExamCountdown
+   */
+
+  export type AggregateExamCountdown = {
+    _count: ExamCountdownCountAggregateOutputType | null
+    _avg: ExamCountdownAvgAggregateOutputType | null
+    _sum: ExamCountdownSumAggregateOutputType | null
+    _min: ExamCountdownMinAggregateOutputType | null
+    _max: ExamCountdownMaxAggregateOutputType | null
+  }
+
+  export type ExamCountdownAvgAggregateOutputType = {
+    dailyGoal: number | null
+  }
+
+  export type ExamCountdownSumAggregateOutputType = {
+    dailyGoal: number | null
+  }
+
+  export type ExamCountdownMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    deckId: string | null
+    title: string | null
+    examDate: Date | null
+    dailyGoal: number | null
+    createdAt: Date | null
+  }
+
+  export type ExamCountdownMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    deckId: string | null
+    title: string | null
+    examDate: Date | null
+    dailyGoal: number | null
+    createdAt: Date | null
+  }
+
+  export type ExamCountdownCountAggregateOutputType = {
+    id: number
+    userId: number
+    deckId: number
+    title: number
+    examDate: number
+    dailyGoal: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ExamCountdownAvgAggregateInputType = {
+    dailyGoal?: true
+  }
+
+  export type ExamCountdownSumAggregateInputType = {
+    dailyGoal?: true
+  }
+
+  export type ExamCountdownMinAggregateInputType = {
+    id?: true
+    userId?: true
+    deckId?: true
+    title?: true
+    examDate?: true
+    dailyGoal?: true
+    createdAt?: true
+  }
+
+  export type ExamCountdownMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    deckId?: true
+    title?: true
+    examDate?: true
+    dailyGoal?: true
+    createdAt?: true
+  }
+
+  export type ExamCountdownCountAggregateInputType = {
+    id?: true
+    userId?: true
+    deckId?: true
+    title?: true
+    examDate?: true
+    dailyGoal?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ExamCountdownAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExamCountdown to aggregate.
+     */
+    where?: ExamCountdownWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExamCountdowns to fetch.
+     */
+    orderBy?: ExamCountdownOrderByWithRelationInput | ExamCountdownOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ExamCountdownWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExamCountdowns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExamCountdowns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ExamCountdowns
+    **/
+    _count?: true | ExamCountdownCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ExamCountdownAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ExamCountdownSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ExamCountdownMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ExamCountdownMaxAggregateInputType
+  }
+
+  export type GetExamCountdownAggregateType<T extends ExamCountdownAggregateArgs> = {
+        [P in keyof T & keyof AggregateExamCountdown]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateExamCountdown[P]>
+      : GetScalarType<T[P], AggregateExamCountdown[P]>
+  }
+
+
+
+
+  export type ExamCountdownGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExamCountdownWhereInput
+    orderBy?: ExamCountdownOrderByWithAggregationInput | ExamCountdownOrderByWithAggregationInput[]
+    by: ExamCountdownScalarFieldEnum[] | ExamCountdownScalarFieldEnum
+    having?: ExamCountdownScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ExamCountdownCountAggregateInputType | true
+    _avg?: ExamCountdownAvgAggregateInputType
+    _sum?: ExamCountdownSumAggregateInputType
+    _min?: ExamCountdownMinAggregateInputType
+    _max?: ExamCountdownMaxAggregateInputType
+  }
+
+  export type ExamCountdownGroupByOutputType = {
+    id: string
+    userId: string
+    deckId: string | null
+    title: string
+    examDate: Date
+    dailyGoal: number
+    createdAt: Date
+    _count: ExamCountdownCountAggregateOutputType | null
+    _avg: ExamCountdownAvgAggregateOutputType | null
+    _sum: ExamCountdownSumAggregateOutputType | null
+    _min: ExamCountdownMinAggregateOutputType | null
+    _max: ExamCountdownMaxAggregateOutputType | null
+  }
+
+  type GetExamCountdownGroupByPayload<T extends ExamCountdownGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ExamCountdownGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ExamCountdownGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ExamCountdownGroupByOutputType[P]>
+            : GetScalarType<T[P], ExamCountdownGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ExamCountdownSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    deckId?: boolean
+    title?: boolean
+    examDate?: boolean
+    dailyGoal?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    deck?: boolean | ExamCountdown$deckArgs<ExtArgs>
+  }, ExtArgs["result"]["examCountdown"]>
+
+  export type ExamCountdownSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    deckId?: boolean
+    title?: boolean
+    examDate?: boolean
+    dailyGoal?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    deck?: boolean | ExamCountdown$deckArgs<ExtArgs>
+  }, ExtArgs["result"]["examCountdown"]>
+
+  export type ExamCountdownSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    deckId?: boolean
+    title?: boolean
+    examDate?: boolean
+    dailyGoal?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    deck?: boolean | ExamCountdown$deckArgs<ExtArgs>
+  }, ExtArgs["result"]["examCountdown"]>
+
+  export type ExamCountdownSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    deckId?: boolean
+    title?: boolean
+    examDate?: boolean
+    dailyGoal?: boolean
+    createdAt?: boolean
+  }
+
+  export type ExamCountdownOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "deckId" | "title" | "examDate" | "dailyGoal" | "createdAt", ExtArgs["result"]["examCountdown"]>
+  export type ExamCountdownInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    deck?: boolean | ExamCountdown$deckArgs<ExtArgs>
+  }
+  export type ExamCountdownIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    deck?: boolean | ExamCountdown$deckArgs<ExtArgs>
+  }
+  export type ExamCountdownIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    deck?: boolean | ExamCountdown$deckArgs<ExtArgs>
+  }
+
+  export type $ExamCountdownPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ExamCountdown"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      deck: Prisma.$DeckPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      deckId: string | null
+      title: string
+      examDate: Date
+      dailyGoal: number
+      createdAt: Date
+    }, ExtArgs["result"]["examCountdown"]>
+    composites: {}
+  }
+
+  type ExamCountdownGetPayload<S extends boolean | null | undefined | ExamCountdownDefaultArgs> = $Result.GetResult<Prisma.$ExamCountdownPayload, S>
+
+  type ExamCountdownCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ExamCountdownFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ExamCountdownCountAggregateInputType | true
+    }
+
+  export interface ExamCountdownDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ExamCountdown'], meta: { name: 'ExamCountdown' } }
+    /**
+     * Find zero or one ExamCountdown that matches the filter.
+     * @param {ExamCountdownFindUniqueArgs} args - Arguments to find a ExamCountdown
+     * @example
+     * // Get one ExamCountdown
+     * const examCountdown = await prisma.examCountdown.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ExamCountdownFindUniqueArgs>(args: SelectSubset<T, ExamCountdownFindUniqueArgs<ExtArgs>>): Prisma__ExamCountdownClient<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ExamCountdown that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ExamCountdownFindUniqueOrThrowArgs} args - Arguments to find a ExamCountdown
+     * @example
+     * // Get one ExamCountdown
+     * const examCountdown = await prisma.examCountdown.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ExamCountdownFindUniqueOrThrowArgs>(args: SelectSubset<T, ExamCountdownFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ExamCountdownClient<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExamCountdown that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamCountdownFindFirstArgs} args - Arguments to find a ExamCountdown
+     * @example
+     * // Get one ExamCountdown
+     * const examCountdown = await prisma.examCountdown.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ExamCountdownFindFirstArgs>(args?: SelectSubset<T, ExamCountdownFindFirstArgs<ExtArgs>>): Prisma__ExamCountdownClient<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExamCountdown that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamCountdownFindFirstOrThrowArgs} args - Arguments to find a ExamCountdown
+     * @example
+     * // Get one ExamCountdown
+     * const examCountdown = await prisma.examCountdown.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ExamCountdownFindFirstOrThrowArgs>(args?: SelectSubset<T, ExamCountdownFindFirstOrThrowArgs<ExtArgs>>): Prisma__ExamCountdownClient<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ExamCountdowns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamCountdownFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ExamCountdowns
+     * const examCountdowns = await prisma.examCountdown.findMany()
+     * 
+     * // Get first 10 ExamCountdowns
+     * const examCountdowns = await prisma.examCountdown.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const examCountdownWithIdOnly = await prisma.examCountdown.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ExamCountdownFindManyArgs>(args?: SelectSubset<T, ExamCountdownFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ExamCountdown.
+     * @param {ExamCountdownCreateArgs} args - Arguments to create a ExamCountdown.
+     * @example
+     * // Create one ExamCountdown
+     * const ExamCountdown = await prisma.examCountdown.create({
+     *   data: {
+     *     // ... data to create a ExamCountdown
+     *   }
+     * })
+     * 
+     */
+    create<T extends ExamCountdownCreateArgs>(args: SelectSubset<T, ExamCountdownCreateArgs<ExtArgs>>): Prisma__ExamCountdownClient<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ExamCountdowns.
+     * @param {ExamCountdownCreateManyArgs} args - Arguments to create many ExamCountdowns.
+     * @example
+     * // Create many ExamCountdowns
+     * const examCountdown = await prisma.examCountdown.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ExamCountdownCreateManyArgs>(args?: SelectSubset<T, ExamCountdownCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ExamCountdowns and returns the data saved in the database.
+     * @param {ExamCountdownCreateManyAndReturnArgs} args - Arguments to create many ExamCountdowns.
+     * @example
+     * // Create many ExamCountdowns
+     * const examCountdown = await prisma.examCountdown.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ExamCountdowns and only return the `id`
+     * const examCountdownWithIdOnly = await prisma.examCountdown.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ExamCountdownCreateManyAndReturnArgs>(args?: SelectSubset<T, ExamCountdownCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ExamCountdown.
+     * @param {ExamCountdownDeleteArgs} args - Arguments to delete one ExamCountdown.
+     * @example
+     * // Delete one ExamCountdown
+     * const ExamCountdown = await prisma.examCountdown.delete({
+     *   where: {
+     *     // ... filter to delete one ExamCountdown
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ExamCountdownDeleteArgs>(args: SelectSubset<T, ExamCountdownDeleteArgs<ExtArgs>>): Prisma__ExamCountdownClient<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ExamCountdown.
+     * @param {ExamCountdownUpdateArgs} args - Arguments to update one ExamCountdown.
+     * @example
+     * // Update one ExamCountdown
+     * const examCountdown = await prisma.examCountdown.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ExamCountdownUpdateArgs>(args: SelectSubset<T, ExamCountdownUpdateArgs<ExtArgs>>): Prisma__ExamCountdownClient<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ExamCountdowns.
+     * @param {ExamCountdownDeleteManyArgs} args - Arguments to filter ExamCountdowns to delete.
+     * @example
+     * // Delete a few ExamCountdowns
+     * const { count } = await prisma.examCountdown.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ExamCountdownDeleteManyArgs>(args?: SelectSubset<T, ExamCountdownDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExamCountdowns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamCountdownUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ExamCountdowns
+     * const examCountdown = await prisma.examCountdown.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ExamCountdownUpdateManyArgs>(args: SelectSubset<T, ExamCountdownUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExamCountdowns and returns the data updated in the database.
+     * @param {ExamCountdownUpdateManyAndReturnArgs} args - Arguments to update many ExamCountdowns.
+     * @example
+     * // Update many ExamCountdowns
+     * const examCountdown = await prisma.examCountdown.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ExamCountdowns and only return the `id`
+     * const examCountdownWithIdOnly = await prisma.examCountdown.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ExamCountdownUpdateManyAndReturnArgs>(args: SelectSubset<T, ExamCountdownUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ExamCountdown.
+     * @param {ExamCountdownUpsertArgs} args - Arguments to update or create a ExamCountdown.
+     * @example
+     * // Update or create a ExamCountdown
+     * const examCountdown = await prisma.examCountdown.upsert({
+     *   create: {
+     *     // ... data to create a ExamCountdown
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ExamCountdown we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ExamCountdownUpsertArgs>(args: SelectSubset<T, ExamCountdownUpsertArgs<ExtArgs>>): Prisma__ExamCountdownClient<$Result.GetResult<Prisma.$ExamCountdownPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ExamCountdowns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamCountdownCountArgs} args - Arguments to filter ExamCountdowns to count.
+     * @example
+     * // Count the number of ExamCountdowns
+     * const count = await prisma.examCountdown.count({
+     *   where: {
+     *     // ... the filter for the ExamCountdowns we want to count
+     *   }
+     * })
+    **/
+    count<T extends ExamCountdownCountArgs>(
+      args?: Subset<T, ExamCountdownCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ExamCountdownCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ExamCountdown.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamCountdownAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ExamCountdownAggregateArgs>(args: Subset<T, ExamCountdownAggregateArgs>): Prisma.PrismaPromise<GetExamCountdownAggregateType<T>>
+
+    /**
+     * Group by ExamCountdown.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExamCountdownGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ExamCountdownGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ExamCountdownGroupByArgs['orderBy'] }
+        : { orderBy?: ExamCountdownGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ExamCountdownGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExamCountdownGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ExamCountdown model
+   */
+  readonly fields: ExamCountdownFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ExamCountdown.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ExamCountdownClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    deck<T extends ExamCountdown$deckArgs<ExtArgs> = {}>(args?: Subset<T, ExamCountdown$deckArgs<ExtArgs>>): Prisma__DeckClient<$Result.GetResult<Prisma.$DeckPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ExamCountdown model
+   */
+  interface ExamCountdownFieldRefs {
+    readonly id: FieldRef<"ExamCountdown", 'String'>
+    readonly userId: FieldRef<"ExamCountdown", 'String'>
+    readonly deckId: FieldRef<"ExamCountdown", 'String'>
+    readonly title: FieldRef<"ExamCountdown", 'String'>
+    readonly examDate: FieldRef<"ExamCountdown", 'DateTime'>
+    readonly dailyGoal: FieldRef<"ExamCountdown", 'Int'>
+    readonly createdAt: FieldRef<"ExamCountdown", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ExamCountdown findUnique
+   */
+  export type ExamCountdownFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamCountdown to fetch.
+     */
+    where: ExamCountdownWhereUniqueInput
+  }
+
+  /**
+   * ExamCountdown findUniqueOrThrow
+   */
+  export type ExamCountdownFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamCountdown to fetch.
+     */
+    where: ExamCountdownWhereUniqueInput
+  }
+
+  /**
+   * ExamCountdown findFirst
+   */
+  export type ExamCountdownFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamCountdown to fetch.
+     */
+    where?: ExamCountdownWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExamCountdowns to fetch.
+     */
+    orderBy?: ExamCountdownOrderByWithRelationInput | ExamCountdownOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExamCountdowns.
+     */
+    cursor?: ExamCountdownWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExamCountdowns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExamCountdowns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExamCountdowns.
+     */
+    distinct?: ExamCountdownScalarFieldEnum | ExamCountdownScalarFieldEnum[]
+  }
+
+  /**
+   * ExamCountdown findFirstOrThrow
+   */
+  export type ExamCountdownFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamCountdown to fetch.
+     */
+    where?: ExamCountdownWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExamCountdowns to fetch.
+     */
+    orderBy?: ExamCountdownOrderByWithRelationInput | ExamCountdownOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExamCountdowns.
+     */
+    cursor?: ExamCountdownWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExamCountdowns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExamCountdowns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExamCountdowns.
+     */
+    distinct?: ExamCountdownScalarFieldEnum | ExamCountdownScalarFieldEnum[]
+  }
+
+  /**
+   * ExamCountdown findMany
+   */
+  export type ExamCountdownFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownInclude<ExtArgs> | null
+    /**
+     * Filter, which ExamCountdowns to fetch.
+     */
+    where?: ExamCountdownWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExamCountdowns to fetch.
+     */
+    orderBy?: ExamCountdownOrderByWithRelationInput | ExamCountdownOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ExamCountdowns.
+     */
+    cursor?: ExamCountdownWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExamCountdowns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExamCountdowns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExamCountdowns.
+     */
+    distinct?: ExamCountdownScalarFieldEnum | ExamCountdownScalarFieldEnum[]
+  }
+
+  /**
+   * ExamCountdown create
+   */
+  export type ExamCountdownCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ExamCountdown.
+     */
+    data: XOR<ExamCountdownCreateInput, ExamCountdownUncheckedCreateInput>
+  }
+
+  /**
+   * ExamCountdown createMany
+   */
+  export type ExamCountdownCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ExamCountdowns.
+     */
+    data: ExamCountdownCreateManyInput | ExamCountdownCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ExamCountdown createManyAndReturn
+   */
+  export type ExamCountdownCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * The data used to create many ExamCountdowns.
+     */
+    data: ExamCountdownCreateManyInput | ExamCountdownCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExamCountdown update
+   */
+  export type ExamCountdownUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ExamCountdown.
+     */
+    data: XOR<ExamCountdownUpdateInput, ExamCountdownUncheckedUpdateInput>
+    /**
+     * Choose, which ExamCountdown to update.
+     */
+    where: ExamCountdownWhereUniqueInput
+  }
+
+  /**
+   * ExamCountdown updateMany
+   */
+  export type ExamCountdownUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ExamCountdowns.
+     */
+    data: XOR<ExamCountdownUpdateManyMutationInput, ExamCountdownUncheckedUpdateManyInput>
+    /**
+     * Filter which ExamCountdowns to update
+     */
+    where?: ExamCountdownWhereInput
+    /**
+     * Limit how many ExamCountdowns to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExamCountdown updateManyAndReturn
+   */
+  export type ExamCountdownUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * The data used to update ExamCountdowns.
+     */
+    data: XOR<ExamCountdownUpdateManyMutationInput, ExamCountdownUncheckedUpdateManyInput>
+    /**
+     * Filter which ExamCountdowns to update
+     */
+    where?: ExamCountdownWhereInput
+    /**
+     * Limit how many ExamCountdowns to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExamCountdown upsert
+   */
+  export type ExamCountdownUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ExamCountdown to update in case it exists.
+     */
+    where: ExamCountdownWhereUniqueInput
+    /**
+     * In case the ExamCountdown found by the `where` argument doesn't exist, create a new ExamCountdown with this data.
+     */
+    create: XOR<ExamCountdownCreateInput, ExamCountdownUncheckedCreateInput>
+    /**
+     * In case the ExamCountdown was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ExamCountdownUpdateInput, ExamCountdownUncheckedUpdateInput>
+  }
+
+  /**
+   * ExamCountdown delete
+   */
+  export type ExamCountdownDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownInclude<ExtArgs> | null
+    /**
+     * Filter which ExamCountdown to delete.
+     */
+    where: ExamCountdownWhereUniqueInput
+  }
+
+  /**
+   * ExamCountdown deleteMany
+   */
+  export type ExamCountdownDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExamCountdowns to delete
+     */
+    where?: ExamCountdownWhereInput
+    /**
+     * Limit how many ExamCountdowns to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExamCountdown.deck
+   */
+  export type ExamCountdown$deckArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Deck
+     */
+    select?: DeckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Deck
+     */
+    omit?: DeckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeckInclude<ExtArgs> | null
+    where?: DeckWhereInput
+  }
+
+  /**
+   * ExamCountdown without action
+   */
+  export type ExamCountdownDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExamCountdown
+     */
+    select?: ExamCountdownSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExamCountdown
+     */
+    omit?: ExamCountdownOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExamCountdownInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model VideoRecommendation
+   */
+
+  export type AggregateVideoRecommendation = {
+    _count: VideoRecommendationCountAggregateOutputType | null
+    _min: VideoRecommendationMinAggregateOutputType | null
+    _max: VideoRecommendationMaxAggregateOutputType | null
+  }
+
+  export type VideoRecommendationMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    cardId: string | null
+    deckId: string | null
+    videoId: string | null
+    title: string | null
+    channelName: string | null
+    thumbnailUrl: string | null
+    videoUrl: string | null
+    createdAt: Date | null
+  }
+
+  export type VideoRecommendationMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    cardId: string | null
+    deckId: string | null
+    videoId: string | null
+    title: string | null
+    channelName: string | null
+    thumbnailUrl: string | null
+    videoUrl: string | null
+    createdAt: Date | null
+  }
+
+  export type VideoRecommendationCountAggregateOutputType = {
+    id: number
+    userId: number
+    cardId: number
+    deckId: number
+    videoId: number
+    title: number
+    channelName: number
+    thumbnailUrl: number
+    videoUrl: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type VideoRecommendationMinAggregateInputType = {
+    id?: true
+    userId?: true
+    cardId?: true
+    deckId?: true
+    videoId?: true
+    title?: true
+    channelName?: true
+    thumbnailUrl?: true
+    videoUrl?: true
+    createdAt?: true
+  }
+
+  export type VideoRecommendationMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    cardId?: true
+    deckId?: true
+    videoId?: true
+    title?: true
+    channelName?: true
+    thumbnailUrl?: true
+    videoUrl?: true
+    createdAt?: true
+  }
+
+  export type VideoRecommendationCountAggregateInputType = {
+    id?: true
+    userId?: true
+    cardId?: true
+    deckId?: true
+    videoId?: true
+    title?: true
+    channelName?: true
+    thumbnailUrl?: true
+    videoUrl?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type VideoRecommendationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VideoRecommendation to aggregate.
+     */
+    where?: VideoRecommendationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VideoRecommendations to fetch.
+     */
+    orderBy?: VideoRecommendationOrderByWithRelationInput | VideoRecommendationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VideoRecommendationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VideoRecommendations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VideoRecommendations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VideoRecommendations
+    **/
+    _count?: true | VideoRecommendationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VideoRecommendationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VideoRecommendationMaxAggregateInputType
+  }
+
+  export type GetVideoRecommendationAggregateType<T extends VideoRecommendationAggregateArgs> = {
+        [P in keyof T & keyof AggregateVideoRecommendation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVideoRecommendation[P]>
+      : GetScalarType<T[P], AggregateVideoRecommendation[P]>
+  }
+
+
+
+
+  export type VideoRecommendationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VideoRecommendationWhereInput
+    orderBy?: VideoRecommendationOrderByWithAggregationInput | VideoRecommendationOrderByWithAggregationInput[]
+    by: VideoRecommendationScalarFieldEnum[] | VideoRecommendationScalarFieldEnum
+    having?: VideoRecommendationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VideoRecommendationCountAggregateInputType | true
+    _min?: VideoRecommendationMinAggregateInputType
+    _max?: VideoRecommendationMaxAggregateInputType
+  }
+
+  export type VideoRecommendationGroupByOutputType = {
+    id: string
+    userId: string
+    cardId: string
+    deckId: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt: Date
+    _count: VideoRecommendationCountAggregateOutputType | null
+    _min: VideoRecommendationMinAggregateOutputType | null
+    _max: VideoRecommendationMaxAggregateOutputType | null
+  }
+
+  type GetVideoRecommendationGroupByPayload<T extends VideoRecommendationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VideoRecommendationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VideoRecommendationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VideoRecommendationGroupByOutputType[P]>
+            : GetScalarType<T[P], VideoRecommendationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VideoRecommendationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    cardId?: boolean
+    deckId?: boolean
+    videoId?: boolean
+    title?: boolean
+    channelName?: boolean
+    thumbnailUrl?: boolean
+    videoUrl?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    card?: boolean | CardDefaultArgs<ExtArgs>
+    deck?: boolean | DeckDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["videoRecommendation"]>
+
+  export type VideoRecommendationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    cardId?: boolean
+    deckId?: boolean
+    videoId?: boolean
+    title?: boolean
+    channelName?: boolean
+    thumbnailUrl?: boolean
+    videoUrl?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    card?: boolean | CardDefaultArgs<ExtArgs>
+    deck?: boolean | DeckDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["videoRecommendation"]>
+
+  export type VideoRecommendationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    cardId?: boolean
+    deckId?: boolean
+    videoId?: boolean
+    title?: boolean
+    channelName?: boolean
+    thumbnailUrl?: boolean
+    videoUrl?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    card?: boolean | CardDefaultArgs<ExtArgs>
+    deck?: boolean | DeckDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["videoRecommendation"]>
+
+  export type VideoRecommendationSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    cardId?: boolean
+    deckId?: boolean
+    videoId?: boolean
+    title?: boolean
+    channelName?: boolean
+    thumbnailUrl?: boolean
+    videoUrl?: boolean
+    createdAt?: boolean
+  }
+
+  export type VideoRecommendationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "cardId" | "deckId" | "videoId" | "title" | "channelName" | "thumbnailUrl" | "videoUrl" | "createdAt", ExtArgs["result"]["videoRecommendation"]>
+  export type VideoRecommendationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    card?: boolean | CardDefaultArgs<ExtArgs>
+    deck?: boolean | DeckDefaultArgs<ExtArgs>
+  }
+  export type VideoRecommendationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    card?: boolean | CardDefaultArgs<ExtArgs>
+    deck?: boolean | DeckDefaultArgs<ExtArgs>
+  }
+  export type VideoRecommendationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    card?: boolean | CardDefaultArgs<ExtArgs>
+    deck?: boolean | DeckDefaultArgs<ExtArgs>
+  }
+
+  export type $VideoRecommendationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VideoRecommendation"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      card: Prisma.$CardPayload<ExtArgs>
+      deck: Prisma.$DeckPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      cardId: string
+      deckId: string
+      videoId: string
+      title: string
+      channelName: string
+      thumbnailUrl: string
+      videoUrl: string
+      createdAt: Date
+    }, ExtArgs["result"]["videoRecommendation"]>
+    composites: {}
+  }
+
+  type VideoRecommendationGetPayload<S extends boolean | null | undefined | VideoRecommendationDefaultArgs> = $Result.GetResult<Prisma.$VideoRecommendationPayload, S>
+
+  type VideoRecommendationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VideoRecommendationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VideoRecommendationCountAggregateInputType | true
+    }
+
+  export interface VideoRecommendationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VideoRecommendation'], meta: { name: 'VideoRecommendation' } }
+    /**
+     * Find zero or one VideoRecommendation that matches the filter.
+     * @param {VideoRecommendationFindUniqueArgs} args - Arguments to find a VideoRecommendation
+     * @example
+     * // Get one VideoRecommendation
+     * const videoRecommendation = await prisma.videoRecommendation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VideoRecommendationFindUniqueArgs>(args: SelectSubset<T, VideoRecommendationFindUniqueArgs<ExtArgs>>): Prisma__VideoRecommendationClient<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VideoRecommendation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VideoRecommendationFindUniqueOrThrowArgs} args - Arguments to find a VideoRecommendation
+     * @example
+     * // Get one VideoRecommendation
+     * const videoRecommendation = await prisma.videoRecommendation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VideoRecommendationFindUniqueOrThrowArgs>(args: SelectSubset<T, VideoRecommendationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VideoRecommendationClient<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VideoRecommendation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoRecommendationFindFirstArgs} args - Arguments to find a VideoRecommendation
+     * @example
+     * // Get one VideoRecommendation
+     * const videoRecommendation = await prisma.videoRecommendation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VideoRecommendationFindFirstArgs>(args?: SelectSubset<T, VideoRecommendationFindFirstArgs<ExtArgs>>): Prisma__VideoRecommendationClient<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VideoRecommendation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoRecommendationFindFirstOrThrowArgs} args - Arguments to find a VideoRecommendation
+     * @example
+     * // Get one VideoRecommendation
+     * const videoRecommendation = await prisma.videoRecommendation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VideoRecommendationFindFirstOrThrowArgs>(args?: SelectSubset<T, VideoRecommendationFindFirstOrThrowArgs<ExtArgs>>): Prisma__VideoRecommendationClient<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VideoRecommendations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoRecommendationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VideoRecommendations
+     * const videoRecommendations = await prisma.videoRecommendation.findMany()
+     * 
+     * // Get first 10 VideoRecommendations
+     * const videoRecommendations = await prisma.videoRecommendation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const videoRecommendationWithIdOnly = await prisma.videoRecommendation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VideoRecommendationFindManyArgs>(args?: SelectSubset<T, VideoRecommendationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VideoRecommendation.
+     * @param {VideoRecommendationCreateArgs} args - Arguments to create a VideoRecommendation.
+     * @example
+     * // Create one VideoRecommendation
+     * const VideoRecommendation = await prisma.videoRecommendation.create({
+     *   data: {
+     *     // ... data to create a VideoRecommendation
+     *   }
+     * })
+     * 
+     */
+    create<T extends VideoRecommendationCreateArgs>(args: SelectSubset<T, VideoRecommendationCreateArgs<ExtArgs>>): Prisma__VideoRecommendationClient<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VideoRecommendations.
+     * @param {VideoRecommendationCreateManyArgs} args - Arguments to create many VideoRecommendations.
+     * @example
+     * // Create many VideoRecommendations
+     * const videoRecommendation = await prisma.videoRecommendation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VideoRecommendationCreateManyArgs>(args?: SelectSubset<T, VideoRecommendationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VideoRecommendations and returns the data saved in the database.
+     * @param {VideoRecommendationCreateManyAndReturnArgs} args - Arguments to create many VideoRecommendations.
+     * @example
+     * // Create many VideoRecommendations
+     * const videoRecommendation = await prisma.videoRecommendation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VideoRecommendations and only return the `id`
+     * const videoRecommendationWithIdOnly = await prisma.videoRecommendation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VideoRecommendationCreateManyAndReturnArgs>(args?: SelectSubset<T, VideoRecommendationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VideoRecommendation.
+     * @param {VideoRecommendationDeleteArgs} args - Arguments to delete one VideoRecommendation.
+     * @example
+     * // Delete one VideoRecommendation
+     * const VideoRecommendation = await prisma.videoRecommendation.delete({
+     *   where: {
+     *     // ... filter to delete one VideoRecommendation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VideoRecommendationDeleteArgs>(args: SelectSubset<T, VideoRecommendationDeleteArgs<ExtArgs>>): Prisma__VideoRecommendationClient<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VideoRecommendation.
+     * @param {VideoRecommendationUpdateArgs} args - Arguments to update one VideoRecommendation.
+     * @example
+     * // Update one VideoRecommendation
+     * const videoRecommendation = await prisma.videoRecommendation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VideoRecommendationUpdateArgs>(args: SelectSubset<T, VideoRecommendationUpdateArgs<ExtArgs>>): Prisma__VideoRecommendationClient<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VideoRecommendations.
+     * @param {VideoRecommendationDeleteManyArgs} args - Arguments to filter VideoRecommendations to delete.
+     * @example
+     * // Delete a few VideoRecommendations
+     * const { count } = await prisma.videoRecommendation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VideoRecommendationDeleteManyArgs>(args?: SelectSubset<T, VideoRecommendationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VideoRecommendations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoRecommendationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VideoRecommendations
+     * const videoRecommendation = await prisma.videoRecommendation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VideoRecommendationUpdateManyArgs>(args: SelectSubset<T, VideoRecommendationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VideoRecommendations and returns the data updated in the database.
+     * @param {VideoRecommendationUpdateManyAndReturnArgs} args - Arguments to update many VideoRecommendations.
+     * @example
+     * // Update many VideoRecommendations
+     * const videoRecommendation = await prisma.videoRecommendation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VideoRecommendations and only return the `id`
+     * const videoRecommendationWithIdOnly = await prisma.videoRecommendation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VideoRecommendationUpdateManyAndReturnArgs>(args: SelectSubset<T, VideoRecommendationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VideoRecommendation.
+     * @param {VideoRecommendationUpsertArgs} args - Arguments to update or create a VideoRecommendation.
+     * @example
+     * // Update or create a VideoRecommendation
+     * const videoRecommendation = await prisma.videoRecommendation.upsert({
+     *   create: {
+     *     // ... data to create a VideoRecommendation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VideoRecommendation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VideoRecommendationUpsertArgs>(args: SelectSubset<T, VideoRecommendationUpsertArgs<ExtArgs>>): Prisma__VideoRecommendationClient<$Result.GetResult<Prisma.$VideoRecommendationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VideoRecommendations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoRecommendationCountArgs} args - Arguments to filter VideoRecommendations to count.
+     * @example
+     * // Count the number of VideoRecommendations
+     * const count = await prisma.videoRecommendation.count({
+     *   where: {
+     *     // ... the filter for the VideoRecommendations we want to count
+     *   }
+     * })
+    **/
+    count<T extends VideoRecommendationCountArgs>(
+      args?: Subset<T, VideoRecommendationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VideoRecommendationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VideoRecommendation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoRecommendationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VideoRecommendationAggregateArgs>(args: Subset<T, VideoRecommendationAggregateArgs>): Prisma.PrismaPromise<GetVideoRecommendationAggregateType<T>>
+
+    /**
+     * Group by VideoRecommendation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoRecommendationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VideoRecommendationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VideoRecommendationGroupByArgs['orderBy'] }
+        : { orderBy?: VideoRecommendationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VideoRecommendationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVideoRecommendationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VideoRecommendation model
+   */
+  readonly fields: VideoRecommendationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VideoRecommendation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VideoRecommendationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    card<T extends CardDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CardDefaultArgs<ExtArgs>>): Prisma__CardClient<$Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    deck<T extends DeckDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DeckDefaultArgs<ExtArgs>>): Prisma__DeckClient<$Result.GetResult<Prisma.$DeckPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VideoRecommendation model
+   */
+  interface VideoRecommendationFieldRefs {
+    readonly id: FieldRef<"VideoRecommendation", 'String'>
+    readonly userId: FieldRef<"VideoRecommendation", 'String'>
+    readonly cardId: FieldRef<"VideoRecommendation", 'String'>
+    readonly deckId: FieldRef<"VideoRecommendation", 'String'>
+    readonly videoId: FieldRef<"VideoRecommendation", 'String'>
+    readonly title: FieldRef<"VideoRecommendation", 'String'>
+    readonly channelName: FieldRef<"VideoRecommendation", 'String'>
+    readonly thumbnailUrl: FieldRef<"VideoRecommendation", 'String'>
+    readonly videoUrl: FieldRef<"VideoRecommendation", 'String'>
+    readonly createdAt: FieldRef<"VideoRecommendation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VideoRecommendation findUnique
+   */
+  export type VideoRecommendationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoRecommendation to fetch.
+     */
+    where: VideoRecommendationWhereUniqueInput
+  }
+
+  /**
+   * VideoRecommendation findUniqueOrThrow
+   */
+  export type VideoRecommendationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoRecommendation to fetch.
+     */
+    where: VideoRecommendationWhereUniqueInput
+  }
+
+  /**
+   * VideoRecommendation findFirst
+   */
+  export type VideoRecommendationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoRecommendation to fetch.
+     */
+    where?: VideoRecommendationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VideoRecommendations to fetch.
+     */
+    orderBy?: VideoRecommendationOrderByWithRelationInput | VideoRecommendationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VideoRecommendations.
+     */
+    cursor?: VideoRecommendationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VideoRecommendations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VideoRecommendations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VideoRecommendations.
+     */
+    distinct?: VideoRecommendationScalarFieldEnum | VideoRecommendationScalarFieldEnum[]
+  }
+
+  /**
+   * VideoRecommendation findFirstOrThrow
+   */
+  export type VideoRecommendationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoRecommendation to fetch.
+     */
+    where?: VideoRecommendationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VideoRecommendations to fetch.
+     */
+    orderBy?: VideoRecommendationOrderByWithRelationInput | VideoRecommendationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VideoRecommendations.
+     */
+    cursor?: VideoRecommendationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VideoRecommendations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VideoRecommendations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VideoRecommendations.
+     */
+    distinct?: VideoRecommendationScalarFieldEnum | VideoRecommendationScalarFieldEnum[]
+  }
+
+  /**
+   * VideoRecommendation findMany
+   */
+  export type VideoRecommendationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+    /**
+     * Filter, which VideoRecommendations to fetch.
+     */
+    where?: VideoRecommendationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VideoRecommendations to fetch.
+     */
+    orderBy?: VideoRecommendationOrderByWithRelationInput | VideoRecommendationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VideoRecommendations.
+     */
+    cursor?: VideoRecommendationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VideoRecommendations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VideoRecommendations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VideoRecommendations.
+     */
+    distinct?: VideoRecommendationScalarFieldEnum | VideoRecommendationScalarFieldEnum[]
+  }
+
+  /**
+   * VideoRecommendation create
+   */
+  export type VideoRecommendationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VideoRecommendation.
+     */
+    data: XOR<VideoRecommendationCreateInput, VideoRecommendationUncheckedCreateInput>
+  }
+
+  /**
+   * VideoRecommendation createMany
+   */
+  export type VideoRecommendationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VideoRecommendations.
+     */
+    data: VideoRecommendationCreateManyInput | VideoRecommendationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VideoRecommendation createManyAndReturn
+   */
+  export type VideoRecommendationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * The data used to create many VideoRecommendations.
+     */
+    data: VideoRecommendationCreateManyInput | VideoRecommendationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VideoRecommendation update
+   */
+  export type VideoRecommendationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VideoRecommendation.
+     */
+    data: XOR<VideoRecommendationUpdateInput, VideoRecommendationUncheckedUpdateInput>
+    /**
+     * Choose, which VideoRecommendation to update.
+     */
+    where: VideoRecommendationWhereUniqueInput
+  }
+
+  /**
+   * VideoRecommendation updateMany
+   */
+  export type VideoRecommendationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VideoRecommendations.
+     */
+    data: XOR<VideoRecommendationUpdateManyMutationInput, VideoRecommendationUncheckedUpdateManyInput>
+    /**
+     * Filter which VideoRecommendations to update
+     */
+    where?: VideoRecommendationWhereInput
+    /**
+     * Limit how many VideoRecommendations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VideoRecommendation updateManyAndReturn
+   */
+  export type VideoRecommendationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * The data used to update VideoRecommendations.
+     */
+    data: XOR<VideoRecommendationUpdateManyMutationInput, VideoRecommendationUncheckedUpdateManyInput>
+    /**
+     * Filter which VideoRecommendations to update
+     */
+    where?: VideoRecommendationWhereInput
+    /**
+     * Limit how many VideoRecommendations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VideoRecommendation upsert
+   */
+  export type VideoRecommendationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VideoRecommendation to update in case it exists.
+     */
+    where: VideoRecommendationWhereUniqueInput
+    /**
+     * In case the VideoRecommendation found by the `where` argument doesn't exist, create a new VideoRecommendation with this data.
+     */
+    create: XOR<VideoRecommendationCreateInput, VideoRecommendationUncheckedCreateInput>
+    /**
+     * In case the VideoRecommendation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VideoRecommendationUpdateInput, VideoRecommendationUncheckedUpdateInput>
+  }
+
+  /**
+   * VideoRecommendation delete
+   */
+  export type VideoRecommendationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+    /**
+     * Filter which VideoRecommendation to delete.
+     */
+    where: VideoRecommendationWhereUniqueInput
+  }
+
+  /**
+   * VideoRecommendation deleteMany
+   */
+  export type VideoRecommendationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VideoRecommendations to delete
+     */
+    where?: VideoRecommendationWhereInput
+    /**
+     * Limit how many VideoRecommendations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VideoRecommendation without action
+   */
+  export type VideoRecommendationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VideoRecommendation
+     */
+    select?: VideoRecommendationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VideoRecommendation
+     */
+    omit?: VideoRecommendationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VideoRecommendationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model StudyGoal
+   */
+
+  export type AggregateStudyGoal = {
+    _count: StudyGoalCountAggregateOutputType | null
+    _avg: StudyGoalAvgAggregateOutputType | null
+    _sum: StudyGoalSumAggregateOutputType | null
+    _min: StudyGoalMinAggregateOutputType | null
+    _max: StudyGoalMaxAggregateOutputType | null
+  }
+
+  export type StudyGoalAvgAggregateOutputType = {
+    dailyCardTarget: number | null
+  }
+
+  export type StudyGoalSumAggregateOutputType = {
+    dailyCardTarget: number | null
+  }
+
+  export type StudyGoalMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    dailyCardTarget: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StudyGoalMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    dailyCardTarget: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StudyGoalCountAggregateOutputType = {
+    id: number
+    userId: number
+    dailyCardTarget: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type StudyGoalAvgAggregateInputType = {
+    dailyCardTarget?: true
+  }
+
+  export type StudyGoalSumAggregateInputType = {
+    dailyCardTarget?: true
+  }
+
+  export type StudyGoalMinAggregateInputType = {
+    id?: true
+    userId?: true
+    dailyCardTarget?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StudyGoalMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    dailyCardTarget?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StudyGoalCountAggregateInputType = {
+    id?: true
+    userId?: true
+    dailyCardTarget?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type StudyGoalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudyGoal to aggregate.
+     */
+    where?: StudyGoalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyGoals to fetch.
+     */
+    orderBy?: StudyGoalOrderByWithRelationInput | StudyGoalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StudyGoalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyGoals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyGoals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StudyGoals
+    **/
+    _count?: true | StudyGoalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StudyGoalAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StudyGoalSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StudyGoalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StudyGoalMaxAggregateInputType
+  }
+
+  export type GetStudyGoalAggregateType<T extends StudyGoalAggregateArgs> = {
+        [P in keyof T & keyof AggregateStudyGoal]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStudyGoal[P]>
+      : GetScalarType<T[P], AggregateStudyGoal[P]>
+  }
+
+
+
+
+  export type StudyGoalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyGoalWhereInput
+    orderBy?: StudyGoalOrderByWithAggregationInput | StudyGoalOrderByWithAggregationInput[]
+    by: StudyGoalScalarFieldEnum[] | StudyGoalScalarFieldEnum
+    having?: StudyGoalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StudyGoalCountAggregateInputType | true
+    _avg?: StudyGoalAvgAggregateInputType
+    _sum?: StudyGoalSumAggregateInputType
+    _min?: StudyGoalMinAggregateInputType
+    _max?: StudyGoalMaxAggregateInputType
+  }
+
+  export type StudyGoalGroupByOutputType = {
+    id: string
+    userId: string
+    dailyCardTarget: number
+    createdAt: Date
+    updatedAt: Date
+    _count: StudyGoalCountAggregateOutputType | null
+    _avg: StudyGoalAvgAggregateOutputType | null
+    _sum: StudyGoalSumAggregateOutputType | null
+    _min: StudyGoalMinAggregateOutputType | null
+    _max: StudyGoalMaxAggregateOutputType | null
+  }
+
+  type GetStudyGoalGroupByPayload<T extends StudyGoalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StudyGoalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StudyGoalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StudyGoalGroupByOutputType[P]>
+            : GetScalarType<T[P], StudyGoalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StudyGoalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    dailyCardTarget?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyGoal"]>
+
+  export type StudyGoalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    dailyCardTarget?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyGoal"]>
+
+  export type StudyGoalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    dailyCardTarget?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studyGoal"]>
+
+  export type StudyGoalSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    dailyCardTarget?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type StudyGoalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "dailyCardTarget" | "createdAt" | "updatedAt", ExtArgs["result"]["studyGoal"]>
+  export type StudyGoalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type StudyGoalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type StudyGoalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $StudyGoalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StudyGoal"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      dailyCardTarget: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["studyGoal"]>
+    composites: {}
+  }
+
+  type StudyGoalGetPayload<S extends boolean | null | undefined | StudyGoalDefaultArgs> = $Result.GetResult<Prisma.$StudyGoalPayload, S>
+
+  type StudyGoalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StudyGoalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StudyGoalCountAggregateInputType | true
+    }
+
+  export interface StudyGoalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StudyGoal'], meta: { name: 'StudyGoal' } }
+    /**
+     * Find zero or one StudyGoal that matches the filter.
+     * @param {StudyGoalFindUniqueArgs} args - Arguments to find a StudyGoal
+     * @example
+     * // Get one StudyGoal
+     * const studyGoal = await prisma.studyGoal.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StudyGoalFindUniqueArgs>(args: SelectSubset<T, StudyGoalFindUniqueArgs<ExtArgs>>): Prisma__StudyGoalClient<$Result.GetResult<Prisma.$StudyGoalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StudyGoal that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StudyGoalFindUniqueOrThrowArgs} args - Arguments to find a StudyGoal
+     * @example
+     * // Get one StudyGoal
+     * const studyGoal = await prisma.studyGoal.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StudyGoalFindUniqueOrThrowArgs>(args: SelectSubset<T, StudyGoalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StudyGoalClient<$Result.GetResult<Prisma.$StudyGoalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudyGoal that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGoalFindFirstArgs} args - Arguments to find a StudyGoal
+     * @example
+     * // Get one StudyGoal
+     * const studyGoal = await prisma.studyGoal.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StudyGoalFindFirstArgs>(args?: SelectSubset<T, StudyGoalFindFirstArgs<ExtArgs>>): Prisma__StudyGoalClient<$Result.GetResult<Prisma.$StudyGoalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudyGoal that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGoalFindFirstOrThrowArgs} args - Arguments to find a StudyGoal
+     * @example
+     * // Get one StudyGoal
+     * const studyGoal = await prisma.studyGoal.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StudyGoalFindFirstOrThrowArgs>(args?: SelectSubset<T, StudyGoalFindFirstOrThrowArgs<ExtArgs>>): Prisma__StudyGoalClient<$Result.GetResult<Prisma.$StudyGoalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StudyGoals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGoalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StudyGoals
+     * const studyGoals = await prisma.studyGoal.findMany()
+     * 
+     * // Get first 10 StudyGoals
+     * const studyGoals = await prisma.studyGoal.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const studyGoalWithIdOnly = await prisma.studyGoal.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StudyGoalFindManyArgs>(args?: SelectSubset<T, StudyGoalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyGoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StudyGoal.
+     * @param {StudyGoalCreateArgs} args - Arguments to create a StudyGoal.
+     * @example
+     * // Create one StudyGoal
+     * const StudyGoal = await prisma.studyGoal.create({
+     *   data: {
+     *     // ... data to create a StudyGoal
+     *   }
+     * })
+     * 
+     */
+    create<T extends StudyGoalCreateArgs>(args: SelectSubset<T, StudyGoalCreateArgs<ExtArgs>>): Prisma__StudyGoalClient<$Result.GetResult<Prisma.$StudyGoalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StudyGoals.
+     * @param {StudyGoalCreateManyArgs} args - Arguments to create many StudyGoals.
+     * @example
+     * // Create many StudyGoals
+     * const studyGoal = await prisma.studyGoal.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StudyGoalCreateManyArgs>(args?: SelectSubset<T, StudyGoalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StudyGoals and returns the data saved in the database.
+     * @param {StudyGoalCreateManyAndReturnArgs} args - Arguments to create many StudyGoals.
+     * @example
+     * // Create many StudyGoals
+     * const studyGoal = await prisma.studyGoal.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StudyGoals and only return the `id`
+     * const studyGoalWithIdOnly = await prisma.studyGoal.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StudyGoalCreateManyAndReturnArgs>(args?: SelectSubset<T, StudyGoalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyGoalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StudyGoal.
+     * @param {StudyGoalDeleteArgs} args - Arguments to delete one StudyGoal.
+     * @example
+     * // Delete one StudyGoal
+     * const StudyGoal = await prisma.studyGoal.delete({
+     *   where: {
+     *     // ... filter to delete one StudyGoal
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StudyGoalDeleteArgs>(args: SelectSubset<T, StudyGoalDeleteArgs<ExtArgs>>): Prisma__StudyGoalClient<$Result.GetResult<Prisma.$StudyGoalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StudyGoal.
+     * @param {StudyGoalUpdateArgs} args - Arguments to update one StudyGoal.
+     * @example
+     * // Update one StudyGoal
+     * const studyGoal = await prisma.studyGoal.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StudyGoalUpdateArgs>(args: SelectSubset<T, StudyGoalUpdateArgs<ExtArgs>>): Prisma__StudyGoalClient<$Result.GetResult<Prisma.$StudyGoalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StudyGoals.
+     * @param {StudyGoalDeleteManyArgs} args - Arguments to filter StudyGoals to delete.
+     * @example
+     * // Delete a few StudyGoals
+     * const { count } = await prisma.studyGoal.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StudyGoalDeleteManyArgs>(args?: SelectSubset<T, StudyGoalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudyGoals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGoalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StudyGoals
+     * const studyGoal = await prisma.studyGoal.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StudyGoalUpdateManyArgs>(args: SelectSubset<T, StudyGoalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudyGoals and returns the data updated in the database.
+     * @param {StudyGoalUpdateManyAndReturnArgs} args - Arguments to update many StudyGoals.
+     * @example
+     * // Update many StudyGoals
+     * const studyGoal = await prisma.studyGoal.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StudyGoals and only return the `id`
+     * const studyGoalWithIdOnly = await prisma.studyGoal.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StudyGoalUpdateManyAndReturnArgs>(args: SelectSubset<T, StudyGoalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyGoalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StudyGoal.
+     * @param {StudyGoalUpsertArgs} args - Arguments to update or create a StudyGoal.
+     * @example
+     * // Update or create a StudyGoal
+     * const studyGoal = await prisma.studyGoal.upsert({
+     *   create: {
+     *     // ... data to create a StudyGoal
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StudyGoal we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StudyGoalUpsertArgs>(args: SelectSubset<T, StudyGoalUpsertArgs<ExtArgs>>): Prisma__StudyGoalClient<$Result.GetResult<Prisma.$StudyGoalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StudyGoals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGoalCountArgs} args - Arguments to filter StudyGoals to count.
+     * @example
+     * // Count the number of StudyGoals
+     * const count = await prisma.studyGoal.count({
+     *   where: {
+     *     // ... the filter for the StudyGoals we want to count
+     *   }
+     * })
+    **/
+    count<T extends StudyGoalCountArgs>(
+      args?: Subset<T, StudyGoalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StudyGoalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StudyGoal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGoalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StudyGoalAggregateArgs>(args: Subset<T, StudyGoalAggregateArgs>): Prisma.PrismaPromise<GetStudyGoalAggregateType<T>>
+
+    /**
+     * Group by StudyGoal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudyGoalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StudyGoalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StudyGoalGroupByArgs['orderBy'] }
+        : { orderBy?: StudyGoalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StudyGoalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStudyGoalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StudyGoal model
+   */
+  readonly fields: StudyGoalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StudyGoal.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StudyGoalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StudyGoal model
+   */
+  interface StudyGoalFieldRefs {
+    readonly id: FieldRef<"StudyGoal", 'String'>
+    readonly userId: FieldRef<"StudyGoal", 'String'>
+    readonly dailyCardTarget: FieldRef<"StudyGoal", 'Int'>
+    readonly createdAt: FieldRef<"StudyGoal", 'DateTime'>
+    readonly updatedAt: FieldRef<"StudyGoal", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StudyGoal findUnique
+   */
+  export type StudyGoalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGoal to fetch.
+     */
+    where: StudyGoalWhereUniqueInput
+  }
+
+  /**
+   * StudyGoal findUniqueOrThrow
+   */
+  export type StudyGoalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGoal to fetch.
+     */
+    where: StudyGoalWhereUniqueInput
+  }
+
+  /**
+   * StudyGoal findFirst
+   */
+  export type StudyGoalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGoal to fetch.
+     */
+    where?: StudyGoalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyGoals to fetch.
+     */
+    orderBy?: StudyGoalOrderByWithRelationInput | StudyGoalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudyGoals.
+     */
+    cursor?: StudyGoalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyGoals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyGoals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyGoals.
+     */
+    distinct?: StudyGoalScalarFieldEnum | StudyGoalScalarFieldEnum[]
+  }
+
+  /**
+   * StudyGoal findFirstOrThrow
+   */
+  export type StudyGoalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGoal to fetch.
+     */
+    where?: StudyGoalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyGoals to fetch.
+     */
+    orderBy?: StudyGoalOrderByWithRelationInput | StudyGoalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudyGoals.
+     */
+    cursor?: StudyGoalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyGoals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyGoals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyGoals.
+     */
+    distinct?: StudyGoalScalarFieldEnum | StudyGoalScalarFieldEnum[]
+  }
+
+  /**
+   * StudyGoal findMany
+   */
+  export type StudyGoalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalInclude<ExtArgs> | null
+    /**
+     * Filter, which StudyGoals to fetch.
+     */
+    where?: StudyGoalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudyGoals to fetch.
+     */
+    orderBy?: StudyGoalOrderByWithRelationInput | StudyGoalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StudyGoals.
+     */
+    cursor?: StudyGoalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudyGoals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudyGoals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudyGoals.
+     */
+    distinct?: StudyGoalScalarFieldEnum | StudyGoalScalarFieldEnum[]
+  }
+
+  /**
+   * StudyGoal create
+   */
+  export type StudyGoalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StudyGoal.
+     */
+    data: XOR<StudyGoalCreateInput, StudyGoalUncheckedCreateInput>
+  }
+
+  /**
+   * StudyGoal createMany
+   */
+  export type StudyGoalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StudyGoals.
+     */
+    data: StudyGoalCreateManyInput | StudyGoalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StudyGoal createManyAndReturn
+   */
+  export type StudyGoalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * The data used to create many StudyGoals.
+     */
+    data: StudyGoalCreateManyInput | StudyGoalCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudyGoal update
+   */
+  export type StudyGoalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StudyGoal.
+     */
+    data: XOR<StudyGoalUpdateInput, StudyGoalUncheckedUpdateInput>
+    /**
+     * Choose, which StudyGoal to update.
+     */
+    where: StudyGoalWhereUniqueInput
+  }
+
+  /**
+   * StudyGoal updateMany
+   */
+  export type StudyGoalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StudyGoals.
+     */
+    data: XOR<StudyGoalUpdateManyMutationInput, StudyGoalUncheckedUpdateManyInput>
+    /**
+     * Filter which StudyGoals to update
+     */
+    where?: StudyGoalWhereInput
+    /**
+     * Limit how many StudyGoals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyGoal updateManyAndReturn
+   */
+  export type StudyGoalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * The data used to update StudyGoals.
+     */
+    data: XOR<StudyGoalUpdateManyMutationInput, StudyGoalUncheckedUpdateManyInput>
+    /**
+     * Filter which StudyGoals to update
+     */
+    where?: StudyGoalWhereInput
+    /**
+     * Limit how many StudyGoals to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudyGoal upsert
+   */
+  export type StudyGoalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StudyGoal to update in case it exists.
+     */
+    where: StudyGoalWhereUniqueInput
+    /**
+     * In case the StudyGoal found by the `where` argument doesn't exist, create a new StudyGoal with this data.
+     */
+    create: XOR<StudyGoalCreateInput, StudyGoalUncheckedCreateInput>
+    /**
+     * In case the StudyGoal was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StudyGoalUpdateInput, StudyGoalUncheckedUpdateInput>
+  }
+
+  /**
+   * StudyGoal delete
+   */
+  export type StudyGoalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalInclude<ExtArgs> | null
+    /**
+     * Filter which StudyGoal to delete.
+     */
+    where: StudyGoalWhereUniqueInput
+  }
+
+  /**
+   * StudyGoal deleteMany
+   */
+  export type StudyGoalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudyGoals to delete
+     */
+    where?: StudyGoalWhereInput
+    /**
+     * Limit how many StudyGoals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudyGoal without action
+   */
+  export type StudyGoalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyGoal
+     */
+    select?: StudyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyGoal
+     */
+    omit?: StudyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyGoalInclude<ExtArgs> | null
   }
 
 
@@ -7366,6 +11238,46 @@ export namespace Prisma {
   export type CardScalarFieldEnum = (typeof CardScalarFieldEnum)[keyof typeof CardScalarFieldEnum]
 
 
+  export const ExamCountdownScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    deckId: 'deckId',
+    title: 'title',
+    examDate: 'examDate',
+    dailyGoal: 'dailyGoal',
+    createdAt: 'createdAt'
+  };
+
+  export type ExamCountdownScalarFieldEnum = (typeof ExamCountdownScalarFieldEnum)[keyof typeof ExamCountdownScalarFieldEnum]
+
+
+  export const VideoRecommendationScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    cardId: 'cardId',
+    deckId: 'deckId',
+    videoId: 'videoId',
+    title: 'title',
+    channelName: 'channelName',
+    thumbnailUrl: 'thumbnailUrl',
+    videoUrl: 'videoUrl',
+    createdAt: 'createdAt'
+  };
+
+  export type VideoRecommendationScalarFieldEnum = (typeof VideoRecommendationScalarFieldEnum)[keyof typeof VideoRecommendationScalarFieldEnum]
+
+
+  export const StudyGoalScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    dailyCardTarget: 'dailyCardTarget',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type StudyGoalScalarFieldEnum = (typeof StudyGoalScalarFieldEnum)[keyof typeof StudyGoalScalarFieldEnum]
+
+
   export const ReviewLogScalarFieldEnum: {
     id: 'id',
     cardId: 'cardId',
@@ -7511,6 +11423,9 @@ export namespace Prisma {
     decks?: DeckListRelationFilter
     reviewLogs?: ReviewLogListRelationFilter
     reviewSessions?: ReviewSessionListRelationFilter
+    examCountdowns?: ExamCountdownListRelationFilter
+    videoRecommendations?: VideoRecommendationListRelationFilter
+    studyGoal?: XOR<StudyGoalNullableScalarRelationFilter, StudyGoalWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -7524,6 +11439,9 @@ export namespace Prisma {
     decks?: DeckOrderByRelationAggregateInput
     reviewLogs?: ReviewLogOrderByRelationAggregateInput
     reviewSessions?: ReviewSessionOrderByRelationAggregateInput
+    examCountdowns?: ExamCountdownOrderByRelationAggregateInput
+    videoRecommendations?: VideoRecommendationOrderByRelationAggregateInput
+    studyGoal?: StudyGoalOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -7540,6 +11458,9 @@ export namespace Prisma {
     decks?: DeckListRelationFilter
     reviewLogs?: ReviewLogListRelationFilter
     reviewSessions?: ReviewSessionListRelationFilter
+    examCountdowns?: ExamCountdownListRelationFilter
+    videoRecommendations?: VideoRecommendationListRelationFilter
+    studyGoal?: XOR<StudyGoalNullableScalarRelationFilter, StudyGoalWhereInput> | null
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -7589,6 +11510,8 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     cards?: CardListRelationFilter
     reviewSessions?: ReviewSessionListRelationFilter
+    examCountdowns?: ExamCountdownListRelationFilter
+    videoRecommendations?: VideoRecommendationListRelationFilter
   }
 
   export type DeckOrderByWithRelationInput = {
@@ -7609,6 +11532,8 @@ export namespace Prisma {
     user?: UserOrderByWithRelationInput
     cards?: CardOrderByRelationAggregateInput
     reviewSessions?: ReviewSessionOrderByRelationAggregateInput
+    examCountdowns?: ExamCountdownOrderByRelationAggregateInput
+    videoRecommendations?: VideoRecommendationOrderByRelationAggregateInput
   }
 
   export type DeckWhereUniqueInput = Prisma.AtLeast<{
@@ -7632,6 +11557,8 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     cards?: CardListRelationFilter
     reviewSessions?: ReviewSessionListRelationFilter
+    examCountdowns?: ExamCountdownListRelationFilter
+    videoRecommendations?: VideoRecommendationListRelationFilter
   }, "id">
 
   export type DeckOrderByWithAggregationInput = {
@@ -7773,6 +11700,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Card"> | Date | string
     deck?: XOR<DeckScalarRelationFilter, DeckWhereInput>
     reviewLogs?: ReviewLogListRelationFilter
+    videoRecommendations?: VideoRecommendationListRelationFilter
   }
 
   export type CardOrderByWithRelationInput = {
@@ -7789,6 +11717,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     deck?: DeckOrderByWithRelationInput
     reviewLogs?: ReviewLogOrderByRelationAggregateInput
+    videoRecommendations?: VideoRecommendationOrderByRelationAggregateInput
   }
 
   export type CardWhereUniqueInput = Prisma.AtLeast<{
@@ -7808,6 +11737,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Card"> | Date | string
     deck?: XOR<DeckScalarRelationFilter, DeckWhereInput>
     reviewLogs?: ReviewLogListRelationFilter
+    videoRecommendations?: VideoRecommendationListRelationFilter
   }, "id">
 
   export type CardOrderByWithAggregationInput = {
@@ -7844,6 +11774,219 @@ export namespace Prisma {
     dueDate?: DateTimeWithAggregatesFilter<"Card"> | Date | string
     lastReviewed?: DateTimeNullableWithAggregatesFilter<"Card"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Card"> | Date | string
+  }
+
+  export type ExamCountdownWhereInput = {
+    AND?: ExamCountdownWhereInput | ExamCountdownWhereInput[]
+    OR?: ExamCountdownWhereInput[]
+    NOT?: ExamCountdownWhereInput | ExamCountdownWhereInput[]
+    id?: StringFilter<"ExamCountdown"> | string
+    userId?: StringFilter<"ExamCountdown"> | string
+    deckId?: StringNullableFilter<"ExamCountdown"> | string | null
+    title?: StringFilter<"ExamCountdown"> | string
+    examDate?: DateTimeFilter<"ExamCountdown"> | Date | string
+    dailyGoal?: IntFilter<"ExamCountdown"> | number
+    createdAt?: DateTimeFilter<"ExamCountdown"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    deck?: XOR<DeckNullableScalarRelationFilter, DeckWhereInput> | null
+  }
+
+  export type ExamCountdownOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    deckId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    examDate?: SortOrder
+    dailyGoal?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    deck?: DeckOrderByWithRelationInput
+  }
+
+  export type ExamCountdownWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ExamCountdownWhereInput | ExamCountdownWhereInput[]
+    OR?: ExamCountdownWhereInput[]
+    NOT?: ExamCountdownWhereInput | ExamCountdownWhereInput[]
+    userId?: StringFilter<"ExamCountdown"> | string
+    deckId?: StringNullableFilter<"ExamCountdown"> | string | null
+    title?: StringFilter<"ExamCountdown"> | string
+    examDate?: DateTimeFilter<"ExamCountdown"> | Date | string
+    dailyGoal?: IntFilter<"ExamCountdown"> | number
+    createdAt?: DateTimeFilter<"ExamCountdown"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    deck?: XOR<DeckNullableScalarRelationFilter, DeckWhereInput> | null
+  }, "id">
+
+  export type ExamCountdownOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    deckId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    examDate?: SortOrder
+    dailyGoal?: SortOrder
+    createdAt?: SortOrder
+    _count?: ExamCountdownCountOrderByAggregateInput
+    _avg?: ExamCountdownAvgOrderByAggregateInput
+    _max?: ExamCountdownMaxOrderByAggregateInput
+    _min?: ExamCountdownMinOrderByAggregateInput
+    _sum?: ExamCountdownSumOrderByAggregateInput
+  }
+
+  export type ExamCountdownScalarWhereWithAggregatesInput = {
+    AND?: ExamCountdownScalarWhereWithAggregatesInput | ExamCountdownScalarWhereWithAggregatesInput[]
+    OR?: ExamCountdownScalarWhereWithAggregatesInput[]
+    NOT?: ExamCountdownScalarWhereWithAggregatesInput | ExamCountdownScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ExamCountdown"> | string
+    userId?: StringWithAggregatesFilter<"ExamCountdown"> | string
+    deckId?: StringNullableWithAggregatesFilter<"ExamCountdown"> | string | null
+    title?: StringWithAggregatesFilter<"ExamCountdown"> | string
+    examDate?: DateTimeWithAggregatesFilter<"ExamCountdown"> | Date | string
+    dailyGoal?: IntWithAggregatesFilter<"ExamCountdown"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"ExamCountdown"> | Date | string
+  }
+
+  export type VideoRecommendationWhereInput = {
+    AND?: VideoRecommendationWhereInput | VideoRecommendationWhereInput[]
+    OR?: VideoRecommendationWhereInput[]
+    NOT?: VideoRecommendationWhereInput | VideoRecommendationWhereInput[]
+    id?: StringFilter<"VideoRecommendation"> | string
+    userId?: StringFilter<"VideoRecommendation"> | string
+    cardId?: StringFilter<"VideoRecommendation"> | string
+    deckId?: StringFilter<"VideoRecommendation"> | string
+    videoId?: StringFilter<"VideoRecommendation"> | string
+    title?: StringFilter<"VideoRecommendation"> | string
+    channelName?: StringFilter<"VideoRecommendation"> | string
+    thumbnailUrl?: StringFilter<"VideoRecommendation"> | string
+    videoUrl?: StringFilter<"VideoRecommendation"> | string
+    createdAt?: DateTimeFilter<"VideoRecommendation"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    card?: XOR<CardScalarRelationFilter, CardWhereInput>
+    deck?: XOR<DeckScalarRelationFilter, DeckWhereInput>
+  }
+
+  export type VideoRecommendationOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    cardId?: SortOrder
+    deckId?: SortOrder
+    videoId?: SortOrder
+    title?: SortOrder
+    channelName?: SortOrder
+    thumbnailUrl?: SortOrder
+    videoUrl?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    card?: CardOrderByWithRelationInput
+    deck?: DeckOrderByWithRelationInput
+  }
+
+  export type VideoRecommendationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: VideoRecommendationWhereInput | VideoRecommendationWhereInput[]
+    OR?: VideoRecommendationWhereInput[]
+    NOT?: VideoRecommendationWhereInput | VideoRecommendationWhereInput[]
+    userId?: StringFilter<"VideoRecommendation"> | string
+    cardId?: StringFilter<"VideoRecommendation"> | string
+    deckId?: StringFilter<"VideoRecommendation"> | string
+    videoId?: StringFilter<"VideoRecommendation"> | string
+    title?: StringFilter<"VideoRecommendation"> | string
+    channelName?: StringFilter<"VideoRecommendation"> | string
+    thumbnailUrl?: StringFilter<"VideoRecommendation"> | string
+    videoUrl?: StringFilter<"VideoRecommendation"> | string
+    createdAt?: DateTimeFilter<"VideoRecommendation"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    card?: XOR<CardScalarRelationFilter, CardWhereInput>
+    deck?: XOR<DeckScalarRelationFilter, DeckWhereInput>
+  }, "id">
+
+  export type VideoRecommendationOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    cardId?: SortOrder
+    deckId?: SortOrder
+    videoId?: SortOrder
+    title?: SortOrder
+    channelName?: SortOrder
+    thumbnailUrl?: SortOrder
+    videoUrl?: SortOrder
+    createdAt?: SortOrder
+    _count?: VideoRecommendationCountOrderByAggregateInput
+    _max?: VideoRecommendationMaxOrderByAggregateInput
+    _min?: VideoRecommendationMinOrderByAggregateInput
+  }
+
+  export type VideoRecommendationScalarWhereWithAggregatesInput = {
+    AND?: VideoRecommendationScalarWhereWithAggregatesInput | VideoRecommendationScalarWhereWithAggregatesInput[]
+    OR?: VideoRecommendationScalarWhereWithAggregatesInput[]
+    NOT?: VideoRecommendationScalarWhereWithAggregatesInput | VideoRecommendationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"VideoRecommendation"> | string
+    userId?: StringWithAggregatesFilter<"VideoRecommendation"> | string
+    cardId?: StringWithAggregatesFilter<"VideoRecommendation"> | string
+    deckId?: StringWithAggregatesFilter<"VideoRecommendation"> | string
+    videoId?: StringWithAggregatesFilter<"VideoRecommendation"> | string
+    title?: StringWithAggregatesFilter<"VideoRecommendation"> | string
+    channelName?: StringWithAggregatesFilter<"VideoRecommendation"> | string
+    thumbnailUrl?: StringWithAggregatesFilter<"VideoRecommendation"> | string
+    videoUrl?: StringWithAggregatesFilter<"VideoRecommendation"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"VideoRecommendation"> | Date | string
+  }
+
+  export type StudyGoalWhereInput = {
+    AND?: StudyGoalWhereInput | StudyGoalWhereInput[]
+    OR?: StudyGoalWhereInput[]
+    NOT?: StudyGoalWhereInput | StudyGoalWhereInput[]
+    id?: StringFilter<"StudyGoal"> | string
+    userId?: StringFilter<"StudyGoal"> | string
+    dailyCardTarget?: IntFilter<"StudyGoal"> | number
+    createdAt?: DateTimeFilter<"StudyGoal"> | Date | string
+    updatedAt?: DateTimeFilter<"StudyGoal"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type StudyGoalOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    dailyCardTarget?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type StudyGoalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: StudyGoalWhereInput | StudyGoalWhereInput[]
+    OR?: StudyGoalWhereInput[]
+    NOT?: StudyGoalWhereInput | StudyGoalWhereInput[]
+    dailyCardTarget?: IntFilter<"StudyGoal"> | number
+    createdAt?: DateTimeFilter<"StudyGoal"> | Date | string
+    updatedAt?: DateTimeFilter<"StudyGoal"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type StudyGoalOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    dailyCardTarget?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: StudyGoalCountOrderByAggregateInput
+    _avg?: StudyGoalAvgOrderByAggregateInput
+    _max?: StudyGoalMaxOrderByAggregateInput
+    _min?: StudyGoalMinOrderByAggregateInput
+    _sum?: StudyGoalSumOrderByAggregateInput
+  }
+
+  export type StudyGoalScalarWhereWithAggregatesInput = {
+    AND?: StudyGoalScalarWhereWithAggregatesInput | StudyGoalScalarWhereWithAggregatesInput[]
+    OR?: StudyGoalScalarWhereWithAggregatesInput[]
+    NOT?: StudyGoalScalarWhereWithAggregatesInput | StudyGoalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StudyGoal"> | string
+    userId?: StringWithAggregatesFilter<"StudyGoal"> | string
+    dailyCardTarget?: IntWithAggregatesFilter<"StudyGoal"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"StudyGoal"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"StudyGoal"> | Date | string
   }
 
   export type ReviewLogWhereInput = {
@@ -7927,6 +12070,9 @@ export namespace Prisma {
     decks?: DeckCreateNestedManyWithoutUserInput
     reviewLogs?: ReviewLogCreateNestedManyWithoutUserInput
     reviewSessions?: ReviewSessionCreateNestedManyWithoutUserInput
+    examCountdowns?: ExamCountdownCreateNestedManyWithoutUserInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutUserInput
+    studyGoal?: StudyGoalCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -7940,6 +12086,9 @@ export namespace Prisma {
     decks?: DeckUncheckedCreateNestedManyWithoutUserInput
     reviewLogs?: ReviewLogUncheckedCreateNestedManyWithoutUserInput
     reviewSessions?: ReviewSessionUncheckedCreateNestedManyWithoutUserInput
+    examCountdowns?: ExamCountdownUncheckedCreateNestedManyWithoutUserInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutUserInput
+    studyGoal?: StudyGoalUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -7953,6 +12102,9 @@ export namespace Prisma {
     decks?: DeckUpdateManyWithoutUserNestedInput
     reviewLogs?: ReviewLogUpdateManyWithoutUserNestedInput
     reviewSessions?: ReviewSessionUpdateManyWithoutUserNestedInput
+    examCountdowns?: ExamCountdownUpdateManyWithoutUserNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutUserNestedInput
+    studyGoal?: StudyGoalUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -7966,6 +12118,9 @@ export namespace Prisma {
     decks?: DeckUncheckedUpdateManyWithoutUserNestedInput
     reviewLogs?: ReviewLogUncheckedUpdateManyWithoutUserNestedInput
     reviewSessions?: ReviewSessionUncheckedUpdateManyWithoutUserNestedInput
+    examCountdowns?: ExamCountdownUncheckedUpdateManyWithoutUserNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    studyGoal?: StudyGoalUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8015,6 +12170,8 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutDecksInput
     cards?: CardCreateNestedManyWithoutDeckInput
     reviewSessions?: ReviewSessionCreateNestedManyWithoutDeckInput
+    examCountdowns?: ExamCountdownCreateNestedManyWithoutDeckInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutDeckInput
   }
 
   export type DeckUncheckedCreateInput = {
@@ -8034,6 +12191,8 @@ export namespace Prisma {
     lastOpenedAt?: Date | string | null
     cards?: CardUncheckedCreateNestedManyWithoutDeckInput
     reviewSessions?: ReviewSessionUncheckedCreateNestedManyWithoutDeckInput
+    examCountdowns?: ExamCountdownUncheckedCreateNestedManyWithoutDeckInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutDeckInput
   }
 
   export type DeckUpdateInput = {
@@ -8053,6 +12212,8 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutDecksNestedInput
     cards?: CardUpdateManyWithoutDeckNestedInput
     reviewSessions?: ReviewSessionUpdateManyWithoutDeckNestedInput
+    examCountdowns?: ExamCountdownUpdateManyWithoutDeckNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutDeckNestedInput
   }
 
   export type DeckUncheckedUpdateInput = {
@@ -8072,6 +12233,8 @@ export namespace Prisma {
     lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cards?: CardUncheckedUpdateManyWithoutDeckNestedInput
     reviewSessions?: ReviewSessionUncheckedUpdateManyWithoutDeckNestedInput
+    examCountdowns?: ExamCountdownUncheckedUpdateManyWithoutDeckNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutDeckNestedInput
   }
 
   export type DeckCreateManyInput = {
@@ -8219,6 +12382,7 @@ export namespace Prisma {
     createdAt?: Date | string
     deck: DeckCreateNestedOneWithoutCardsInput
     reviewLogs?: ReviewLogCreateNestedManyWithoutCardInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateInput = {
@@ -8234,6 +12398,7 @@ export namespace Prisma {
     lastReviewed?: Date | string | null
     createdAt?: Date | string
     reviewLogs?: ReviewLogUncheckedCreateNestedManyWithoutCardInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardUpdateInput = {
@@ -8249,6 +12414,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deck?: DeckUpdateOneRequiredWithoutCardsNestedInput
     reviewLogs?: ReviewLogUpdateManyWithoutCardNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateInput = {
@@ -8264,6 +12430,7 @@ export namespace Prisma {
     lastReviewed?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewLogs?: ReviewLogUncheckedUpdateManyWithoutCardNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type CardCreateManyInput = {
@@ -8305,6 +12472,217 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     lastReviewed?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamCountdownCreateInput = {
+    id?: string
+    title: string
+    examDate: Date | string
+    dailyGoal?: number
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutExamCountdownsInput
+    deck?: DeckCreateNestedOneWithoutExamCountdownsInput
+  }
+
+  export type ExamCountdownUncheckedCreateInput = {
+    id?: string
+    userId: string
+    deckId?: string | null
+    title: string
+    examDate: Date | string
+    dailyGoal?: number
+    createdAt?: Date | string
+  }
+
+  export type ExamCountdownUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutExamCountdownsNestedInput
+    deck?: DeckUpdateOneWithoutExamCountdownsNestedInput
+  }
+
+  export type ExamCountdownUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deckId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamCountdownCreateManyInput = {
+    id?: string
+    userId: string
+    deckId?: string | null
+    title: string
+    examDate: Date | string
+    dailyGoal?: number
+    createdAt?: Date | string
+  }
+
+  export type ExamCountdownUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamCountdownUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deckId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoRecommendationCreateInput = {
+    id?: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutVideoRecommendationsInput
+    card: CardCreateNestedOneWithoutVideoRecommendationsInput
+    deck: DeckCreateNestedOneWithoutVideoRecommendationsInput
+  }
+
+  export type VideoRecommendationUncheckedCreateInput = {
+    id?: string
+    userId: string
+    cardId: string
+    deckId: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt?: Date | string
+  }
+
+  export type VideoRecommendationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutVideoRecommendationsNestedInput
+    card?: CardUpdateOneRequiredWithoutVideoRecommendationsNestedInput
+    deck?: DeckUpdateOneRequiredWithoutVideoRecommendationsNestedInput
+  }
+
+  export type VideoRecommendationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    cardId?: StringFieldUpdateOperationsInput | string
+    deckId?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoRecommendationCreateManyInput = {
+    id?: string
+    userId: string
+    cardId: string
+    deckId: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt?: Date | string
+  }
+
+  export type VideoRecommendationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoRecommendationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    cardId?: StringFieldUpdateOperationsInput | string
+    deckId?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGoalCreateInput = {
+    id?: string
+    dailyCardTarget?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutStudyGoalInput
+  }
+
+  export type StudyGoalUncheckedCreateInput = {
+    id?: string
+    userId: string
+    dailyCardTarget?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StudyGoalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dailyCardTarget?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutStudyGoalNestedInput
+  }
+
+  export type StudyGoalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    dailyCardTarget?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGoalCreateManyInput = {
+    id?: string
+    userId: string
+    dailyCardTarget?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StudyGoalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dailyCardTarget?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGoalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    dailyCardTarget?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReviewLogCreateInput = {
@@ -8434,6 +12812,23 @@ export namespace Prisma {
     none?: ReviewSessionWhereInput
   }
 
+  export type ExamCountdownListRelationFilter = {
+    every?: ExamCountdownWhereInput
+    some?: ExamCountdownWhereInput
+    none?: ExamCountdownWhereInput
+  }
+
+  export type VideoRecommendationListRelationFilter = {
+    every?: VideoRecommendationWhereInput
+    some?: VideoRecommendationWhereInput
+    none?: VideoRecommendationWhereInput
+  }
+
+  export type StudyGoalNullableScalarRelationFilter = {
+    is?: StudyGoalWhereInput | null
+    isNot?: StudyGoalWhereInput | null
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -8448,6 +12843,14 @@ export namespace Prisma {
   }
 
   export type ReviewSessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ExamCountdownOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VideoRecommendationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8844,9 +13247,123 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type DeckNullableScalarRelationFilter = {
+    is?: DeckWhereInput | null
+    isNot?: DeckWhereInput | null
+  }
+
+  export type ExamCountdownCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    deckId?: SortOrder
+    title?: SortOrder
+    examDate?: SortOrder
+    dailyGoal?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExamCountdownAvgOrderByAggregateInput = {
+    dailyGoal?: SortOrder
+  }
+
+  export type ExamCountdownMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    deckId?: SortOrder
+    title?: SortOrder
+    examDate?: SortOrder
+    dailyGoal?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExamCountdownMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    deckId?: SortOrder
+    title?: SortOrder
+    examDate?: SortOrder
+    dailyGoal?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExamCountdownSumOrderByAggregateInput = {
+    dailyGoal?: SortOrder
+  }
+
   export type CardScalarRelationFilter = {
     is?: CardWhereInput
     isNot?: CardWhereInput
+  }
+
+  export type VideoRecommendationCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    cardId?: SortOrder
+    deckId?: SortOrder
+    videoId?: SortOrder
+    title?: SortOrder
+    channelName?: SortOrder
+    thumbnailUrl?: SortOrder
+    videoUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VideoRecommendationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    cardId?: SortOrder
+    deckId?: SortOrder
+    videoId?: SortOrder
+    title?: SortOrder
+    channelName?: SortOrder
+    thumbnailUrl?: SortOrder
+    videoUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VideoRecommendationMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    cardId?: SortOrder
+    deckId?: SortOrder
+    videoId?: SortOrder
+    title?: SortOrder
+    channelName?: SortOrder
+    thumbnailUrl?: SortOrder
+    videoUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StudyGoalCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    dailyCardTarget?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StudyGoalAvgOrderByAggregateInput = {
+    dailyCardTarget?: SortOrder
+  }
+
+  export type StudyGoalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    dailyCardTarget?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StudyGoalMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    dailyCardTarget?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StudyGoalSumOrderByAggregateInput = {
+    dailyCardTarget?: SortOrder
   }
 
   export type ReviewLogCountOrderByAggregateInput = {
@@ -8912,6 +13429,26 @@ export namespace Prisma {
     connect?: ReviewSessionWhereUniqueInput | ReviewSessionWhereUniqueInput[]
   }
 
+  export type ExamCountdownCreateNestedManyWithoutUserInput = {
+    create?: XOR<ExamCountdownCreateWithoutUserInput, ExamCountdownUncheckedCreateWithoutUserInput> | ExamCountdownCreateWithoutUserInput[] | ExamCountdownUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ExamCountdownCreateOrConnectWithoutUserInput | ExamCountdownCreateOrConnectWithoutUserInput[]
+    createMany?: ExamCountdownCreateManyUserInputEnvelope
+    connect?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+  }
+
+  export type VideoRecommendationCreateNestedManyWithoutUserInput = {
+    create?: XOR<VideoRecommendationCreateWithoutUserInput, VideoRecommendationUncheckedCreateWithoutUserInput> | VideoRecommendationCreateWithoutUserInput[] | VideoRecommendationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VideoRecommendationCreateOrConnectWithoutUserInput | VideoRecommendationCreateOrConnectWithoutUserInput[]
+    createMany?: VideoRecommendationCreateManyUserInputEnvelope
+    connect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+  }
+
+  export type StudyGoalCreateNestedOneWithoutUserInput = {
+    create?: XOR<StudyGoalCreateWithoutUserInput, StudyGoalUncheckedCreateWithoutUserInput>
+    connectOrCreate?: StudyGoalCreateOrConnectWithoutUserInput
+    connect?: StudyGoalWhereUniqueInput
+  }
+
   export type DeckUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<DeckCreateWithoutUserInput, DeckUncheckedCreateWithoutUserInput> | DeckCreateWithoutUserInput[] | DeckUncheckedCreateWithoutUserInput[]
     connectOrCreate?: DeckCreateOrConnectWithoutUserInput | DeckCreateOrConnectWithoutUserInput[]
@@ -8931,6 +13468,26 @@ export namespace Prisma {
     connectOrCreate?: ReviewSessionCreateOrConnectWithoutUserInput | ReviewSessionCreateOrConnectWithoutUserInput[]
     createMany?: ReviewSessionCreateManyUserInputEnvelope
     connect?: ReviewSessionWhereUniqueInput | ReviewSessionWhereUniqueInput[]
+  }
+
+  export type ExamCountdownUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ExamCountdownCreateWithoutUserInput, ExamCountdownUncheckedCreateWithoutUserInput> | ExamCountdownCreateWithoutUserInput[] | ExamCountdownUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ExamCountdownCreateOrConnectWithoutUserInput | ExamCountdownCreateOrConnectWithoutUserInput[]
+    createMany?: ExamCountdownCreateManyUserInputEnvelope
+    connect?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+  }
+
+  export type VideoRecommendationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<VideoRecommendationCreateWithoutUserInput, VideoRecommendationUncheckedCreateWithoutUserInput> | VideoRecommendationCreateWithoutUserInput[] | VideoRecommendationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VideoRecommendationCreateOrConnectWithoutUserInput | VideoRecommendationCreateOrConnectWithoutUserInput[]
+    createMany?: VideoRecommendationCreateManyUserInputEnvelope
+    connect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+  }
+
+  export type StudyGoalUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<StudyGoalCreateWithoutUserInput, StudyGoalUncheckedCreateWithoutUserInput>
+    connectOrCreate?: StudyGoalCreateOrConnectWithoutUserInput
+    connect?: StudyGoalWhereUniqueInput
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -8987,6 +13544,44 @@ export namespace Prisma {
     deleteMany?: ReviewSessionScalarWhereInput | ReviewSessionScalarWhereInput[]
   }
 
+  export type ExamCountdownUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ExamCountdownCreateWithoutUserInput, ExamCountdownUncheckedCreateWithoutUserInput> | ExamCountdownCreateWithoutUserInput[] | ExamCountdownUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ExamCountdownCreateOrConnectWithoutUserInput | ExamCountdownCreateOrConnectWithoutUserInput[]
+    upsert?: ExamCountdownUpsertWithWhereUniqueWithoutUserInput | ExamCountdownUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ExamCountdownCreateManyUserInputEnvelope
+    set?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    disconnect?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    delete?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    connect?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    update?: ExamCountdownUpdateWithWhereUniqueWithoutUserInput | ExamCountdownUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ExamCountdownUpdateManyWithWhereWithoutUserInput | ExamCountdownUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ExamCountdownScalarWhereInput | ExamCountdownScalarWhereInput[]
+  }
+
+  export type VideoRecommendationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<VideoRecommendationCreateWithoutUserInput, VideoRecommendationUncheckedCreateWithoutUserInput> | VideoRecommendationCreateWithoutUserInput[] | VideoRecommendationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VideoRecommendationCreateOrConnectWithoutUserInput | VideoRecommendationCreateOrConnectWithoutUserInput[]
+    upsert?: VideoRecommendationUpsertWithWhereUniqueWithoutUserInput | VideoRecommendationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: VideoRecommendationCreateManyUserInputEnvelope
+    set?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    disconnect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    delete?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    connect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    update?: VideoRecommendationUpdateWithWhereUniqueWithoutUserInput | VideoRecommendationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: VideoRecommendationUpdateManyWithWhereWithoutUserInput | VideoRecommendationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: VideoRecommendationScalarWhereInput | VideoRecommendationScalarWhereInput[]
+  }
+
+  export type StudyGoalUpdateOneWithoutUserNestedInput = {
+    create?: XOR<StudyGoalCreateWithoutUserInput, StudyGoalUncheckedCreateWithoutUserInput>
+    connectOrCreate?: StudyGoalCreateOrConnectWithoutUserInput
+    upsert?: StudyGoalUpsertWithoutUserInput
+    disconnect?: StudyGoalWhereInput | boolean
+    delete?: StudyGoalWhereInput | boolean
+    connect?: StudyGoalWhereUniqueInput
+    update?: XOR<XOR<StudyGoalUpdateToOneWithWhereWithoutUserInput, StudyGoalUpdateWithoutUserInput>, StudyGoalUncheckedUpdateWithoutUserInput>
+  }
+
   export type DeckUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<DeckCreateWithoutUserInput, DeckUncheckedCreateWithoutUserInput> | DeckCreateWithoutUserInput[] | DeckUncheckedCreateWithoutUserInput[]
     connectOrCreate?: DeckCreateOrConnectWithoutUserInput | DeckCreateOrConnectWithoutUserInput[]
@@ -9029,6 +13624,44 @@ export namespace Prisma {
     deleteMany?: ReviewSessionScalarWhereInput | ReviewSessionScalarWhereInput[]
   }
 
+  export type ExamCountdownUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ExamCountdownCreateWithoutUserInput, ExamCountdownUncheckedCreateWithoutUserInput> | ExamCountdownCreateWithoutUserInput[] | ExamCountdownUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ExamCountdownCreateOrConnectWithoutUserInput | ExamCountdownCreateOrConnectWithoutUserInput[]
+    upsert?: ExamCountdownUpsertWithWhereUniqueWithoutUserInput | ExamCountdownUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ExamCountdownCreateManyUserInputEnvelope
+    set?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    disconnect?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    delete?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    connect?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    update?: ExamCountdownUpdateWithWhereUniqueWithoutUserInput | ExamCountdownUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ExamCountdownUpdateManyWithWhereWithoutUserInput | ExamCountdownUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ExamCountdownScalarWhereInput | ExamCountdownScalarWhereInput[]
+  }
+
+  export type VideoRecommendationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<VideoRecommendationCreateWithoutUserInput, VideoRecommendationUncheckedCreateWithoutUserInput> | VideoRecommendationCreateWithoutUserInput[] | VideoRecommendationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VideoRecommendationCreateOrConnectWithoutUserInput | VideoRecommendationCreateOrConnectWithoutUserInput[]
+    upsert?: VideoRecommendationUpsertWithWhereUniqueWithoutUserInput | VideoRecommendationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: VideoRecommendationCreateManyUserInputEnvelope
+    set?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    disconnect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    delete?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    connect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    update?: VideoRecommendationUpdateWithWhereUniqueWithoutUserInput | VideoRecommendationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: VideoRecommendationUpdateManyWithWhereWithoutUserInput | VideoRecommendationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: VideoRecommendationScalarWhereInput | VideoRecommendationScalarWhereInput[]
+  }
+
+  export type StudyGoalUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<StudyGoalCreateWithoutUserInput, StudyGoalUncheckedCreateWithoutUserInput>
+    connectOrCreate?: StudyGoalCreateOrConnectWithoutUserInput
+    upsert?: StudyGoalUpsertWithoutUserInput
+    disconnect?: StudyGoalWhereInput | boolean
+    delete?: StudyGoalWhereInput | boolean
+    connect?: StudyGoalWhereUniqueInput
+    update?: XOR<XOR<StudyGoalUpdateToOneWithWhereWithoutUserInput, StudyGoalUpdateWithoutUserInput>, StudyGoalUncheckedUpdateWithoutUserInput>
+  }
+
   export type UserCreateNestedOneWithoutDecksInput = {
     create?: XOR<UserCreateWithoutDecksInput, UserUncheckedCreateWithoutDecksInput>
     connectOrCreate?: UserCreateOrConnectWithoutDecksInput
@@ -9049,6 +13682,20 @@ export namespace Prisma {
     connect?: ReviewSessionWhereUniqueInput | ReviewSessionWhereUniqueInput[]
   }
 
+  export type ExamCountdownCreateNestedManyWithoutDeckInput = {
+    create?: XOR<ExamCountdownCreateWithoutDeckInput, ExamCountdownUncheckedCreateWithoutDeckInput> | ExamCountdownCreateWithoutDeckInput[] | ExamCountdownUncheckedCreateWithoutDeckInput[]
+    connectOrCreate?: ExamCountdownCreateOrConnectWithoutDeckInput | ExamCountdownCreateOrConnectWithoutDeckInput[]
+    createMany?: ExamCountdownCreateManyDeckInputEnvelope
+    connect?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+  }
+
+  export type VideoRecommendationCreateNestedManyWithoutDeckInput = {
+    create?: XOR<VideoRecommendationCreateWithoutDeckInput, VideoRecommendationUncheckedCreateWithoutDeckInput> | VideoRecommendationCreateWithoutDeckInput[] | VideoRecommendationUncheckedCreateWithoutDeckInput[]
+    connectOrCreate?: VideoRecommendationCreateOrConnectWithoutDeckInput | VideoRecommendationCreateOrConnectWithoutDeckInput[]
+    createMany?: VideoRecommendationCreateManyDeckInputEnvelope
+    connect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+  }
+
   export type CardUncheckedCreateNestedManyWithoutDeckInput = {
     create?: XOR<CardCreateWithoutDeckInput, CardUncheckedCreateWithoutDeckInput> | CardCreateWithoutDeckInput[] | CardUncheckedCreateWithoutDeckInput[]
     connectOrCreate?: CardCreateOrConnectWithoutDeckInput | CardCreateOrConnectWithoutDeckInput[]
@@ -9061,6 +13708,20 @@ export namespace Prisma {
     connectOrCreate?: ReviewSessionCreateOrConnectWithoutDeckInput | ReviewSessionCreateOrConnectWithoutDeckInput[]
     createMany?: ReviewSessionCreateManyDeckInputEnvelope
     connect?: ReviewSessionWhereUniqueInput | ReviewSessionWhereUniqueInput[]
+  }
+
+  export type ExamCountdownUncheckedCreateNestedManyWithoutDeckInput = {
+    create?: XOR<ExamCountdownCreateWithoutDeckInput, ExamCountdownUncheckedCreateWithoutDeckInput> | ExamCountdownCreateWithoutDeckInput[] | ExamCountdownUncheckedCreateWithoutDeckInput[]
+    connectOrCreate?: ExamCountdownCreateOrConnectWithoutDeckInput | ExamCountdownCreateOrConnectWithoutDeckInput[]
+    createMany?: ExamCountdownCreateManyDeckInputEnvelope
+    connect?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+  }
+
+  export type VideoRecommendationUncheckedCreateNestedManyWithoutDeckInput = {
+    create?: XOR<VideoRecommendationCreateWithoutDeckInput, VideoRecommendationUncheckedCreateWithoutDeckInput> | VideoRecommendationCreateWithoutDeckInput[] | VideoRecommendationUncheckedCreateWithoutDeckInput[]
+    connectOrCreate?: VideoRecommendationCreateOrConnectWithoutDeckInput | VideoRecommendationCreateOrConnectWithoutDeckInput[]
+    createMany?: VideoRecommendationCreateManyDeckInputEnvelope
+    connect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -9111,6 +13772,34 @@ export namespace Prisma {
     deleteMany?: ReviewSessionScalarWhereInput | ReviewSessionScalarWhereInput[]
   }
 
+  export type ExamCountdownUpdateManyWithoutDeckNestedInput = {
+    create?: XOR<ExamCountdownCreateWithoutDeckInput, ExamCountdownUncheckedCreateWithoutDeckInput> | ExamCountdownCreateWithoutDeckInput[] | ExamCountdownUncheckedCreateWithoutDeckInput[]
+    connectOrCreate?: ExamCountdownCreateOrConnectWithoutDeckInput | ExamCountdownCreateOrConnectWithoutDeckInput[]
+    upsert?: ExamCountdownUpsertWithWhereUniqueWithoutDeckInput | ExamCountdownUpsertWithWhereUniqueWithoutDeckInput[]
+    createMany?: ExamCountdownCreateManyDeckInputEnvelope
+    set?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    disconnect?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    delete?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    connect?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    update?: ExamCountdownUpdateWithWhereUniqueWithoutDeckInput | ExamCountdownUpdateWithWhereUniqueWithoutDeckInput[]
+    updateMany?: ExamCountdownUpdateManyWithWhereWithoutDeckInput | ExamCountdownUpdateManyWithWhereWithoutDeckInput[]
+    deleteMany?: ExamCountdownScalarWhereInput | ExamCountdownScalarWhereInput[]
+  }
+
+  export type VideoRecommendationUpdateManyWithoutDeckNestedInput = {
+    create?: XOR<VideoRecommendationCreateWithoutDeckInput, VideoRecommendationUncheckedCreateWithoutDeckInput> | VideoRecommendationCreateWithoutDeckInput[] | VideoRecommendationUncheckedCreateWithoutDeckInput[]
+    connectOrCreate?: VideoRecommendationCreateOrConnectWithoutDeckInput | VideoRecommendationCreateOrConnectWithoutDeckInput[]
+    upsert?: VideoRecommendationUpsertWithWhereUniqueWithoutDeckInput | VideoRecommendationUpsertWithWhereUniqueWithoutDeckInput[]
+    createMany?: VideoRecommendationCreateManyDeckInputEnvelope
+    set?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    disconnect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    delete?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    connect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    update?: VideoRecommendationUpdateWithWhereUniqueWithoutDeckInput | VideoRecommendationUpdateWithWhereUniqueWithoutDeckInput[]
+    updateMany?: VideoRecommendationUpdateManyWithWhereWithoutDeckInput | VideoRecommendationUpdateManyWithWhereWithoutDeckInput[]
+    deleteMany?: VideoRecommendationScalarWhereInput | VideoRecommendationScalarWhereInput[]
+  }
+
   export type CardUncheckedUpdateManyWithoutDeckNestedInput = {
     create?: XOR<CardCreateWithoutDeckInput, CardUncheckedCreateWithoutDeckInput> | CardCreateWithoutDeckInput[] | CardUncheckedCreateWithoutDeckInput[]
     connectOrCreate?: CardCreateOrConnectWithoutDeckInput | CardCreateOrConnectWithoutDeckInput[]
@@ -9137,6 +13826,34 @@ export namespace Prisma {
     update?: ReviewSessionUpdateWithWhereUniqueWithoutDeckInput | ReviewSessionUpdateWithWhereUniqueWithoutDeckInput[]
     updateMany?: ReviewSessionUpdateManyWithWhereWithoutDeckInput | ReviewSessionUpdateManyWithWhereWithoutDeckInput[]
     deleteMany?: ReviewSessionScalarWhereInput | ReviewSessionScalarWhereInput[]
+  }
+
+  export type ExamCountdownUncheckedUpdateManyWithoutDeckNestedInput = {
+    create?: XOR<ExamCountdownCreateWithoutDeckInput, ExamCountdownUncheckedCreateWithoutDeckInput> | ExamCountdownCreateWithoutDeckInput[] | ExamCountdownUncheckedCreateWithoutDeckInput[]
+    connectOrCreate?: ExamCountdownCreateOrConnectWithoutDeckInput | ExamCountdownCreateOrConnectWithoutDeckInput[]
+    upsert?: ExamCountdownUpsertWithWhereUniqueWithoutDeckInput | ExamCountdownUpsertWithWhereUniqueWithoutDeckInput[]
+    createMany?: ExamCountdownCreateManyDeckInputEnvelope
+    set?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    disconnect?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    delete?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    connect?: ExamCountdownWhereUniqueInput | ExamCountdownWhereUniqueInput[]
+    update?: ExamCountdownUpdateWithWhereUniqueWithoutDeckInput | ExamCountdownUpdateWithWhereUniqueWithoutDeckInput[]
+    updateMany?: ExamCountdownUpdateManyWithWhereWithoutDeckInput | ExamCountdownUpdateManyWithWhereWithoutDeckInput[]
+    deleteMany?: ExamCountdownScalarWhereInput | ExamCountdownScalarWhereInput[]
+  }
+
+  export type VideoRecommendationUncheckedUpdateManyWithoutDeckNestedInput = {
+    create?: XOR<VideoRecommendationCreateWithoutDeckInput, VideoRecommendationUncheckedCreateWithoutDeckInput> | VideoRecommendationCreateWithoutDeckInput[] | VideoRecommendationUncheckedCreateWithoutDeckInput[]
+    connectOrCreate?: VideoRecommendationCreateOrConnectWithoutDeckInput | VideoRecommendationCreateOrConnectWithoutDeckInput[]
+    upsert?: VideoRecommendationUpsertWithWhereUniqueWithoutDeckInput | VideoRecommendationUpsertWithWhereUniqueWithoutDeckInput[]
+    createMany?: VideoRecommendationCreateManyDeckInputEnvelope
+    set?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    disconnect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    delete?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    connect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    update?: VideoRecommendationUpdateWithWhereUniqueWithoutDeckInput | VideoRecommendationUpdateWithWhereUniqueWithoutDeckInput[]
+    updateMany?: VideoRecommendationUpdateManyWithWhereWithoutDeckInput | VideoRecommendationUpdateManyWithWhereWithoutDeckInput[]
+    deleteMany?: VideoRecommendationScalarWhereInput | VideoRecommendationScalarWhereInput[]
   }
 
   export type ReviewSessionCreatecardIdsInput = {
@@ -9193,11 +13910,25 @@ export namespace Prisma {
     connect?: ReviewLogWhereUniqueInput | ReviewLogWhereUniqueInput[]
   }
 
+  export type VideoRecommendationCreateNestedManyWithoutCardInput = {
+    create?: XOR<VideoRecommendationCreateWithoutCardInput, VideoRecommendationUncheckedCreateWithoutCardInput> | VideoRecommendationCreateWithoutCardInput[] | VideoRecommendationUncheckedCreateWithoutCardInput[]
+    connectOrCreate?: VideoRecommendationCreateOrConnectWithoutCardInput | VideoRecommendationCreateOrConnectWithoutCardInput[]
+    createMany?: VideoRecommendationCreateManyCardInputEnvelope
+    connect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+  }
+
   export type ReviewLogUncheckedCreateNestedManyWithoutCardInput = {
     create?: XOR<ReviewLogCreateWithoutCardInput, ReviewLogUncheckedCreateWithoutCardInput> | ReviewLogCreateWithoutCardInput[] | ReviewLogUncheckedCreateWithoutCardInput[]
     connectOrCreate?: ReviewLogCreateOrConnectWithoutCardInput | ReviewLogCreateOrConnectWithoutCardInput[]
     createMany?: ReviewLogCreateManyCardInputEnvelope
     connect?: ReviewLogWhereUniqueInput | ReviewLogWhereUniqueInput[]
+  }
+
+  export type VideoRecommendationUncheckedCreateNestedManyWithoutCardInput = {
+    create?: XOR<VideoRecommendationCreateWithoutCardInput, VideoRecommendationUncheckedCreateWithoutCardInput> | VideoRecommendationCreateWithoutCardInput[] | VideoRecommendationUncheckedCreateWithoutCardInput[]
+    connectOrCreate?: VideoRecommendationCreateOrConnectWithoutCardInput | VideoRecommendationCreateOrConnectWithoutCardInput[]
+    createMany?: VideoRecommendationCreateManyCardInputEnvelope
+    connect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
   }
 
   export type CardUpdatetagsInput = {
@@ -9235,6 +13966,20 @@ export namespace Prisma {
     deleteMany?: ReviewLogScalarWhereInput | ReviewLogScalarWhereInput[]
   }
 
+  export type VideoRecommendationUpdateManyWithoutCardNestedInput = {
+    create?: XOR<VideoRecommendationCreateWithoutCardInput, VideoRecommendationUncheckedCreateWithoutCardInput> | VideoRecommendationCreateWithoutCardInput[] | VideoRecommendationUncheckedCreateWithoutCardInput[]
+    connectOrCreate?: VideoRecommendationCreateOrConnectWithoutCardInput | VideoRecommendationCreateOrConnectWithoutCardInput[]
+    upsert?: VideoRecommendationUpsertWithWhereUniqueWithoutCardInput | VideoRecommendationUpsertWithWhereUniqueWithoutCardInput[]
+    createMany?: VideoRecommendationCreateManyCardInputEnvelope
+    set?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    disconnect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    delete?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    connect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    update?: VideoRecommendationUpdateWithWhereUniqueWithoutCardInput | VideoRecommendationUpdateWithWhereUniqueWithoutCardInput[]
+    updateMany?: VideoRecommendationUpdateManyWithWhereWithoutCardInput | VideoRecommendationUpdateManyWithWhereWithoutCardInput[]
+    deleteMany?: VideoRecommendationScalarWhereInput | VideoRecommendationScalarWhereInput[]
+  }
+
   export type ReviewLogUncheckedUpdateManyWithoutCardNestedInput = {
     create?: XOR<ReviewLogCreateWithoutCardInput, ReviewLogUncheckedCreateWithoutCardInput> | ReviewLogCreateWithoutCardInput[] | ReviewLogUncheckedCreateWithoutCardInput[]
     connectOrCreate?: ReviewLogCreateOrConnectWithoutCardInput | ReviewLogCreateOrConnectWithoutCardInput[]
@@ -9247,6 +13992,106 @@ export namespace Prisma {
     update?: ReviewLogUpdateWithWhereUniqueWithoutCardInput | ReviewLogUpdateWithWhereUniqueWithoutCardInput[]
     updateMany?: ReviewLogUpdateManyWithWhereWithoutCardInput | ReviewLogUpdateManyWithWhereWithoutCardInput[]
     deleteMany?: ReviewLogScalarWhereInput | ReviewLogScalarWhereInput[]
+  }
+
+  export type VideoRecommendationUncheckedUpdateManyWithoutCardNestedInput = {
+    create?: XOR<VideoRecommendationCreateWithoutCardInput, VideoRecommendationUncheckedCreateWithoutCardInput> | VideoRecommendationCreateWithoutCardInput[] | VideoRecommendationUncheckedCreateWithoutCardInput[]
+    connectOrCreate?: VideoRecommendationCreateOrConnectWithoutCardInput | VideoRecommendationCreateOrConnectWithoutCardInput[]
+    upsert?: VideoRecommendationUpsertWithWhereUniqueWithoutCardInput | VideoRecommendationUpsertWithWhereUniqueWithoutCardInput[]
+    createMany?: VideoRecommendationCreateManyCardInputEnvelope
+    set?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    disconnect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    delete?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    connect?: VideoRecommendationWhereUniqueInput | VideoRecommendationWhereUniqueInput[]
+    update?: VideoRecommendationUpdateWithWhereUniqueWithoutCardInput | VideoRecommendationUpdateWithWhereUniqueWithoutCardInput[]
+    updateMany?: VideoRecommendationUpdateManyWithWhereWithoutCardInput | VideoRecommendationUpdateManyWithWhereWithoutCardInput[]
+    deleteMany?: VideoRecommendationScalarWhereInput | VideoRecommendationScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutExamCountdownsInput = {
+    create?: XOR<UserCreateWithoutExamCountdownsInput, UserUncheckedCreateWithoutExamCountdownsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutExamCountdownsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type DeckCreateNestedOneWithoutExamCountdownsInput = {
+    create?: XOR<DeckCreateWithoutExamCountdownsInput, DeckUncheckedCreateWithoutExamCountdownsInput>
+    connectOrCreate?: DeckCreateOrConnectWithoutExamCountdownsInput
+    connect?: DeckWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutExamCountdownsNestedInput = {
+    create?: XOR<UserCreateWithoutExamCountdownsInput, UserUncheckedCreateWithoutExamCountdownsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutExamCountdownsInput
+    upsert?: UserUpsertWithoutExamCountdownsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutExamCountdownsInput, UserUpdateWithoutExamCountdownsInput>, UserUncheckedUpdateWithoutExamCountdownsInput>
+  }
+
+  export type DeckUpdateOneWithoutExamCountdownsNestedInput = {
+    create?: XOR<DeckCreateWithoutExamCountdownsInput, DeckUncheckedCreateWithoutExamCountdownsInput>
+    connectOrCreate?: DeckCreateOrConnectWithoutExamCountdownsInput
+    upsert?: DeckUpsertWithoutExamCountdownsInput
+    disconnect?: DeckWhereInput | boolean
+    delete?: DeckWhereInput | boolean
+    connect?: DeckWhereUniqueInput
+    update?: XOR<XOR<DeckUpdateToOneWithWhereWithoutExamCountdownsInput, DeckUpdateWithoutExamCountdownsInput>, DeckUncheckedUpdateWithoutExamCountdownsInput>
+  }
+
+  export type UserCreateNestedOneWithoutVideoRecommendationsInput = {
+    create?: XOR<UserCreateWithoutVideoRecommendationsInput, UserUncheckedCreateWithoutVideoRecommendationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVideoRecommendationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CardCreateNestedOneWithoutVideoRecommendationsInput = {
+    create?: XOR<CardCreateWithoutVideoRecommendationsInput, CardUncheckedCreateWithoutVideoRecommendationsInput>
+    connectOrCreate?: CardCreateOrConnectWithoutVideoRecommendationsInput
+    connect?: CardWhereUniqueInput
+  }
+
+  export type DeckCreateNestedOneWithoutVideoRecommendationsInput = {
+    create?: XOR<DeckCreateWithoutVideoRecommendationsInput, DeckUncheckedCreateWithoutVideoRecommendationsInput>
+    connectOrCreate?: DeckCreateOrConnectWithoutVideoRecommendationsInput
+    connect?: DeckWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutVideoRecommendationsNestedInput = {
+    create?: XOR<UserCreateWithoutVideoRecommendationsInput, UserUncheckedCreateWithoutVideoRecommendationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVideoRecommendationsInput
+    upsert?: UserUpsertWithoutVideoRecommendationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVideoRecommendationsInput, UserUpdateWithoutVideoRecommendationsInput>, UserUncheckedUpdateWithoutVideoRecommendationsInput>
+  }
+
+  export type CardUpdateOneRequiredWithoutVideoRecommendationsNestedInput = {
+    create?: XOR<CardCreateWithoutVideoRecommendationsInput, CardUncheckedCreateWithoutVideoRecommendationsInput>
+    connectOrCreate?: CardCreateOrConnectWithoutVideoRecommendationsInput
+    upsert?: CardUpsertWithoutVideoRecommendationsInput
+    connect?: CardWhereUniqueInput
+    update?: XOR<XOR<CardUpdateToOneWithWhereWithoutVideoRecommendationsInput, CardUpdateWithoutVideoRecommendationsInput>, CardUncheckedUpdateWithoutVideoRecommendationsInput>
+  }
+
+  export type DeckUpdateOneRequiredWithoutVideoRecommendationsNestedInput = {
+    create?: XOR<DeckCreateWithoutVideoRecommendationsInput, DeckUncheckedCreateWithoutVideoRecommendationsInput>
+    connectOrCreate?: DeckCreateOrConnectWithoutVideoRecommendationsInput
+    upsert?: DeckUpsertWithoutVideoRecommendationsInput
+    connect?: DeckWhereUniqueInput
+    update?: XOR<XOR<DeckUpdateToOneWithWhereWithoutVideoRecommendationsInput, DeckUpdateWithoutVideoRecommendationsInput>, DeckUncheckedUpdateWithoutVideoRecommendationsInput>
+  }
+
+  export type UserCreateNestedOneWithoutStudyGoalInput = {
+    create?: XOR<UserCreateWithoutStudyGoalInput, UserUncheckedCreateWithoutStudyGoalInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStudyGoalInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutStudyGoalNestedInput = {
+    create?: XOR<UserCreateWithoutStudyGoalInput, UserUncheckedCreateWithoutStudyGoalInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStudyGoalInput
+    upsert?: UserUpsertWithoutStudyGoalInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStudyGoalInput, UserUpdateWithoutStudyGoalInput>, UserUncheckedUpdateWithoutStudyGoalInput>
   }
 
   export type CardCreateNestedOneWithoutReviewLogsInput = {
@@ -9493,6 +14338,8 @@ export namespace Prisma {
     lastOpenedAt?: Date | string | null
     cards?: CardCreateNestedManyWithoutDeckInput
     reviewSessions?: ReviewSessionCreateNestedManyWithoutDeckInput
+    examCountdowns?: ExamCountdownCreateNestedManyWithoutDeckInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutDeckInput
   }
 
   export type DeckUncheckedCreateWithoutUserInput = {
@@ -9511,6 +14358,8 @@ export namespace Prisma {
     lastOpenedAt?: Date | string | null
     cards?: CardUncheckedCreateNestedManyWithoutDeckInput
     reviewSessions?: ReviewSessionUncheckedCreateNestedManyWithoutDeckInput
+    examCountdowns?: ExamCountdownUncheckedCreateNestedManyWithoutDeckInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutDeckInput
   }
 
   export type DeckCreateOrConnectWithoutUserInput = {
@@ -9581,6 +14430,87 @@ export namespace Prisma {
   export type ReviewSessionCreateManyUserInputEnvelope = {
     data: ReviewSessionCreateManyUserInput | ReviewSessionCreateManyUserInput[]
     skipDuplicates?: boolean
+  }
+
+  export type ExamCountdownCreateWithoutUserInput = {
+    id?: string
+    title: string
+    examDate: Date | string
+    dailyGoal?: number
+    createdAt?: Date | string
+    deck?: DeckCreateNestedOneWithoutExamCountdownsInput
+  }
+
+  export type ExamCountdownUncheckedCreateWithoutUserInput = {
+    id?: string
+    deckId?: string | null
+    title: string
+    examDate: Date | string
+    dailyGoal?: number
+    createdAt?: Date | string
+  }
+
+  export type ExamCountdownCreateOrConnectWithoutUserInput = {
+    where: ExamCountdownWhereUniqueInput
+    create: XOR<ExamCountdownCreateWithoutUserInput, ExamCountdownUncheckedCreateWithoutUserInput>
+  }
+
+  export type ExamCountdownCreateManyUserInputEnvelope = {
+    data: ExamCountdownCreateManyUserInput | ExamCountdownCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VideoRecommendationCreateWithoutUserInput = {
+    id?: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt?: Date | string
+    card: CardCreateNestedOneWithoutVideoRecommendationsInput
+    deck: DeckCreateNestedOneWithoutVideoRecommendationsInput
+  }
+
+  export type VideoRecommendationUncheckedCreateWithoutUserInput = {
+    id?: string
+    cardId: string
+    deckId: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt?: Date | string
+  }
+
+  export type VideoRecommendationCreateOrConnectWithoutUserInput = {
+    where: VideoRecommendationWhereUniqueInput
+    create: XOR<VideoRecommendationCreateWithoutUserInput, VideoRecommendationUncheckedCreateWithoutUserInput>
+  }
+
+  export type VideoRecommendationCreateManyUserInputEnvelope = {
+    data: VideoRecommendationCreateManyUserInput | VideoRecommendationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StudyGoalCreateWithoutUserInput = {
+    id?: string
+    dailyCardTarget?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StudyGoalUncheckedCreateWithoutUserInput = {
+    id?: string
+    dailyCardTarget?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StudyGoalCreateOrConnectWithoutUserInput = {
+    where: StudyGoalWhereUniqueInput
+    create: XOR<StudyGoalCreateWithoutUserInput, StudyGoalUncheckedCreateWithoutUserInput>
   }
 
   export type DeckUpsertWithWhereUniqueWithoutUserInput = {
@@ -9679,6 +14609,92 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ReviewSession"> | Date | string
   }
 
+  export type ExamCountdownUpsertWithWhereUniqueWithoutUserInput = {
+    where: ExamCountdownWhereUniqueInput
+    update: XOR<ExamCountdownUpdateWithoutUserInput, ExamCountdownUncheckedUpdateWithoutUserInput>
+    create: XOR<ExamCountdownCreateWithoutUserInput, ExamCountdownUncheckedCreateWithoutUserInput>
+  }
+
+  export type ExamCountdownUpdateWithWhereUniqueWithoutUserInput = {
+    where: ExamCountdownWhereUniqueInput
+    data: XOR<ExamCountdownUpdateWithoutUserInput, ExamCountdownUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ExamCountdownUpdateManyWithWhereWithoutUserInput = {
+    where: ExamCountdownScalarWhereInput
+    data: XOR<ExamCountdownUpdateManyMutationInput, ExamCountdownUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ExamCountdownScalarWhereInput = {
+    AND?: ExamCountdownScalarWhereInput | ExamCountdownScalarWhereInput[]
+    OR?: ExamCountdownScalarWhereInput[]
+    NOT?: ExamCountdownScalarWhereInput | ExamCountdownScalarWhereInput[]
+    id?: StringFilter<"ExamCountdown"> | string
+    userId?: StringFilter<"ExamCountdown"> | string
+    deckId?: StringNullableFilter<"ExamCountdown"> | string | null
+    title?: StringFilter<"ExamCountdown"> | string
+    examDate?: DateTimeFilter<"ExamCountdown"> | Date | string
+    dailyGoal?: IntFilter<"ExamCountdown"> | number
+    createdAt?: DateTimeFilter<"ExamCountdown"> | Date | string
+  }
+
+  export type VideoRecommendationUpsertWithWhereUniqueWithoutUserInput = {
+    where: VideoRecommendationWhereUniqueInput
+    update: XOR<VideoRecommendationUpdateWithoutUserInput, VideoRecommendationUncheckedUpdateWithoutUserInput>
+    create: XOR<VideoRecommendationCreateWithoutUserInput, VideoRecommendationUncheckedCreateWithoutUserInput>
+  }
+
+  export type VideoRecommendationUpdateWithWhereUniqueWithoutUserInput = {
+    where: VideoRecommendationWhereUniqueInput
+    data: XOR<VideoRecommendationUpdateWithoutUserInput, VideoRecommendationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type VideoRecommendationUpdateManyWithWhereWithoutUserInput = {
+    where: VideoRecommendationScalarWhereInput
+    data: XOR<VideoRecommendationUpdateManyMutationInput, VideoRecommendationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type VideoRecommendationScalarWhereInput = {
+    AND?: VideoRecommendationScalarWhereInput | VideoRecommendationScalarWhereInput[]
+    OR?: VideoRecommendationScalarWhereInput[]
+    NOT?: VideoRecommendationScalarWhereInput | VideoRecommendationScalarWhereInput[]
+    id?: StringFilter<"VideoRecommendation"> | string
+    userId?: StringFilter<"VideoRecommendation"> | string
+    cardId?: StringFilter<"VideoRecommendation"> | string
+    deckId?: StringFilter<"VideoRecommendation"> | string
+    videoId?: StringFilter<"VideoRecommendation"> | string
+    title?: StringFilter<"VideoRecommendation"> | string
+    channelName?: StringFilter<"VideoRecommendation"> | string
+    thumbnailUrl?: StringFilter<"VideoRecommendation"> | string
+    videoUrl?: StringFilter<"VideoRecommendation"> | string
+    createdAt?: DateTimeFilter<"VideoRecommendation"> | Date | string
+  }
+
+  export type StudyGoalUpsertWithoutUserInput = {
+    update: XOR<StudyGoalUpdateWithoutUserInput, StudyGoalUncheckedUpdateWithoutUserInput>
+    create: XOR<StudyGoalCreateWithoutUserInput, StudyGoalUncheckedCreateWithoutUserInput>
+    where?: StudyGoalWhereInput
+  }
+
+  export type StudyGoalUpdateToOneWithWhereWithoutUserInput = {
+    where?: StudyGoalWhereInput
+    data: XOR<StudyGoalUpdateWithoutUserInput, StudyGoalUncheckedUpdateWithoutUserInput>
+  }
+
+  export type StudyGoalUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dailyCardTarget?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyGoalUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dailyCardTarget?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateWithoutDecksInput = {
     id?: string
     email: string
@@ -9689,6 +14705,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     reviewLogs?: ReviewLogCreateNestedManyWithoutUserInput
     reviewSessions?: ReviewSessionCreateNestedManyWithoutUserInput
+    examCountdowns?: ExamCountdownCreateNestedManyWithoutUserInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutUserInput
+    studyGoal?: StudyGoalCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDecksInput = {
@@ -9701,6 +14720,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     reviewLogs?: ReviewLogUncheckedCreateNestedManyWithoutUserInput
     reviewSessions?: ReviewSessionUncheckedCreateNestedManyWithoutUserInput
+    examCountdowns?: ExamCountdownUncheckedCreateNestedManyWithoutUserInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutUserInput
+    studyGoal?: StudyGoalUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDecksInput = {
@@ -9720,6 +14742,7 @@ export namespace Prisma {
     lastReviewed?: Date | string | null
     createdAt?: Date | string
     reviewLogs?: ReviewLogCreateNestedManyWithoutCardInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateWithoutDeckInput = {
@@ -9734,6 +14757,7 @@ export namespace Prisma {
     lastReviewed?: Date | string | null
     createdAt?: Date | string
     reviewLogs?: ReviewLogUncheckedCreateNestedManyWithoutCardInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardCreateOrConnectWithoutDeckInput = {
@@ -9778,6 +14802,68 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ExamCountdownCreateWithoutDeckInput = {
+    id?: string
+    title: string
+    examDate: Date | string
+    dailyGoal?: number
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutExamCountdownsInput
+  }
+
+  export type ExamCountdownUncheckedCreateWithoutDeckInput = {
+    id?: string
+    userId: string
+    title: string
+    examDate: Date | string
+    dailyGoal?: number
+    createdAt?: Date | string
+  }
+
+  export type ExamCountdownCreateOrConnectWithoutDeckInput = {
+    where: ExamCountdownWhereUniqueInput
+    create: XOR<ExamCountdownCreateWithoutDeckInput, ExamCountdownUncheckedCreateWithoutDeckInput>
+  }
+
+  export type ExamCountdownCreateManyDeckInputEnvelope = {
+    data: ExamCountdownCreateManyDeckInput | ExamCountdownCreateManyDeckInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VideoRecommendationCreateWithoutDeckInput = {
+    id?: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutVideoRecommendationsInput
+    card: CardCreateNestedOneWithoutVideoRecommendationsInput
+  }
+
+  export type VideoRecommendationUncheckedCreateWithoutDeckInput = {
+    id?: string
+    userId: string
+    cardId: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt?: Date | string
+  }
+
+  export type VideoRecommendationCreateOrConnectWithoutDeckInput = {
+    where: VideoRecommendationWhereUniqueInput
+    create: XOR<VideoRecommendationCreateWithoutDeckInput, VideoRecommendationUncheckedCreateWithoutDeckInput>
+  }
+
+  export type VideoRecommendationCreateManyDeckInputEnvelope = {
+    data: VideoRecommendationCreateManyDeckInput | VideoRecommendationCreateManyDeckInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutDecksInput = {
     update: XOR<UserUpdateWithoutDecksInput, UserUncheckedUpdateWithoutDecksInput>
     create: XOR<UserCreateWithoutDecksInput, UserUncheckedCreateWithoutDecksInput>
@@ -9799,6 +14885,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewLogs?: ReviewLogUpdateManyWithoutUserNestedInput
     reviewSessions?: ReviewSessionUpdateManyWithoutUserNestedInput
+    examCountdowns?: ExamCountdownUpdateManyWithoutUserNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutUserNestedInput
+    studyGoal?: StudyGoalUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDecksInput = {
@@ -9811,6 +14900,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewLogs?: ReviewLogUncheckedUpdateManyWithoutUserNestedInput
     reviewSessions?: ReviewSessionUncheckedUpdateManyWithoutUserNestedInput
+    examCountdowns?: ExamCountdownUncheckedUpdateManyWithoutUserNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    studyGoal?: StudyGoalUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CardUpsertWithWhereUniqueWithoutDeckInput = {
@@ -9862,6 +14954,38 @@ export namespace Prisma {
     data: XOR<ReviewSessionUpdateManyMutationInput, ReviewSessionUncheckedUpdateManyWithoutDeckInput>
   }
 
+  export type ExamCountdownUpsertWithWhereUniqueWithoutDeckInput = {
+    where: ExamCountdownWhereUniqueInput
+    update: XOR<ExamCountdownUpdateWithoutDeckInput, ExamCountdownUncheckedUpdateWithoutDeckInput>
+    create: XOR<ExamCountdownCreateWithoutDeckInput, ExamCountdownUncheckedCreateWithoutDeckInput>
+  }
+
+  export type ExamCountdownUpdateWithWhereUniqueWithoutDeckInput = {
+    where: ExamCountdownWhereUniqueInput
+    data: XOR<ExamCountdownUpdateWithoutDeckInput, ExamCountdownUncheckedUpdateWithoutDeckInput>
+  }
+
+  export type ExamCountdownUpdateManyWithWhereWithoutDeckInput = {
+    where: ExamCountdownScalarWhereInput
+    data: XOR<ExamCountdownUpdateManyMutationInput, ExamCountdownUncheckedUpdateManyWithoutDeckInput>
+  }
+
+  export type VideoRecommendationUpsertWithWhereUniqueWithoutDeckInput = {
+    where: VideoRecommendationWhereUniqueInput
+    update: XOR<VideoRecommendationUpdateWithoutDeckInput, VideoRecommendationUncheckedUpdateWithoutDeckInput>
+    create: XOR<VideoRecommendationCreateWithoutDeckInput, VideoRecommendationUncheckedCreateWithoutDeckInput>
+  }
+
+  export type VideoRecommendationUpdateWithWhereUniqueWithoutDeckInput = {
+    where: VideoRecommendationWhereUniqueInput
+    data: XOR<VideoRecommendationUpdateWithoutDeckInput, VideoRecommendationUncheckedUpdateWithoutDeckInput>
+  }
+
+  export type VideoRecommendationUpdateManyWithWhereWithoutDeckInput = {
+    where: VideoRecommendationScalarWhereInput
+    data: XOR<VideoRecommendationUpdateManyMutationInput, VideoRecommendationUncheckedUpdateManyWithoutDeckInput>
+  }
+
   export type UserCreateWithoutReviewSessionsInput = {
     id?: string
     email: string
@@ -9872,6 +14996,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     decks?: DeckCreateNestedManyWithoutUserInput
     reviewLogs?: ReviewLogCreateNestedManyWithoutUserInput
+    examCountdowns?: ExamCountdownCreateNestedManyWithoutUserInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutUserInput
+    studyGoal?: StudyGoalCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewSessionsInput = {
@@ -9884,6 +15011,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     decks?: DeckUncheckedCreateNestedManyWithoutUserInput
     reviewLogs?: ReviewLogUncheckedCreateNestedManyWithoutUserInput
+    examCountdowns?: ExamCountdownUncheckedCreateNestedManyWithoutUserInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutUserInput
+    studyGoal?: StudyGoalUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReviewSessionsInput = {
@@ -9907,6 +15037,8 @@ export namespace Prisma {
     lastOpenedAt?: Date | string | null
     user: UserCreateNestedOneWithoutDecksInput
     cards?: CardCreateNestedManyWithoutDeckInput
+    examCountdowns?: ExamCountdownCreateNestedManyWithoutDeckInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutDeckInput
   }
 
   export type DeckUncheckedCreateWithoutReviewSessionsInput = {
@@ -9925,6 +15057,8 @@ export namespace Prisma {
     lastStudiedAt?: Date | string | null
     lastOpenedAt?: Date | string | null
     cards?: CardUncheckedCreateNestedManyWithoutDeckInput
+    examCountdowns?: ExamCountdownUncheckedCreateNestedManyWithoutDeckInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutDeckInput
   }
 
   export type DeckCreateOrConnectWithoutReviewSessionsInput = {
@@ -9953,6 +15087,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     decks?: DeckUpdateManyWithoutUserNestedInput
     reviewLogs?: ReviewLogUpdateManyWithoutUserNestedInput
+    examCountdowns?: ExamCountdownUpdateManyWithoutUserNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutUserNestedInput
+    studyGoal?: StudyGoalUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewSessionsInput = {
@@ -9965,6 +15102,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     decks?: DeckUncheckedUpdateManyWithoutUserNestedInput
     reviewLogs?: ReviewLogUncheckedUpdateManyWithoutUserNestedInput
+    examCountdowns?: ExamCountdownUncheckedUpdateManyWithoutUserNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    studyGoal?: StudyGoalUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type DeckUpsertWithoutReviewSessionsInput = {
@@ -9994,6 +15134,8 @@ export namespace Prisma {
     lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutDecksNestedInput
     cards?: CardUpdateManyWithoutDeckNestedInput
+    examCountdowns?: ExamCountdownUpdateManyWithoutDeckNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutDeckNestedInput
   }
 
   export type DeckUncheckedUpdateWithoutReviewSessionsInput = {
@@ -10012,6 +15154,8 @@ export namespace Prisma {
     lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cards?: CardUncheckedUpdateManyWithoutDeckNestedInput
+    examCountdowns?: ExamCountdownUncheckedUpdateManyWithoutDeckNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutDeckNestedInput
   }
 
   export type DeckCreateWithoutCardsInput = {
@@ -10030,6 +15174,8 @@ export namespace Prisma {
     lastOpenedAt?: Date | string | null
     user: UserCreateNestedOneWithoutDecksInput
     reviewSessions?: ReviewSessionCreateNestedManyWithoutDeckInput
+    examCountdowns?: ExamCountdownCreateNestedManyWithoutDeckInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutDeckInput
   }
 
   export type DeckUncheckedCreateWithoutCardsInput = {
@@ -10048,6 +15194,8 @@ export namespace Prisma {
     lastStudiedAt?: Date | string | null
     lastOpenedAt?: Date | string | null
     reviewSessions?: ReviewSessionUncheckedCreateNestedManyWithoutDeckInput
+    examCountdowns?: ExamCountdownUncheckedCreateNestedManyWithoutDeckInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutDeckInput
   }
 
   export type DeckCreateOrConnectWithoutCardsInput = {
@@ -10083,6 +15231,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type VideoRecommendationCreateWithoutCardInput = {
+    id?: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutVideoRecommendationsInput
+    deck: DeckCreateNestedOneWithoutVideoRecommendationsInput
+  }
+
+  export type VideoRecommendationUncheckedCreateWithoutCardInput = {
+    id?: string
+    userId: string
+    deckId: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt?: Date | string
+  }
+
+  export type VideoRecommendationCreateOrConnectWithoutCardInput = {
+    where: VideoRecommendationWhereUniqueInput
+    create: XOR<VideoRecommendationCreateWithoutCardInput, VideoRecommendationUncheckedCreateWithoutCardInput>
+  }
+
+  export type VideoRecommendationCreateManyCardInputEnvelope = {
+    data: VideoRecommendationCreateManyCardInput | VideoRecommendationCreateManyCardInput[]
+    skipDuplicates?: boolean
+  }
+
   export type DeckUpsertWithoutCardsInput = {
     update: XOR<DeckUpdateWithoutCardsInput, DeckUncheckedUpdateWithoutCardsInput>
     create: XOR<DeckCreateWithoutCardsInput, DeckUncheckedCreateWithoutCardsInput>
@@ -10110,6 +15292,8 @@ export namespace Prisma {
     lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutDecksNestedInput
     reviewSessions?: ReviewSessionUpdateManyWithoutDeckNestedInput
+    examCountdowns?: ExamCountdownUpdateManyWithoutDeckNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutDeckNestedInput
   }
 
   export type DeckUncheckedUpdateWithoutCardsInput = {
@@ -10128,6 +15312,8 @@ export namespace Prisma {
     lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewSessions?: ReviewSessionUncheckedUpdateManyWithoutDeckNestedInput
+    examCountdowns?: ExamCountdownUncheckedUpdateManyWithoutDeckNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutDeckNestedInput
   }
 
   export type ReviewLogUpsertWithWhereUniqueWithoutCardInput = {
@@ -10146,6 +15332,518 @@ export namespace Prisma {
     data: XOR<ReviewLogUpdateManyMutationInput, ReviewLogUncheckedUpdateManyWithoutCardInput>
   }
 
+  export type VideoRecommendationUpsertWithWhereUniqueWithoutCardInput = {
+    where: VideoRecommendationWhereUniqueInput
+    update: XOR<VideoRecommendationUpdateWithoutCardInput, VideoRecommendationUncheckedUpdateWithoutCardInput>
+    create: XOR<VideoRecommendationCreateWithoutCardInput, VideoRecommendationUncheckedCreateWithoutCardInput>
+  }
+
+  export type VideoRecommendationUpdateWithWhereUniqueWithoutCardInput = {
+    where: VideoRecommendationWhereUniqueInput
+    data: XOR<VideoRecommendationUpdateWithoutCardInput, VideoRecommendationUncheckedUpdateWithoutCardInput>
+  }
+
+  export type VideoRecommendationUpdateManyWithWhereWithoutCardInput = {
+    where: VideoRecommendationScalarWhereInput
+    data: XOR<VideoRecommendationUpdateManyMutationInput, VideoRecommendationUncheckedUpdateManyWithoutCardInput>
+  }
+
+  export type UserCreateWithoutExamCountdownsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    passwordHash?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    decks?: DeckCreateNestedManyWithoutUserInput
+    reviewLogs?: ReviewLogCreateNestedManyWithoutUserInput
+    reviewSessions?: ReviewSessionCreateNestedManyWithoutUserInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutUserInput
+    studyGoal?: StudyGoalCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutExamCountdownsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    passwordHash?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    decks?: DeckUncheckedCreateNestedManyWithoutUserInput
+    reviewLogs?: ReviewLogUncheckedCreateNestedManyWithoutUserInput
+    reviewSessions?: ReviewSessionUncheckedCreateNestedManyWithoutUserInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutUserInput
+    studyGoal?: StudyGoalUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutExamCountdownsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutExamCountdownsInput, UserUncheckedCreateWithoutExamCountdownsInput>
+  }
+
+  export type DeckCreateWithoutExamCountdownsInput = {
+    id?: string
+    title: string
+    description?: string | null
+    sourceFilename?: string | null
+    emoji?: string | null
+    totalCards?: number
+    newCards?: number
+    dueCards?: number
+    masteredCards?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastStudiedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutDecksInput
+    cards?: CardCreateNestedManyWithoutDeckInput
+    reviewSessions?: ReviewSessionCreateNestedManyWithoutDeckInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutDeckInput
+  }
+
+  export type DeckUncheckedCreateWithoutExamCountdownsInput = {
+    id?: string
+    userId: string
+    title: string
+    description?: string | null
+    sourceFilename?: string | null
+    emoji?: string | null
+    totalCards?: number
+    newCards?: number
+    dueCards?: number
+    masteredCards?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastStudiedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    cards?: CardUncheckedCreateNestedManyWithoutDeckInput
+    reviewSessions?: ReviewSessionUncheckedCreateNestedManyWithoutDeckInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutDeckInput
+  }
+
+  export type DeckCreateOrConnectWithoutExamCountdownsInput = {
+    where: DeckWhereUniqueInput
+    create: XOR<DeckCreateWithoutExamCountdownsInput, DeckUncheckedCreateWithoutExamCountdownsInput>
+  }
+
+  export type UserUpsertWithoutExamCountdownsInput = {
+    update: XOR<UserUpdateWithoutExamCountdownsInput, UserUncheckedUpdateWithoutExamCountdownsInput>
+    create: XOR<UserCreateWithoutExamCountdownsInput, UserUncheckedCreateWithoutExamCountdownsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutExamCountdownsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutExamCountdownsInput, UserUncheckedUpdateWithoutExamCountdownsInput>
+  }
+
+  export type UserUpdateWithoutExamCountdownsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    decks?: DeckUpdateManyWithoutUserNestedInput
+    reviewLogs?: ReviewLogUpdateManyWithoutUserNestedInput
+    reviewSessions?: ReviewSessionUpdateManyWithoutUserNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutUserNestedInput
+    studyGoal?: StudyGoalUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutExamCountdownsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    decks?: DeckUncheckedUpdateManyWithoutUserNestedInput
+    reviewLogs?: ReviewLogUncheckedUpdateManyWithoutUserNestedInput
+    reviewSessions?: ReviewSessionUncheckedUpdateManyWithoutUserNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    studyGoal?: StudyGoalUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type DeckUpsertWithoutExamCountdownsInput = {
+    update: XOR<DeckUpdateWithoutExamCountdownsInput, DeckUncheckedUpdateWithoutExamCountdownsInput>
+    create: XOR<DeckCreateWithoutExamCountdownsInput, DeckUncheckedCreateWithoutExamCountdownsInput>
+    where?: DeckWhereInput
+  }
+
+  export type DeckUpdateToOneWithWhereWithoutExamCountdownsInput = {
+    where?: DeckWhereInput
+    data: XOR<DeckUpdateWithoutExamCountdownsInput, DeckUncheckedUpdateWithoutExamCountdownsInput>
+  }
+
+  export type DeckUpdateWithoutExamCountdownsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCards?: IntFieldUpdateOperationsInput | number
+    newCards?: IntFieldUpdateOperationsInput | number
+    dueCards?: IntFieldUpdateOperationsInput | number
+    masteredCards?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutDecksNestedInput
+    cards?: CardUpdateManyWithoutDeckNestedInput
+    reviewSessions?: ReviewSessionUpdateManyWithoutDeckNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutDeckNestedInput
+  }
+
+  export type DeckUncheckedUpdateWithoutExamCountdownsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCards?: IntFieldUpdateOperationsInput | number
+    newCards?: IntFieldUpdateOperationsInput | number
+    dueCards?: IntFieldUpdateOperationsInput | number
+    masteredCards?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cards?: CardUncheckedUpdateManyWithoutDeckNestedInput
+    reviewSessions?: ReviewSessionUncheckedUpdateManyWithoutDeckNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutDeckNestedInput
+  }
+
+  export type UserCreateWithoutVideoRecommendationsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    passwordHash?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    decks?: DeckCreateNestedManyWithoutUserInput
+    reviewLogs?: ReviewLogCreateNestedManyWithoutUserInput
+    reviewSessions?: ReviewSessionCreateNestedManyWithoutUserInput
+    examCountdowns?: ExamCountdownCreateNestedManyWithoutUserInput
+    studyGoal?: StudyGoalCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutVideoRecommendationsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    passwordHash?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    decks?: DeckUncheckedCreateNestedManyWithoutUserInput
+    reviewLogs?: ReviewLogUncheckedCreateNestedManyWithoutUserInput
+    reviewSessions?: ReviewSessionUncheckedCreateNestedManyWithoutUserInput
+    examCountdowns?: ExamCountdownUncheckedCreateNestedManyWithoutUserInput
+    studyGoal?: StudyGoalUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutVideoRecommendationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutVideoRecommendationsInput, UserUncheckedCreateWithoutVideoRecommendationsInput>
+  }
+
+  export type CardCreateWithoutVideoRecommendationsInput = {
+    id?: string
+    front: string
+    back: string
+    tags?: CardCreatetagsInput | string[]
+    easeFactor?: number
+    interval?: number
+    repetitions?: number
+    dueDate?: Date | string
+    lastReviewed?: Date | string | null
+    createdAt?: Date | string
+    deck: DeckCreateNestedOneWithoutCardsInput
+    reviewLogs?: ReviewLogCreateNestedManyWithoutCardInput
+  }
+
+  export type CardUncheckedCreateWithoutVideoRecommendationsInput = {
+    id?: string
+    deckId: string
+    front: string
+    back: string
+    tags?: CardCreatetagsInput | string[]
+    easeFactor?: number
+    interval?: number
+    repetitions?: number
+    dueDate?: Date | string
+    lastReviewed?: Date | string | null
+    createdAt?: Date | string
+    reviewLogs?: ReviewLogUncheckedCreateNestedManyWithoutCardInput
+  }
+
+  export type CardCreateOrConnectWithoutVideoRecommendationsInput = {
+    where: CardWhereUniqueInput
+    create: XOR<CardCreateWithoutVideoRecommendationsInput, CardUncheckedCreateWithoutVideoRecommendationsInput>
+  }
+
+  export type DeckCreateWithoutVideoRecommendationsInput = {
+    id?: string
+    title: string
+    description?: string | null
+    sourceFilename?: string | null
+    emoji?: string | null
+    totalCards?: number
+    newCards?: number
+    dueCards?: number
+    masteredCards?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastStudiedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutDecksInput
+    cards?: CardCreateNestedManyWithoutDeckInput
+    reviewSessions?: ReviewSessionCreateNestedManyWithoutDeckInput
+    examCountdowns?: ExamCountdownCreateNestedManyWithoutDeckInput
+  }
+
+  export type DeckUncheckedCreateWithoutVideoRecommendationsInput = {
+    id?: string
+    userId: string
+    title: string
+    description?: string | null
+    sourceFilename?: string | null
+    emoji?: string | null
+    totalCards?: number
+    newCards?: number
+    dueCards?: number
+    masteredCards?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastStudiedAt?: Date | string | null
+    lastOpenedAt?: Date | string | null
+    cards?: CardUncheckedCreateNestedManyWithoutDeckInput
+    reviewSessions?: ReviewSessionUncheckedCreateNestedManyWithoutDeckInput
+    examCountdowns?: ExamCountdownUncheckedCreateNestedManyWithoutDeckInput
+  }
+
+  export type DeckCreateOrConnectWithoutVideoRecommendationsInput = {
+    where: DeckWhereUniqueInput
+    create: XOR<DeckCreateWithoutVideoRecommendationsInput, DeckUncheckedCreateWithoutVideoRecommendationsInput>
+  }
+
+  export type UserUpsertWithoutVideoRecommendationsInput = {
+    update: XOR<UserUpdateWithoutVideoRecommendationsInput, UserUncheckedUpdateWithoutVideoRecommendationsInput>
+    create: XOR<UserCreateWithoutVideoRecommendationsInput, UserUncheckedCreateWithoutVideoRecommendationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutVideoRecommendationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutVideoRecommendationsInput, UserUncheckedUpdateWithoutVideoRecommendationsInput>
+  }
+
+  export type UserUpdateWithoutVideoRecommendationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    decks?: DeckUpdateManyWithoutUserNestedInput
+    reviewLogs?: ReviewLogUpdateManyWithoutUserNestedInput
+    reviewSessions?: ReviewSessionUpdateManyWithoutUserNestedInput
+    examCountdowns?: ExamCountdownUpdateManyWithoutUserNestedInput
+    studyGoal?: StudyGoalUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutVideoRecommendationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    decks?: DeckUncheckedUpdateManyWithoutUserNestedInput
+    reviewLogs?: ReviewLogUncheckedUpdateManyWithoutUserNestedInput
+    reviewSessions?: ReviewSessionUncheckedUpdateManyWithoutUserNestedInput
+    examCountdowns?: ExamCountdownUncheckedUpdateManyWithoutUserNestedInput
+    studyGoal?: StudyGoalUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type CardUpsertWithoutVideoRecommendationsInput = {
+    update: XOR<CardUpdateWithoutVideoRecommendationsInput, CardUncheckedUpdateWithoutVideoRecommendationsInput>
+    create: XOR<CardCreateWithoutVideoRecommendationsInput, CardUncheckedCreateWithoutVideoRecommendationsInput>
+    where?: CardWhereInput
+  }
+
+  export type CardUpdateToOneWithWhereWithoutVideoRecommendationsInput = {
+    where?: CardWhereInput
+    data: XOR<CardUpdateWithoutVideoRecommendationsInput, CardUncheckedUpdateWithoutVideoRecommendationsInput>
+  }
+
+  export type CardUpdateWithoutVideoRecommendationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    front?: StringFieldUpdateOperationsInput | string
+    back?: StringFieldUpdateOperationsInput | string
+    tags?: CardUpdatetagsInput | string[]
+    easeFactor?: FloatFieldUpdateOperationsInput | number
+    interval?: IntFieldUpdateOperationsInput | number
+    repetitions?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastReviewed?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deck?: DeckUpdateOneRequiredWithoutCardsNestedInput
+    reviewLogs?: ReviewLogUpdateManyWithoutCardNestedInput
+  }
+
+  export type CardUncheckedUpdateWithoutVideoRecommendationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deckId?: StringFieldUpdateOperationsInput | string
+    front?: StringFieldUpdateOperationsInput | string
+    back?: StringFieldUpdateOperationsInput | string
+    tags?: CardUpdatetagsInput | string[]
+    easeFactor?: FloatFieldUpdateOperationsInput | number
+    interval?: IntFieldUpdateOperationsInput | number
+    repetitions?: IntFieldUpdateOperationsInput | number
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastReviewed?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewLogs?: ReviewLogUncheckedUpdateManyWithoutCardNestedInput
+  }
+
+  export type DeckUpsertWithoutVideoRecommendationsInput = {
+    update: XOR<DeckUpdateWithoutVideoRecommendationsInput, DeckUncheckedUpdateWithoutVideoRecommendationsInput>
+    create: XOR<DeckCreateWithoutVideoRecommendationsInput, DeckUncheckedCreateWithoutVideoRecommendationsInput>
+    where?: DeckWhereInput
+  }
+
+  export type DeckUpdateToOneWithWhereWithoutVideoRecommendationsInput = {
+    where?: DeckWhereInput
+    data: XOR<DeckUpdateWithoutVideoRecommendationsInput, DeckUncheckedUpdateWithoutVideoRecommendationsInput>
+  }
+
+  export type DeckUpdateWithoutVideoRecommendationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCards?: IntFieldUpdateOperationsInput | number
+    newCards?: IntFieldUpdateOperationsInput | number
+    dueCards?: IntFieldUpdateOperationsInput | number
+    masteredCards?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutDecksNestedInput
+    cards?: CardUpdateManyWithoutDeckNestedInput
+    reviewSessions?: ReviewSessionUpdateManyWithoutDeckNestedInput
+    examCountdowns?: ExamCountdownUpdateManyWithoutDeckNestedInput
+  }
+
+  export type DeckUncheckedUpdateWithoutVideoRecommendationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    emoji?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCards?: IntFieldUpdateOperationsInput | number
+    newCards?: IntFieldUpdateOperationsInput | number
+    dueCards?: IntFieldUpdateOperationsInput | number
+    masteredCards?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastStudiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cards?: CardUncheckedUpdateManyWithoutDeckNestedInput
+    reviewSessions?: ReviewSessionUncheckedUpdateManyWithoutDeckNestedInput
+    examCountdowns?: ExamCountdownUncheckedUpdateManyWithoutDeckNestedInput
+  }
+
+  export type UserCreateWithoutStudyGoalInput = {
+    id?: string
+    email: string
+    name?: string | null
+    passwordHash?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    decks?: DeckCreateNestedManyWithoutUserInput
+    reviewLogs?: ReviewLogCreateNestedManyWithoutUserInput
+    reviewSessions?: ReviewSessionCreateNestedManyWithoutUserInput
+    examCountdowns?: ExamCountdownCreateNestedManyWithoutUserInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutStudyGoalInput = {
+    id?: string
+    email: string
+    name?: string | null
+    passwordHash?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    decks?: DeckUncheckedCreateNestedManyWithoutUserInput
+    reviewLogs?: ReviewLogUncheckedCreateNestedManyWithoutUserInput
+    reviewSessions?: ReviewSessionUncheckedCreateNestedManyWithoutUserInput
+    examCountdowns?: ExamCountdownUncheckedCreateNestedManyWithoutUserInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutStudyGoalInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutStudyGoalInput, UserUncheckedCreateWithoutStudyGoalInput>
+  }
+
+  export type UserUpsertWithoutStudyGoalInput = {
+    update: XOR<UserUpdateWithoutStudyGoalInput, UserUncheckedUpdateWithoutStudyGoalInput>
+    create: XOR<UserCreateWithoutStudyGoalInput, UserUncheckedCreateWithoutStudyGoalInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutStudyGoalInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutStudyGoalInput, UserUncheckedUpdateWithoutStudyGoalInput>
+  }
+
+  export type UserUpdateWithoutStudyGoalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    decks?: DeckUpdateManyWithoutUserNestedInput
+    reviewLogs?: ReviewLogUpdateManyWithoutUserNestedInput
+    reviewSessions?: ReviewSessionUpdateManyWithoutUserNestedInput
+    examCountdowns?: ExamCountdownUpdateManyWithoutUserNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutStudyGoalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    decks?: DeckUncheckedUpdateManyWithoutUserNestedInput
+    reviewLogs?: ReviewLogUncheckedUpdateManyWithoutUserNestedInput
+    reviewSessions?: ReviewSessionUncheckedUpdateManyWithoutUserNestedInput
+    examCountdowns?: ExamCountdownUncheckedUpdateManyWithoutUserNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type CardCreateWithoutReviewLogsInput = {
     id?: string
     front: string
@@ -10158,6 +15856,7 @@ export namespace Prisma {
     lastReviewed?: Date | string | null
     createdAt?: Date | string
     deck: DeckCreateNestedOneWithoutCardsInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutCardInput
   }
 
   export type CardUncheckedCreateWithoutReviewLogsInput = {
@@ -10172,6 +15871,7 @@ export namespace Prisma {
     dueDate?: Date | string
     lastReviewed?: Date | string | null
     createdAt?: Date | string
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutCardInput
   }
 
   export type CardCreateOrConnectWithoutReviewLogsInput = {
@@ -10189,6 +15889,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     decks?: DeckCreateNestedManyWithoutUserInput
     reviewSessions?: ReviewSessionCreateNestedManyWithoutUserInput
+    examCountdowns?: ExamCountdownCreateNestedManyWithoutUserInput
+    videoRecommendations?: VideoRecommendationCreateNestedManyWithoutUserInput
+    studyGoal?: StudyGoalCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewLogsInput = {
@@ -10201,6 +15904,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     decks?: DeckUncheckedCreateNestedManyWithoutUserInput
     reviewSessions?: ReviewSessionUncheckedCreateNestedManyWithoutUserInput
+    examCountdowns?: ExamCountdownUncheckedCreateNestedManyWithoutUserInput
+    videoRecommendations?: VideoRecommendationUncheckedCreateNestedManyWithoutUserInput
+    studyGoal?: StudyGoalUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReviewLogsInput = {
@@ -10231,6 +15937,7 @@ export namespace Prisma {
     lastReviewed?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deck?: DeckUpdateOneRequiredWithoutCardsNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateWithoutReviewLogsInput = {
@@ -10245,6 +15952,7 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     lastReviewed?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type UserUpsertWithoutReviewLogsInput = {
@@ -10268,6 +15976,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     decks?: DeckUpdateManyWithoutUserNestedInput
     reviewSessions?: ReviewSessionUpdateManyWithoutUserNestedInput
+    examCountdowns?: ExamCountdownUpdateManyWithoutUserNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutUserNestedInput
+    studyGoal?: StudyGoalUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewLogsInput = {
@@ -10280,6 +15991,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     decks?: DeckUncheckedUpdateManyWithoutUserNestedInput
     reviewSessions?: ReviewSessionUncheckedUpdateManyWithoutUserNestedInput
+    examCountdowns?: ExamCountdownUncheckedUpdateManyWithoutUserNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    studyGoal?: StudyGoalUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type DeckCreateManyUserInput = {
@@ -10318,6 +16032,27 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ExamCountdownCreateManyUserInput = {
+    id?: string
+    deckId?: string | null
+    title: string
+    examDate: Date | string
+    dailyGoal?: number
+    createdAt?: Date | string
+  }
+
+  export type VideoRecommendationCreateManyUserInput = {
+    id?: string
+    cardId: string
+    deckId: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt?: Date | string
+  }
+
   export type DeckUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -10334,6 +16069,8 @@ export namespace Prisma {
     lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cards?: CardUpdateManyWithoutDeckNestedInput
     reviewSessions?: ReviewSessionUpdateManyWithoutDeckNestedInput
+    examCountdowns?: ExamCountdownUpdateManyWithoutDeckNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutDeckNestedInput
   }
 
   export type DeckUncheckedUpdateWithoutUserInput = {
@@ -10352,6 +16089,8 @@ export namespace Prisma {
     lastOpenedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cards?: CardUncheckedUpdateManyWithoutDeckNestedInput
     reviewSessions?: ReviewSessionUncheckedUpdateManyWithoutDeckNestedInput
+    examCountdowns?: ExamCountdownUncheckedUpdateManyWithoutDeckNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutDeckNestedInput
   }
 
   export type DeckUncheckedUpdateManyWithoutUserInput = {
@@ -10430,6 +16169,69 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ExamCountdownUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deck?: DeckUpdateOneWithoutExamCountdownsNestedInput
+  }
+
+  export type ExamCountdownUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deckId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamCountdownUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deckId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoRecommendationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    card?: CardUpdateOneRequiredWithoutVideoRecommendationsNestedInput
+    deck?: DeckUpdateOneRequiredWithoutVideoRecommendationsNestedInput
+  }
+
+  export type VideoRecommendationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cardId?: StringFieldUpdateOperationsInput | string
+    deckId?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoRecommendationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cardId?: StringFieldUpdateOperationsInput | string
+    deckId?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CardCreateManyDeckInput = {
     id?: string
     front: string
@@ -10454,6 +16256,27 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ExamCountdownCreateManyDeckInput = {
+    id?: string
+    userId: string
+    title: string
+    examDate: Date | string
+    dailyGoal?: number
+    createdAt?: Date | string
+  }
+
+  export type VideoRecommendationCreateManyDeckInput = {
+    id?: string
+    userId: string
+    cardId: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt?: Date | string
+  }
+
   export type CardUpdateWithoutDeckInput = {
     id?: StringFieldUpdateOperationsInput | string
     front?: StringFieldUpdateOperationsInput | string
@@ -10466,6 +16289,7 @@ export namespace Prisma {
     lastReviewed?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewLogs?: ReviewLogUpdateManyWithoutCardNestedInput
+    videoRecommendations?: VideoRecommendationUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateWithoutDeckInput = {
@@ -10480,6 +16304,7 @@ export namespace Prisma {
     lastReviewed?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewLogs?: ReviewLogUncheckedUpdateManyWithoutCardNestedInput
+    videoRecommendations?: VideoRecommendationUncheckedUpdateManyWithoutCardNestedInput
   }
 
   export type CardUncheckedUpdateManyWithoutDeckInput = {
@@ -10528,6 +16353,69 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ExamCountdownUpdateWithoutDeckInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutExamCountdownsNestedInput
+  }
+
+  export type ExamCountdownUncheckedUpdateWithoutDeckInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExamCountdownUncheckedUpdateManyWithoutDeckInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    examDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoRecommendationUpdateWithoutDeckInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutVideoRecommendationsNestedInput
+    card?: CardUpdateOneRequiredWithoutVideoRecommendationsNestedInput
+  }
+
+  export type VideoRecommendationUncheckedUpdateWithoutDeckInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    cardId?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoRecommendationUncheckedUpdateManyWithoutDeckInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    cardId?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ReviewLogCreateManyCardInput = {
     id?: string
     userId: string
@@ -10535,6 +16423,18 @@ export namespace Prisma {
     easeBefore: number
     intervalBefore: number
     reviewedAt?: Date | string
+  }
+
+  export type VideoRecommendationCreateManyCardInput = {
+    id?: string
+    userId: string
+    deckId: string
+    videoId: string
+    title: string
+    channelName: string
+    thumbnailUrl: string
+    videoUrl: string
+    createdAt?: Date | string
   }
 
   export type ReviewLogUpdateWithoutCardInput = {
@@ -10562,6 +16462,42 @@ export namespace Prisma {
     easeBefore?: FloatFieldUpdateOperationsInput | number
     intervalBefore?: IntFieldUpdateOperationsInput | number
     reviewedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoRecommendationUpdateWithoutCardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutVideoRecommendationsNestedInput
+    deck?: DeckUpdateOneRequiredWithoutVideoRecommendationsNestedInput
+  }
+
+  export type VideoRecommendationUncheckedUpdateWithoutCardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deckId?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VideoRecommendationUncheckedUpdateManyWithoutCardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deckId?: StringFieldUpdateOperationsInput | string
+    videoId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    channelName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: StringFieldUpdateOperationsInput | string
+    videoUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

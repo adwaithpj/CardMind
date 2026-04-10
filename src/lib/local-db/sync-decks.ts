@@ -40,6 +40,12 @@ export async function syncDecksFromApi(): Promise<void> {
   await localDb.decks.bulkPut(rows);
 }
 
+/** Remove decks from IndexedDB after server-side delete (single or bulk). */
+export async function removeLocalDecks(deckIds: string[]): Promise<void> {
+  if (deckIds.length === 0) return;
+  await localDb.decks.bulkDelete(deckIds);
+}
+
 /** Upsert a deck right after upload (partial payload from POST /api/upload). */
 export async function upsertDeckFromUpload(payload: {
   deckId: string;

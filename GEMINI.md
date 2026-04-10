@@ -20,8 +20,13 @@ The north-star doc in the repo is **`flashcard_app_ideas.md`**: concept extracti
 | Sec. 3.2 Flip UX | **Spring-style flip** via Framer Motion on `Flashcard` |
 | Ingestion tone | **`src/rules/cardProduction.rule.ts`** (imported in `generate-cards.ts`) nudges varied card types |
 | Dashboard | **`/upload`** page (`UploadZone` + `UploadPageHero`), **Upload FAB**; **`lastOpenedAt`** on `Deck` (set when opening deck detail or review); **`GET /api/review/active`** resumes only **non-stale** active sessions (`finalizeStaleReviewSession`) |
+| Sec. 9.8 Exam Countdown | **`ExamCountdown`** model; CRUD API (`/api/exams`); **readiness score** (`src/lib/exams/readiness.ts`); **`ExamCountdownCard`** on dashboard; **`/exams`** page; sidebar nav |
+| YouTube recs | **`VideoRecommendation`** model; **YouTube Data API v3** (`src/lib/youtube/search.ts`); `POST /api/recommendations/youtube` (card-based); `POST /api/recommendations/search` (general query + optional deck); `GET /api/recommendations/recent`; button in `SessionComplete`; **`RecentVideosCard`** on dashboard; **`/videos`** page with search bar + deck selector + results grid; **"Videos"** sidebar nav |
+| Landing page | **Combined hero + login** on `/login`; 60/40 split layout; brand hero with feature highlights; matching `/register` |
+| Chat assistant | **`POST /api/chat`** — Gemini Q&A with optional deck context; **`ChatAssistant`** floating panel; deck selector |
+| Fullscreen review | `/review/[deckId]` hides sidebar + dashboard chrome; `Sidebar` + `DashboardContent` check `isReviewRoute`; **browser Fullscreen API** auto-enters on session start + toggle button; sticky top bar with `backdrop-blur-md`; centered `max-w-3xl` flashcard area |
 
-**Roadmap (not implemented):** FSRS, citation footnotes on cards, hallucination guard pass, concept heat map graph, ELI5 panic, audio mode, community decks, exam countdown — see phases in `flashcard_app_ideas.md` (section markers there may use “§” for historical notes; this file uses “Sec.” for readability).
+**Roadmap (not implemented):** FSRS, citation footnotes on cards, hallucination guard pass, concept heat map graph, ELI5 panic, audio mode, community decks — see phases in `flashcard_app_ideas.md` (section markers there may use “§” for historical notes; this file uses “Sec.” for readability).
 
 ---
 
@@ -58,21 +63,32 @@ src/
       register/page.tsx
     (dashboard)/
       layout.tsx            # Auth guard; DashboardBackdrop (bg + SmoothFollower + pointer layering)
-      DashboardContent.tsx  # Main column + motion enter + UploadFab + DashboardServerRefresh
-      page.tsx              # Home: streaks, stats, momentum, activity, deck grid, upload CTA
+      DashboardContent.tsx  # Main column + motion enter + UploadFab + ChatAssistant + DashboardServerRefresh
+      page.tsx              # Home: streaks, stats, momentum, activity, deck grid, upload CTA, exams, videos
       upload/page.tsx       # Dedicated PDF upload (`UploadZone`)
+      exams/page.tsx        # Exam countdown management page
+      videos/page.tsx       # YouTube video search + recent recommendations
+      videos/VideoSearchClient.tsx  # Client: search bar, deck selector, results grid
       decks/[id]/page.tsx   # Deck detail — calls touchDeckLastOpened
       review/
         page.tsx            # Review hub: all decks sorted by due count
-        [deckId]/page.tsx   # Review session — touchDeckLastOpened + ReviewSession
+        [deckId]/page.tsx   # Review session — fullscreen (sidebar hidden) + ReviewSession
     api/
       auth/
         [...nextauth]/route.ts   # NextAuth handler (GET + POST)
         register/route.ts        # POST — create new user
       upload/route.ts            # POST — PDF → AI → cards → deck
+      chat/route.ts              # POST — Gemini chat (optional deck context)
+      exams/
+        route.ts                 # GET / POST — list + create exam countdowns
+        [id]/route.ts            # PATCH / DELETE — update / remove exam
       decks/
         route.ts                 # GET  — list user's decks
         [id]/route.ts            # GET / PATCH / DELETE — single deck
+      recommendations/
+        youtube/route.ts         # POST — YouTube search for weak cards → save to DB
+        search/route.ts          # POST — general YouTube search (query + optional deckId)
+        recent/route.ts          # GET  — last 10 video recommendations
       review/
         session/route.ts         # GET  — load / create ReviewSession; ?mode=cram, ?fresh=1
         session/[id]/route.ts    # PATCH — persist queue + currentIndex
@@ -93,11 +109,16 @@ src/
     layout/SmoothFollower.tsx       # Client-only lerp cursor (dot + ring); hover via elementFromPoint
     layout/Sidebar.tsx
     layout/UploadFab.tsx
+    chat/ChatAssistant.tsx          # Floating Gemini chat panel with deck selector
+    exam/ExamCountdownCard.tsx      # Dashboard countdown card + setup trigger
+    exam/ExamSetupDialog.tsx        # Portal dialog to create exam countdown
+    recommendations/VideoRecommendationsModal.tsx  # YouTube recs for weak cards
     dashboard/StatsBar.tsx
     dashboard/StudyMomentumCard.tsx  # streak + heatmap + FirstReviewBanner export
     dashboard/ReviewActivityCard.tsx
     dashboard/DashboardServerRefresh.tsx  # router.refresh on review activity events
     dashboard/UploadHomeCta.tsx
+    dashboard/RecentVideosCard.tsx  # Horizontal scroll of recent YouTube recs
     deck/DeckGrid.tsx
     deck/CardList.tsx
     upload/UploadZone.tsx
@@ -123,6 +144,10 @@ src/
     srs/
       sm2.ts                # SM-2 algorithm: calculateSM2, isMastered, getCardStatus, …
       mastery.ts            # countMasteredCards, computeMasteryProgressPercent, enrichDecksWithMasteryProgress
+    exams/
+      readiness.ts          # computeReadiness — readiness score, daily goal, status
+    youtube/
+      search.ts             # searchYouTube — YouTube Data API v3 wrapper
     stats/
       study-activity.ts     # Streaks + contribution from ReviewLog
     review/
@@ -196,6 +221,31 @@ currentIndex   Int
 pendingRatings Json     — queue before batch submit
 status         String   active | completed | abandoned
 lastActivityAt DateTime
+```
+
+### ExamCountdown
+```
+id        String    @id
+userId    String    → User
+deckId    String?   → Deck (nullable for global exams)
+title     String
+examDate  DateTime
+dailyGoal Int       default 10
+createdAt DateTime
+```
+
+### VideoRecommendation
+```
+id           String   @id
+userId       String   → User
+cardId       String   → Card
+deckId       String   → Deck
+videoId      String   YouTube video ID
+title        String
+channelName  String
+thumbnailUrl String
+videoUrl     String
+createdAt    DateTime
 ```
 
 ### ReviewLog
@@ -356,6 +406,52 @@ All responses follow `{ data } | { error }` shape.
 
 ---
 
+### `POST /api/exams` / `GET /api/exams`
+**Auth:** Required  
+**POST Body:** `{ title: string, examDate: date (future), deckId?: uuid }`  
+**POST Returns:** `{ data: ExamCountdown }` — 201  
+**GET Returns:** `{ data: (ExamCountdown & { readiness: ReadinessResult })[] }` — sorted by exam date  
+**Readiness:** `{ daysRemaining, readinessPercent, dailyGoal, status: on_track|behind|completed|overdue, message }`
+
+---
+
+### `PATCH /api/exams/[id]` / `DELETE /api/exams/[id]`
+**Auth:** Required (owner only)  
+**PATCH Body:** `{ title?, examDate?, deckId? }`  
+**DELETE Returns:** `{ data: { success: true } }`
+
+---
+
+### `POST /api/recommendations/youtube`
+**Auth:** Required  
+**Body:** `{ cardIds: uuid[] }` (1–10)  
+**Flow:** Load each card's text → search YouTube Data API v3 → save `VideoRecommendation` rows  
+**Returns:** `{ data: { recommendations: VideoRecommendation[] } }`
+
+---
+
+### `POST /api/recommendations/search`
+**Auth:** Required  
+**Body:** `{ query?: string, deckId?: uuid }`  
+**Flow:** If `deckId`, appends deck title + "study tutorial explanation" to query. Searches YouTube Data API v3 for up to 9 results. Does **not** save to DB (user browses first).  
+**Returns:** `{ data: { videos: YouTubeVideo[] } }`
+
+---
+
+### `GET /api/recommendations/recent`
+**Auth:** Required  
+**Returns:** Last 10 `VideoRecommendation` for the user with `card.front` context
+
+---
+
+### `POST /api/chat`
+**Auth:** Required  
+**Body:** `{ messages: { role: "user"|"model", content: string }[], deckId?: uuid }`  
+**Flow:** If `deckId`, loads deck cards as system context. Calls Gemini with full conversation history.  
+**Returns:** `{ data: { reply: string } }`
+
+---
+
 ## SM-2 Algorithm (`src/lib/srs/sm2.ts`)
 
 ```
@@ -483,6 +579,7 @@ return NextResponse.json({ error: "..." }, { status: 4xx });  // error
 ```bash
 DATABASE_URL=           # Neon connection string (postgres://...)
 GEMINI_API_KEY=         # Google AI Studio key
+YOUTUBE_API_KEY=        # YouTube Data API v3 key (for video recommendations)
 NEXTAUTH_SECRET=        # openssl rand -base64 32
 NEXTAUTH_URL=           # http://localhost:3000 in dev
 ```

@@ -173,6 +173,37 @@ exports.Prisma.CardScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ExamCountdownScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  deckId: 'deckId',
+  title: 'title',
+  examDate: 'examDate',
+  dailyGoal: 'dailyGoal',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.VideoRecommendationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  cardId: 'cardId',
+  deckId: 'deckId',
+  videoId: 'videoId',
+  title: 'title',
+  channelName: 'channelName',
+  thumbnailUrl: 'thumbnailUrl',
+  videoUrl: 'videoUrl',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.StudyGoalScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  dailyCardTarget: 'dailyCardTarget',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ReviewLogScalarFieldEnum = {
   id: 'id',
   cardId: 'cardId',
@@ -214,6 +245,9 @@ exports.Prisma.ModelName = {
   Deck: 'Deck',
   ReviewSession: 'ReviewSession',
   Card: 'Card',
+  ExamCountdown: 'ExamCountdown',
+  VideoRecommendation: 'VideoRecommendation',
+  StudyGoal: 'StudyGoal',
   ReviewLog: 'ReviewLog'
 };
 

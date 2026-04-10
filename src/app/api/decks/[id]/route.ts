@@ -6,6 +6,16 @@ import {
   computeMasteryProgressPercent,
   countMasteredCards,
 } from "@/lib/srs/mastery";
+import { z } from "zod";
+
+const patchDeckSchema = z
+  .object({
+    title: z.string().min(1).max(255).optional(),
+    description: z.string().max(2000).nullable().optional(),
+    emoji: z.string().min(1).max(10).optional(),
+    lastOpenedAt: z.coerce.date().optional(),
+  })
+  .strict();
 
 async function getOwnedDeck(deckId: string, userId: string) {
   return prisma.deck.findFirst({
@@ -56,17 +66,41 @@ export async function PATCH(
   const deck = await getOwnedDeck(id, session.user.id);
   if (!deck) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  const { title, description, emoji } = await req.json();
-  const updated = await prisma.deck.update({
-    where: { id },
-    data: {
-      ...(title && { title }),
-      ...(description !== undefined && { description }),
-      ...(emoji && { emoji }),
-    },
-  });
+  try {
+    const raw = await req.json();
+    const parsed = patchDeckSchema.parse(raw);
 
-  return NextResponse.json({ data: updated });
+    const data: {
+      title?: string;
+      description?: string | null;
+      emoji?: string;
+      lastOpenedAt?: Date;
+    } = {};
+
+    if (parsed.title !== undefined) data.title = parsed.title;
+    if (parsed.description !== undefined) data.description = parsed.description;
+    if (parsed.emoji !== undefined) data.emoji = parsed.emoji;
+    if (parsed.lastOpenedAt !== undefined) data.lastOpenedAt = parsed.lastOpenedAt;
+
+    if (Object.keys(data).length === 0) {
+      return NextResponse.json(
+        { error: "Provide at least one of: title, description, emoji, lastOpenedAt" },
+        { status: 400 }
+      );
+    }
+
+    const updated = await prisma.deck.update({
+      where: { id },
+      data,
+    });
+
+    return NextResponse.json({ data: updated });
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json({ error: err.errors[0].message }, { status: 400 });
+    }
+    throw err;
+  }
 }
 
 export async function DELETE(

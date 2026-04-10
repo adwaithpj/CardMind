@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowLeft, Flame, BookOpen, Star, BarChart2, Play } from "lucide-react";
 import { MasteryRing } from "@/components/progress/MasteryRing";
 import { CardList } from "@/components/deck/CardList";
+import { DeckDeleteButton } from "@/components/deck/DeckDeleteButton";
 import { formatRelativeDate } from "@/lib/utils";
 import {
   computeMasteryProgressPercent,
@@ -133,6 +134,11 @@ export default async function DeckPage({
             No cards in this deck yet.
           </div>
         )}
+
+        <div className="mt-8 flex flex-col gap-2 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-muted-foreground">Remove this deck and all of its cards from your library.</p>
+          <DeckDeleteButton deckId={id} deckTitle={deck.title} className="shrink-0 self-start sm:self-auto" />
+        </div>
       </div>
 
       <div>
