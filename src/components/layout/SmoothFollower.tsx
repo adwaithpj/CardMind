@@ -20,6 +20,7 @@ export function SmoothFollower() {
   });
   const [isHovering, setIsHovering] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false);
 
   const DOT_SMOOTHNESS = 0.2;
   const BORDER_DOT_SMOOTHNESS = 0.1;
@@ -31,15 +32,29 @@ export function SmoothFollower() {
 
   useEffect(() => {
     if (!mounted) return;
+
+    const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const updateEnabled = () => setIsEnabled(mediaQuery.matches);
+
+    updateEnabled();
+    mediaQuery.addEventListener("change", updateEnabled);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateEnabled);
+    };
+  }, [mounted]);
+
+  useEffect(() => {
+    if (!mounted || !isEnabled) return;
     const prevCursor = document.body.style.cursor;
     document.body.style.cursor = "none";
     return () => {
       document.body.style.cursor = prevCursor;
     };
-  }, [mounted]);
+  }, [mounted, isEnabled]);
 
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted || !isEnabled) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       mousePosition.current = { x: e.clientX, y: e.clientY };
@@ -95,9 +110,9 @@ export function SmoothFollower() {
       cancelAnimationFrame(rafId);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [mounted]);
+  }, [mounted, isEnabled]);
 
-  if (!mounted) return null;
+  if (!mounted || !isEnabled) return null;
 
   return (
     <div
