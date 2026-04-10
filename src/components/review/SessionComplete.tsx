@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Deck } from "@/lib/db/schema";
-import { Trophy, Star, RotateCcw, Home, Flame } from "lucide-react";
+import { Trophy, Star, RotateCcw, Home, Flame, Youtube } from "lucide-react";
+import { VideoRecommendationsModal } from "@/components/recommendations/VideoRecommendationsModal";
 
 interface ReviewResult {
   cardId: string;
@@ -16,6 +18,8 @@ interface SessionCompleteProps {
 }
 
 export function SessionComplete({ deck, results, totalCards }: SessionCompleteProps) {
+  const [showVideoRecs, setShowVideoRecs] = useState(false);
+  const strugglingCardIds = results.filter((r) => r.rating < 3).map((r) => r.cardId);
   if (results.length === 0) {
     return (
       <div className="max-w-md mx-auto text-center py-20 animate-fade-in">
@@ -77,6 +81,24 @@ export function SessionComplete({ deck, results, totalCards }: SessionCompletePr
           value={`${avgRating.toFixed(1)} / 5`}
         />
       </div>
+
+      {strugglingCardIds.length > 0 && (
+        <button
+          type="button"
+          onClick={() => setShowVideoRecs(true)}
+          className="mb-6 inline-flex items-center gap-2 rounded-xl border border-red-200 dark:border-red-900/40 bg-red-50 dark:bg-red-950/30 px-5 py-2.5 text-sm font-semibold text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-950/50 transition"
+        >
+          <Youtube size={16} />
+          Get video help for tough cards
+        </button>
+      )}
+
+      {showVideoRecs && (
+        <VideoRecommendationsModal
+          cardIds={strugglingCardIds}
+          onClose={() => setShowVideoRecs(false)}
+        />
+      )}
 
       {/* Actions */}
       <div className="flex gap-3 justify-center">

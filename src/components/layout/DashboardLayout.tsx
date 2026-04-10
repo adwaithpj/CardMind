@@ -6,6 +6,7 @@ import { SidebarProvider } from "@/components/layout/SidebarProvider";
 import { DashboardBackdrop } from "@/components/layout/DashboardBackdrop";
 import { DeckLocalSync } from "@/components/sync/DeckLocalSync";
 import { DashboardContent } from "@/app/(dashboard)/DashboardContent";
+import { ChatAssistant } from "@/components/chat/ChatAssistant";
 
 export async function DashboardLayout({
   children,
@@ -23,6 +24,7 @@ export async function DashboardLayout({
           <Sidebar user={session.user} />
           <DashboardContent>{children}</DashboardContent>
         </div>
+        <ChatAssistant />
       </DashboardBackdrop>
     </SidebarProvider>
   );

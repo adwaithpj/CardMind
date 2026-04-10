@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { X, Loader2, Save } from "lucide-react";
+import { X, Loader2, Save, Maximize, Minimize } from "lucide-react";
 import { Card, Deck } from "@/lib/db/schema";
 import { Flashcard } from "./Flashcard";
 import { RatingButtons } from "./RatingButtons";
@@ -37,7 +37,34 @@ export function ReviewSession({ deck }: { deck: Deck }) {
   const [sessionResults, setSessionResults] = useState<ReviewResult[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const patchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const enterFullscreen = useCallback(() => {
+    document.documentElement.requestFullscreen?.().catch(() => {});
+  }, []);
+
+  const exitFullscreen = useCallback(() => {
+    document.exitFullscreen?.().catch(() => {});
+  }, []);
+
+  const toggleFullscreen = useCallback(() => {
+    if (document.fullscreenElement) exitFullscreen();
+    else enterFullscreen();
+  }, [enterFullscreen, exitFullscreen]);
+
+  useEffect(() => {
+    const onChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
+
+  useEffect(() => {
+    enterFullscreen();
+    return () => {
+      if (document.fullscreenElement) exitFullscreen();
+    };
+  }, [enterFullscreen, exitFullscreen]);
 
   const flushPatch = useCallback(
     (idx: number, pending: PendingRating[]) => {
@@ -220,7 +247,7 @@ export function ReviewSession({ deck }: { deck: Deck }) {
 
   if (phase === "loading") {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="min-h-[100dvh] flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto mb-3" />
           <p className="text-muted-foreground">Loading your session...</p>
@@ -231,20 +258,26 @@ export function ReviewSession({ deck }: { deck: Deck }) {
 
   if (phase === "complete") {
     return (
-      <SessionComplete
-        deck={deck}
-        results={sessionResults}
-        totalCards={cards.length}
-      />
+      <div className="min-h-[100dvh] flex flex-col">
+        <div className="flex-1 flex items-center justify-center">
+          <SessionComplete
+            deck={deck}
+            results={sessionResults}
+            totalCards={cards.length}
+          />
+        </div>
+      </div>
     );
   }
 
   if (awaitingSubmit) {
     return (
+      <div className="min-h-[100dvh] flex flex-col">
+      <div className="flex-1 flex items-center justify-center">
       <div
         className={cn(
-          "max-w-2xl mx-auto space-y-8 animate-fade-in py-8",
-          zen && "min-h-[60vh] flex flex-col justify-center"
+          "max-w-2xl w-full mx-auto space-y-8 animate-fade-in py-8 px-4",
+          zen && "flex flex-col justify-center"
         )}
       >
         <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -291,98 +324,104 @@ export function ReviewSession({ deck }: { deck: Deck }) {
           </button>
         </div>
       </div>
+      </div>
+      </div>
     );
   }
 
   if (!currentCard) {
     return (
-      <div className="min-h-[40vh] flex items-center justify-center text-muted-foreground text-sm">
+      <div className="min-h-[100dvh] flex items-center justify-center text-muted-foreground text-sm">
         No card in session.
       </div>
     );
   }
 
   return (
-    <div
-      className={cn(
-        "max-w-2xl mx-auto space-y-6 animate-fade-in",
-        zen && "min-h-[70vh] flex flex-col justify-center py-4"
-      )}
-    >
-      {zen && (
-        <p className="text-center text-xs text-muted-foreground uppercase tracking-[0.2em]">
-          Zen mode
-        </p>
-      )}
-      {sessionMode === "cram" && !zen && (
-        <p className="text-center text-xs font-medium text-amber-700 dark:text-amber-400 bg-amber-500/10 rounded-xl py-2 px-3">
-          Cram mode — scheduling ignored for this session queue. Add{" "}
-          <code className="text-[10px]">?zen=1</code> for minimal UI.
-        </p>
-      )}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center justify-between gap-2 flex-wrap">
-          <Link
-            href={`/decks/${deck.id}`}
-            className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1.5"
-          >
-            <X size={14} /> Exit session
-          </Link>
-          <p className="text-sm font-medium text-foreground truncate max-w-[40%] sm:max-w-none text-center">
-            {deck.emoji} {deck.title}
-          </p>
-          {!zen && (
-            <p className="text-sm text-muted-foreground tabular-nums">
-              {currentIndex + 1} / {cards.length}
+    <div className="min-h-[100dvh] flex flex-col">
+      {/* Top bar */}
+      <div className="shrink-0 w-full px-4 sm:px-6 pt-3 pb-2 bg-background/80 backdrop-blur-md border-b border-border/50">
+        <div className="max-w-3xl mx-auto space-y-3">
+          {sessionMode === "cram" && !zen && (
+            <p className="text-center text-xs font-medium text-amber-700 dark:text-amber-400 bg-amber-500/10 rounded-lg py-1.5 px-3">
+              Cram mode — scheduling ignored for this session.
             </p>
           )}
+          <div className="flex items-center justify-between gap-3">
+            <Link
+              href={`/decks/${deck.id}`}
+              className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors"
+            >
+              <X size={16} /> Exit
+            </Link>
+            <div className="flex items-center gap-2 min-w-0 flex-1 justify-center">
+              <span className="text-lg">{deck.emoji}</span>
+              <p className="text-sm font-semibold text-foreground truncate">{deck.title}</p>
+              {!zen && (
+                <span className="text-xs text-muted-foreground tabular-nums ml-1 bg-muted px-2 py-0.5 rounded-md">
+                  {currentIndex + 1}/{cards.length}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              {pendingRatings.length > 0 && (
+                <button
+                  type="button"
+                  onClick={handleSaveBatch}
+                  disabled={saving}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition disabled:opacity-50"
+                >
+                  {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
+                  Save ({pendingRatings.length})
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={toggleFullscreen}
+                className="rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+              >
+                {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
+              </button>
+            </div>
+          </div>
+          {!zen && <SessionProgress current={currentIndex} total={cards.length} />}
         </div>
-        {pendingRatings.length > 0 && (
-          <button
-            type="button"
-            onClick={handleSaveBatch}
-            disabled={saving}
-            className={cn(
-              "inline-flex items-center justify-center gap-2 self-start rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground shadow-sm",
-              "hover:bg-muted transition disabled:opacity-50"
-            )}
-          >
-            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            Save queue ({pendingRatings.length})
-          </button>
-        )}
       </div>
 
-      {!zen && <SessionProgress current={currentIndex} total={cards.length} />}
+      {/* Centered flashcard area */}
+      <div className="flex-1 flex items-center justify-center py-6 sm:py-10">
+        <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 space-y-6">
+          <Flashcard card={currentCard} isFlipped={isFlipped} onFlip={handleFlip} zen={zen} />
 
-      <Flashcard card={currentCard} isFlipped={isFlipped} onFlip={handleFlip} zen={zen} />
-
-      {isFlipped ? (
-        <RatingButtons
-          card={currentCard}
-          onRate={handleRate}
-          disabled={submitting || saving}
-        />
-      ) : (
-        <div className="text-center">
-          <button
-            type="button"
-            onClick={handleFlip}
-            className="gradient-brand text-white font-semibold px-8 py-3 rounded-xl hover:opacity-90 transition shadow-md shadow-primary/25 dark:shadow-primary/10"
-          >
-            Show Answer
-          </button>
-          {!zen && (
-            <p className="text-xs text-muted-foreground mt-3">
-              Press{" "}
-              <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[0.7rem] text-foreground">
-                Space
-              </kbd>{" "}
-              to flip
-            </p>
+          {isFlipped ? (
+            <RatingButtons
+              card={currentCard}
+              onRate={handleRate}
+              disabled={submitting || saving}
+            />
+          ) : (
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={handleFlip}
+                className="gradient-brand text-white font-semibold px-8 py-3 rounded-xl hover:opacity-90 transition shadow-md shadow-primary/25 dark:shadow-primary/10"
+              >
+                Show Answer
+              </button>
+              {!zen && (
+                <p className="text-xs text-muted-foreground mt-3">
+                  Press{" "}
+                  <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[0.7rem] text-foreground">
+                    Space
+                  </kbd>{" "}
+                  to flip
+                </p>
+              )}
+            </div>
           )}
         </div>
-      )}
+      </div>
     </div>
   );
 }

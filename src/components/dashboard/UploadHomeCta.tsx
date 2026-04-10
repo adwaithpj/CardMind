@@ -15,7 +15,7 @@ export function UploadHomeCta() {
     >
       <Link
         href="/upload"
-        className="group relative flex flex-col gap-4 overflow-hidden rounded-[2rem] border border-border bg-card/90 p-6 shadow-sm backdrop-blur-sm transition-all hover:border-primary/35 hover:shadow-lg hover:shadow-primary/5 sm:flex-row sm:items-center sm:justify-between sm:gap-6"
+        className="group relative flex flex-col gap-4 overflow-hidden rounded-[2rem] border border-border bg-card/90 dark:bg-card p-6 shadow-sm backdrop-blur-sm transition-all hover:border-primary/35 hover:shadow-lg hover:shadow-primary/5 dark:hover:shadow-primary/[0.03] sm:flex-row sm:items-center sm:justify-between sm:gap-6"
       >
         <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-primary/10 blur-2xl transition-opacity group-hover:opacity-100" />
         <div className="relative flex items-start gap-4 min-w-0">

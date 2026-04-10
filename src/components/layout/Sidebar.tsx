@@ -9,6 +9,8 @@ import {
   LayoutDashboard,
   BookOpen,
   FileUp,
+  CalendarDays,
+  Youtube,
   LogOut,
   User,
   Moon,
@@ -28,7 +30,8 @@ interface SidebarProps {
 const navItems = [
   { href: "/", icon: LayoutDashboard, label: "My Decks" },
   { href: "/review", icon: BookOpen, label: "Review" },
-  { href: "/upload", icon: FileUp, label: "Upload PDF" },
+  { href: "/videos", icon: Youtube, label: "Videos" },
+  { href: "/exams", icon: CalendarDays, label: "Exams" },
   { href: "/profile", icon: User, label: "Profile" },
 ];
 
@@ -37,6 +40,9 @@ export function Sidebar({ user }: SidebarProps) {
   const { theme, setTheme } = useTheme();
   const { isExpanded, toggle, isMobileMenuOpen, setMobileMenuOpen } = useSidebar();
   const [mounted, setMounted] = useState(false);
+
+  const isReviewRoute =
+    pathname.startsWith("/review/") && pathname.split("/").length >= 3;
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
@@ -91,7 +97,6 @@ export function Sidebar({ user }: SidebarProps) {
         {navItems.map(({ href, icon: Icon, label }) => {
           const active =
             pathname === href || (href !== "/" && pathname.startsWith(href));
-          const isUpload = href === "/upload";
           return (
             <Link
               key={href}
@@ -99,12 +104,10 @@ export function Sidebar({ user }: SidebarProps) {
               onClick={() => setMobileMenuOpen(false)}
               className={cn(
                 "group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all relative",
+                !isExpanded && "lg:justify-center lg:gap-0 lg:px-2",
                 active
                   ? "sidebar-item-active"
-                  : "text-muted-foreground hover:bg-accent hover:text-foreground",
-                isUpload &&
-                  !active &&
-                  "lg:border lg:border-dashed lg:border-primary/25 lg:bg-primary/[0.03] lg:hover:border-primary/40"
+                  : "text-muted-foreground hover:bg-accent hover:text-foreground"
               )}
             >
               <Icon
@@ -117,7 +120,7 @@ export function Sidebar({ user }: SidebarProps) {
               <span
                 className={cn(
                   "transition-all duration-300 whitespace-nowrap truncate",
-                  !isExpanded && "lg:opacity-0 lg:w-0 lg:overflow-hidden"
+                  !isExpanded && "lg:opacity-0 lg:w-0 lg:overflow-hidden lg:pointer-events-none"
                 )}
               >
                 {label}
@@ -134,10 +137,33 @@ export function Sidebar({ user }: SidebarProps) {
 
       {/* Footer Actions */}
       <div className="p-3 border-t border-border space-y-2 shrink-0">
+        <Link
+          href="/upload"
+          onClick={() => setMobileMenuOpen(false)}
+          className={cn(
+            "flex items-center gap-3 w-full px-3 py-3 rounded-xl text-sm font-semibold transition-all min-w-0",
+            "gradient-brand text-white shadow-md shadow-indigo-500/20 hover:opacity-95",
+            !isExpanded && "lg:justify-center lg:gap-0 lg:px-2"
+          )}
+        >
+          <FileUp size={20} className="shrink-0" />
+          <span
+            className={cn(
+              "transition-all duration-300 whitespace-nowrap truncate text-left",
+              !isExpanded && "lg:opacity-0 lg:w-0 lg:overflow-hidden lg:pointer-events-none"
+            )}
+          >
+            Upload PDF
+          </span>
+        </Link>
+
         <button
           type="button"
           onClick={toggleTheme}
-          className="flex items-center gap-3 w-full px-3 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-accent hover:text-foreground transition-all text-left min-w-0"
+          className={cn(
+            "flex items-center gap-3 w-full px-3 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-accent hover:text-foreground transition-all min-w-0",
+            !isExpanded && "lg:justify-center lg:gap-0 lg:px-2"
+          )}
         >
           {mounted && theme === "dark" ? (
             <Sun size={20} className="shrink-0" />
@@ -146,8 +172,8 @@ export function Sidebar({ user }: SidebarProps) {
           )}
           <span
             className={cn(
-              "transition-all duration-300 whitespace-nowrap truncate",
-              !isExpanded && "lg:opacity-0 lg:w-0 lg:overflow-hidden"
+              "transition-all duration-300 whitespace-nowrap truncate text-left",
+              !isExpanded && "lg:opacity-0 lg:w-0 lg:overflow-hidden lg:pointer-events-none"
             )}
           >
             {mounted && theme === "dark" ? "Light Mode" : "Dark Mode"}
@@ -157,7 +183,7 @@ export function Sidebar({ user }: SidebarProps) {
         <div
           className={cn(
             "flex items-center gap-3 px-3 py-3 rounded-xl bg-accent/50 transition-all overflow-hidden min-w-0",
-            !isExpanded && "lg:px-2"
+            !isExpanded && "lg:justify-center lg:px-2 lg:gap-0"
           )}
         >
           <div className="w-8 h-8 rounded-full gradient-brand flex items-center justify-center shrink-0">
@@ -165,8 +191,8 @@ export function Sidebar({ user }: SidebarProps) {
           </div>
           <div
             className={cn(
-              "flex-1 min-w-0 transition-all duration-300",
-              !isExpanded && "lg:opacity-0 lg:w-0 lg:overflow-hidden"
+              "flex-1 min-w-0 transition-all duration-300 text-left",
+              !isExpanded && "lg:opacity-0 lg:w-0 lg:overflow-hidden lg:pointer-events-none"
             )}
           >
             <p className="text-sm font-semibold text-foreground truncate">
@@ -179,13 +205,16 @@ export function Sidebar({ user }: SidebarProps) {
         <button
           type="button"
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="flex items-center gap-3 w-full px-3 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all text-left min-w-0"
+          className={cn(
+            "flex items-center gap-3 w-full px-3 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all min-w-0",
+            !isExpanded && "lg:justify-center lg:gap-0 lg:px-2"
+          )}
         >
           <LogOut size={20} className="shrink-0" />
           <span
             className={cn(
-              "transition-all duration-300 whitespace-nowrap truncate",
-              !isExpanded && "lg:opacity-0 lg:w-0 lg:overflow-hidden"
+              "transition-all duration-300 whitespace-nowrap truncate text-left",
+              !isExpanded && "lg:opacity-0 lg:w-0 lg:overflow-hidden lg:pointer-events-none"
             )}
           >
             Sign out
@@ -198,6 +227,7 @@ export function Sidebar({ user }: SidebarProps) {
   return (
     <>
       {/* Mobile Top Bar */}
+      {!isReviewRoute && (
       <div className="lg:hidden pointer-events-auto fixed top-0 left-0 right-0 h-14 sm:h-16 bg-background border-b border-border z-40 flex items-center justify-between px-3 sm:px-4 shadow-sm">
         <Link href="/" className="flex items-center gap-2 min-w-0">
           <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl gradient-brand flex items-center justify-center shrink-0">
@@ -215,9 +245,10 @@ export function Sidebar({ user }: SidebarProps) {
           {isMobileMenuOpen ? <X size={26} strokeWidth={2} /> : <Menu size={26} strokeWidth={2} />}
         </button>
       </div>
+      )}
 
       {/* Mobile overlay */}
-      {isMobileMenuOpen && (
+      {!isReviewRoute && isMobileMenuOpen && (
         <button
           type="button"
           className="lg:hidden pointer-events-auto fixed inset-0 top-14 sm:top-16 bg-background/80 backdrop-blur-sm z-40"
@@ -229,14 +260,14 @@ export function Sidebar({ user }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed left-0 z-50 flex flex-col pointer-events-auto bg-background border-r border-border transition-[transform,width] duration-300 ease-out shadow-sm",
+          "fixed left-0 z-50 flex flex-col pointer-events-auto bg-background/85 backdrop-blur-xl border-r border-border transition-[transform,width] duration-300 ease-out",
           "lg:top-0 lg:h-full",
           "max-lg:top-14 max-lg:sm:top-16 max-lg:h-[calc(100dvh-3.5rem)] max-lg:sm:h-[calc(100dvh-4rem)]",
-          // Mobile: full-width drawer; desktop: collapsed / expanded
           "w-[min(22rem,calc(100vw-1.25rem))] min-w-[260px] max-w-[min(22rem,90vw)] lg:min-w-0 lg:max-w-none",
           isExpanded ? "lg:w-64" : "lg:w-20",
           isMobileMenuOpen ? "max-lg:translate-x-0" : "max-lg:-translate-x-full",
-          "lg:translate-x-0"
+          "lg:translate-x-0",
+          isReviewRoute && "hidden"
         )}
       >
         {SidebarContent}

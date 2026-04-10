@@ -13,7 +13,7 @@ function heatColor(count: number): string {
 
 export function StudyMomentumCard({ data }: { data: StudyActivitySummary }) {
   return (
-    <div className="flex min-h-0 flex-col rounded-2xl border border-border bg-card p-6 shadow-sm">
+    <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-sm">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
@@ -23,18 +23,28 @@ export function StudyMomentumCard({ data }: { data: StudyActivitySummary }) {
             <span className="text-4xl font-bold tabular-nums text-foreground">
               {data.currentStreak}
             </span>
-            <span className="text-muted-foreground text-sm">day{data.currentStreak !== 1 ? "s" : ""}</span>
+            <span className="text-muted-foreground text-sm">
+              day{data.currentStreak !== 1 ? "s" : ""}
+            </span>
             <Flame
               className={cn(
                 "inline h-6 w-6 mb-1",
-                data.currentStreak > 0 ? "text-orange-500" : "text-muted-foreground/40"
+                data.currentStreak > 0
+                  ? "text-orange-500"
+                  : "text-muted-foreground/40",
               )}
             />
           </div>
           <p className="text-xs text-muted-foreground mt-2">
-            Best streak: <span className="font-semibold text-foreground">{data.bestStreak}</span> · Last 7
-            days:{" "}
-            <span className="font-semibold text-foreground">{data.reviewsLast7Days}</span> reviews
+            Best streak:{" "}
+            <span className="font-semibold text-foreground">
+              {data.bestStreak}
+            </span>{" "}
+            · Last 7 days:{" "}
+            <span className="font-semibold text-foreground">
+              {data.reviewsLast7Days}
+            </span>{" "}
+            reviews
           </p>
         </div>
       </div>
@@ -56,7 +66,7 @@ export function StudyMomentumCard({ data }: { data: StudyActivitySummary }) {
                     title={`${cell.date}: ${cell.count} reviews`}
                     className={cn(
                       "aspect-square min-h-[10px] max-h-4 w-full rounded-sm transition-colors",
-                      heatColor(cell.count)
+                      heatColor(cell.count),
                     )}
                   />
                 );
@@ -64,7 +74,9 @@ export function StudyMomentumCard({ data }: { data: StudyActivitySummary }) {
             </div>
           ))}
         </div>
-        <p className="text-[10px] text-muted-foreground mt-2">Darker = more reviews that day</p>
+        <p className="text-[10px] text-muted-foreground mt-2">
+          Darker = more reviews that day
+        </p>
       </div>
     </div>
   );
@@ -84,9 +96,12 @@ export function FirstReviewBanner({
   return (
     <div className="rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-primary">First session</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-primary">
+          First session
+        </p>
         <p className="text-foreground font-semibold mt-1">
-          Start your first review — ~{Math.max(5, Math.ceil(cardCount * 0.5))} min for {cardCount} cards
+          Start your first review — ~{Math.max(5, Math.ceil(cardCount * 0.5))}{" "}
+          min for {cardCount} cards
         </p>
         <p className="text-sm text-muted-foreground mt-0.5">
           {emoji} {deckTitle}

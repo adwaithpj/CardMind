@@ -58,7 +58,7 @@ export function Flashcard({ card, isFlipped, onFlip, zen }: FlashcardProps) {
         <div
           className={cn(
             "card-face card-back-face rounded-[2.5rem] p-8 sm:p-12 flex flex-col items-center justify-center text-center",
-            "bg-muted/80 dark:bg-muted/45 backdrop-blur-xl border border-border shadow-sm",
+            "bg-muted/80 dark:bg-card backdrop-blur-xl border border-border shadow-sm",
             zen && "border-primary/20"
           )}
         >

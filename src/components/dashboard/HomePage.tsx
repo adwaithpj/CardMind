@@ -8,6 +8,9 @@ import { DeckGrid } from "@/components/deck/DeckGrid";
 import { UploadHomeCta } from "@/components/dashboard/UploadHomeCta";
 import { StatsBar } from "@/components/dashboard/StatsBar";
 import { ReviewActivityCard } from "@/components/dashboard/ReviewActivityCard";
+import { RecentVideosCard } from "@/components/dashboard/RecentVideosCard";
+import { DailyStudyPlanCard } from "@/components/dashboard/DailyStudyPlanCard";
+import { ExamCountdownCard } from "@/components/exam/ExamCountdownCard";
 import {
   StudyMomentumCard,
   FirstReviewBanner,
@@ -32,36 +35,39 @@ export async function HomePage() {
 
   const totalDue = userDecks.reduce((s, d) => s + (d.dueCards ?? 0), 0);
   const totalCards = userDecks.reduce((s, d) => s + (d.totalCards ?? 0), 0);
-  const totalMastered = userDecks.reduce((s, d) => s + (d.masteredCards ?? 0), 0);
+  const totalMastered = userDecks.reduce(
+    (s, d) => s + (d.masteredCards ?? 0),
+    0,
+  );
 
   const activity = await getStudyActivitySummary(userId);
   const firstReviewDeck = userDecks.find(
-    (d) => !d.lastStudiedAt && (d.totalCards ?? 0) > 0
+    (d) => !d.lastStudiedAt && (d.totalCards ?? 0) > 0,
   );
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-foreground tracking-tight">
-          Good {getGreeting()}, {session?.user?.name?.split(" ")[0] ?? "there"} 👋
+          Good {getGreeting()}, {session?.user?.name?.split(" ")[0] ?? "there"}{" "}
+          👋
         </h1>
         <p className="text-muted-foreground mt-1 text-lg">
           {totalDue > 0
             ? `You have ${totalDue} card${totalDue !== 1 ? "s" : ""} due for review today.`
             : userDecks.length > 0
-            ? "You're all caught up! Keep it up."
-            : "Upload your first PDF to get started."}
+              ? "You're all caught up! Keep it up."
+              : "Upload your first PDF to get started."}
         </p>
       </div>
 
-      {firstReviewDeck && (
-        <FirstReviewBanner
-          deckId={firstReviewDeck.id}
-          deckTitle={firstReviewDeck.title}
-          emoji={firstReviewDeck.emoji ?? "📚"}
-          cardCount={firstReviewDeck.totalCards ?? 0}
-        />
-      )}
+      <ExamCountdownCard
+        decks={userDecks.map((d) => ({
+          id: d.id,
+          title: d.title,
+          emoji: d.emoji,
+        }))}
+      />
 
       {userDecks.length > 0 && (
         <StatsBar
@@ -72,11 +78,26 @@ export async function HomePage() {
         />
       )}
 
+      <div className="grid grid-cols-2 gap-4">
+        <DailyStudyPlanCard />
+
+        {firstReviewDeck && (
+          <FirstReviewBanner
+            deckId={firstReviewDeck.id}
+            deckTitle={firstReviewDeck.title}
+            emoji={firstReviewDeck.emoji ?? "📚"}
+            cardCount={firstReviewDeck.totalCards ?? 0}
+          />
+        )}
+      </div>
+
       {userDecks.length > 0 && (
         <section className="space-y-4">
-          <h2 className="text-lg font-semibold text-foreground">Momentum &amp; activity</h2>
-          <div className="grid min-w-0 gap-6 lg:grid-cols-2 lg:items-start">
-            <div className="min-w-0">
+          <h2 className="text-lg font-semibold text-foreground">
+            Momentum &amp; activity
+          </h2>
+          <div className="grid min-w-0 gap-6 lg:grid-cols-2 lg:items-stretch">
+            <div className="flex min-w-0 flex-col">
               <StudyMomentumCard data={activity} />
             </div>
             <div className="flex min-h-0 min-w-0 flex-col gap-3">
@@ -90,6 +111,8 @@ export async function HomePage() {
           </div>
         </section>
       )}
+
+      <RecentVideosCard />
 
       <UploadHomeCta />
 

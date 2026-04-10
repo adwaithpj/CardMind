@@ -109,55 +109,36 @@ export function ReviewActivityCard() {
           )
       : 0;
 
-  const showBothTiles = Boolean(activeSession && recentDeck);
-
   return (
-    <div
-      className={cn(
-        "grid w-full min-w-0 gap-4",
-        showBothTiles ? "grid-cols-1 xl:grid-cols-2 xl:items-stretch" : "grid-cols-1"
-      )}
-    >
+    <div className="flex w-full min-w-0 flex-col gap-4">
       {activeSession && (
         <div className="flex min-h-0 min-w-0 flex-col rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/5 to-transparent p-5 shadow-sm sm:p-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-            <div className="flex min-w-0 flex-1 items-start gap-3">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-2xl">
-                {activeSession.deckEmoji}
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-bold uppercase tracking-widest text-primary">
-                  {activeSession.needsSubmit ? "Save pending reviews" : "Resume review"}
-                </p>
-                <p className="font-semibold text-foreground truncate">{activeSession.deckTitle}</p>
-                <p className="text-sm text-muted-foreground mt-0.5">
-                  {activeSession.needsSubmit ? (
-                    <>
-                      {activeSession.pendingInQueue ?? 0} rating
-                      {(activeSession.pendingInQueue ?? 0) !== 1 ? "s" : ""} waiting to apply
-                    </>
-                  ) : (
-                    <>
-                      Card {Math.min(activeSession.currentIndex + 1, activeSession.cardsTotal)} of{" "}
-                      {activeSession.cardsTotal}
-                    </>
-                  )}
-                </p>
-                <p className="text-xs text-muted-foreground/80 mt-1">
-                  Last activity {formatRelativeDate(activeSession.lastActivityAt)}
-                </p>
-              </div>
+          <div className="flex min-w-0 items-start gap-3">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-2xl">
+              {activeSession.deckEmoji}
             </div>
-            <Link
-              href={`/review/${activeSession.deckId}`}
-              className={cn(
-                "inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 lg:w-auto lg:min-w-[8.5rem]",
-                "text-sm font-semibold text-primary-foreground shadow-sm hover:opacity-95 transition"
-              )}
-            >
-              <PlayCircle size={18} />
-              {activeSession.needsSubmit ? "Finish" : "Continue"}
-            </Link>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-bold uppercase tracking-widest text-primary">
+                {activeSession.needsSubmit ? "Save pending reviews" : "Resume review"}
+              </p>
+              <p className="font-semibold text-foreground truncate">{activeSession.deckTitle}</p>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                {activeSession.needsSubmit ? (
+                  <>
+                    {activeSession.pendingInQueue ?? 0} rating
+                    {(activeSession.pendingInQueue ?? 0) !== 1 ? "s" : ""} waiting to apply
+                  </>
+                ) : (
+                  <>
+                    Card {Math.min(activeSession.currentIndex + 1, activeSession.cardsTotal)} of{" "}
+                    {activeSession.cardsTotal}
+                  </>
+                )}
+              </p>
+              <p className="text-xs text-muted-foreground/80 mt-1">
+                Last activity {formatRelativeDate(activeSession.lastActivityAt)}
+              </p>
+            </div>
           </div>
           <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-muted">
             <div
@@ -165,6 +146,16 @@ export function ReviewActivityCard() {
               style={{ width: `${progressPct}%` }}
             />
           </div>
+          <Link
+            href={`/review/${activeSession.deckId}`}
+            className={cn(
+              "mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5",
+              "text-sm font-semibold text-primary-foreground shadow-sm hover:opacity-95 transition"
+            )}
+          >
+            <PlayCircle size={18} className="shrink-0" aria-hidden />
+            {activeSession.needsSubmit ? "Finish" : "Continue"}
+          </Link>
         </div>
       )}
 
