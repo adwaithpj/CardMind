@@ -58,7 +58,7 @@ export function Sidebar({ user }: SidebarProps) {
       {/* Logo */}
       <div
         className={cn(
-          "p-5 sm:p-6 flex items-center justify-between border-b border-border transition-all duration-300 shrink-0",
+          "hidden p-5 sm:p-6 items-center justify-between border-b border-border transition-all duration-300 shrink-0 lg:flex",
           !isExpanded && "lg:px-4"
         )}
       >
