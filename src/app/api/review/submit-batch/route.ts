@@ -45,29 +45,41 @@ export async function POST(req: NextRequest) {
     const sessionComplete =
       row.currentIndex >= n || pending.length === n;
 
-    await prisma.$transaction(async (tx) => {
-      for (const { cardId, rating } of pending) {
-        if (!cardIdSet.has(cardId)) {
-          throw new Error("Invalid card in queue");
-        }
+    // Fetch all cards in bulk first
+    const cardIds = pending.map(p => p.cardId);
+    const cards = await prisma.card.findMany({
+      where: { 
+        id: { in: cardIds },
+        deckId
+      },
+    });
+    
+    const cardMap = new Map(cards.map(c => [c.id, c]));
 
-        const card = await tx.card.findFirst({
-          where: { id: cardId, deckId },
-        });
-        if (!card) {
-          throw new Error("Card not found");
-        }
+    const operations = [];
+    const logsToCreate = [];
 
-        const sm2Result = calculateSM2(
-          {
-            easeFactor: card.easeFactor,
-            interval: card.interval,
-            repetitions: card.repetitions,
-          },
-          rating
-        );
+    for (const { cardId, rating } of pending) {
+      if (!cardIdSet.has(cardId)) {
+        throw new Error("Invalid card in queue");
+      }
 
-        await tx.card.update({
+      const card = cardMap.get(cardId);
+      if (!card) {
+        throw new Error(`Card not found: ${cardId}`);
+      }
+
+      const sm2Result = calculateSM2(
+        {
+          easeFactor: card.easeFactor,
+          interval: card.interval,
+          repetitions: card.repetitions,
+        },
+        rating
+      );
+
+      operations.push(
+        prisma.card.update({
           where: { id: cardId },
           data: {
             easeFactor: sm2Result.easeFactor,
@@ -76,27 +88,37 @@ export async function POST(req: NextRequest) {
             dueDate: sm2Result.dueDate,
             lastReviewed: new Date(),
           },
-        });
+        })
+      );
 
-        await tx.reviewLog.create({
-          data: {
-            cardId,
-            userId,
-            rating,
-            easeBefore: card.easeFactor,
-            intervalBefore: card.interval,
-          },
-        });
-      }
+      logsToCreate.push({
+        cardId,
+        userId,
+        rating,
+        easeBefore: card.easeFactor,
+        intervalBefore: card.interval,
+      });
+    }
 
-      await tx.reviewSession.update({
+    if (logsToCreate.length > 0) {
+      operations.push(
+        prisma.reviewLog.createMany({
+          data: logsToCreate,
+        })
+      );
+    }
+
+    operations.push(
+      prisma.reviewSession.update({
         where: { id: sessionId },
         data: {
           pendingRatings: [],
           status: sessionComplete ? "completed" : "active",
         },
-      });
-    });
+      })
+    );
+
+    await prisma.$transaction(operations);
 
     await updateDeckStats(deckId);
 
