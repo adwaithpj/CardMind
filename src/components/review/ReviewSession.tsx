@@ -21,14 +21,25 @@ interface ReviewResult {
   rating: number;
 }
 
-export function ReviewSession({ deck }: { deck: Deck }) {
+export function ReviewSession({
+  deck,
+  examId,
+  examTitle,
+}: {
+  deck: Deck;
+  /** When set, loads mixed recall session for this exam (all linked decks). */
+  examId?: string;
+  /** Shown in the header when reviewing for an exam (multi-deck). */
+  examTitle?: string;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const fresh = searchParams.get("fresh") === "1";
   const zen = searchParams.get("zen") === "1";
   const modeCram = searchParams.get("mode") === "cram";
+  const modeRecall = searchParams.get("mode") === "recall";
   const [phase, setPhase] = useState<SessionPhase>("loading");
-  const [sessionMode, setSessionMode] = useState<"normal" | "cram" | null>(null);
+  const [sessionMode, setSessionMode] = useState<"normal" | "cram" | "recall" | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [cards, setCards] = useState<Card[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -87,9 +98,17 @@ export function ReviewSession({ deck }: { deck: Deck }) {
   );
 
   const loadSession = useCallback(async () => {
-    const q = new URLSearchParams({ deckId: deck.id });
-    if (fresh) q.set("fresh", "1");
-    if (modeCram) q.set("mode", "cram");
+    const q = new URLSearchParams();
+    if (examId) {
+      q.set("examId", examId);
+      q.set("mode", "recall");
+      if (fresh) q.set("fresh", "1");
+    } else {
+      q.set("deckId", deck.id);
+      if (fresh) q.set("fresh", "1");
+      if (modeCram) q.set("mode", "cram");
+      if (modeRecall) q.set("mode", "recall");
+    }
     const r = await fetch(`/api/review/session?${q.toString()}`);
     const json = await r.json();
     if (!r.ok || !json.data) {
@@ -105,9 +124,15 @@ export function ReviewSession({ deck }: { deck: Deck }) {
     setCards(d.cards);
     setCurrentIndex(d.currentIndex ?? 0);
     setPendingRatings(d.pendingRatings ?? []);
-    setSessionMode(d.stats?.mode === "cram" ? "cram" : "normal");
+    setSessionMode(
+      d.stats?.mode === "cram"
+        ? "cram"
+        : d.stats?.mode === "recall"
+          ? "recall"
+          : "normal",
+    );
     setPhase("ready");
-  }, [deck.id, fresh, modeCram]);
+  }, [deck.id, examId, fresh, modeCram, modeRecall]);
 
   useEffect(() => {
     loadSession();
@@ -288,7 +313,7 @@ export function ReviewSession({ deck }: { deck: Deck }) {
             <X size={14} /> Exit
           </Link>
           <p className="text-sm font-medium text-foreground truncate">
-            {deck.emoji} {deck.title}
+            {deck.emoji} {examTitle ?? deck.title}
           </p>
           {!zen && <span className="text-sm text-muted-foreground">Review queue</span>}
         </div>
@@ -296,6 +321,11 @@ export function ReviewSession({ deck }: { deck: Deck }) {
         {sessionMode === "cram" && !zen && (
           <p className="text-center text-xs font-medium text-amber-700 dark:text-amber-400 bg-amber-500/10 rounded-xl py-2 px-3">
             Cram mode — all cards in this run; ratings still update SM-2 when you save.
+          </p>
+        )}
+        {sessionMode === "recall" && !zen && (
+          <p className="text-center text-xs font-medium text-sky-700 dark:text-sky-400 bg-sky-500/10 rounded-xl py-2 px-3">
+            Exam recall — every card in this deck; ratings still apply SM-2 when you save.
           </p>
         )}
 
@@ -347,6 +377,11 @@ export function ReviewSession({ deck }: { deck: Deck }) {
               Cram mode — scheduling ignored for this session.
             </p>
           )}
+          {sessionMode === "recall" && !zen && (
+            <p className="text-center text-xs font-medium text-sky-700 dark:text-sky-400 bg-sky-500/10 rounded-lg py-1.5 px-3">
+              Exam recall — full deck pass for practice.
+            </p>
+          )}
           <div className="flex items-center justify-between gap-3">
             <Link
               href={`/decks/${deck.id}`}
@@ -356,7 +391,9 @@ export function ReviewSession({ deck }: { deck: Deck }) {
             </Link>
             <div className="flex items-center gap-2 min-w-0 flex-1 justify-center">
               <span className="text-lg">{deck.emoji}</span>
-              <p className="text-sm font-semibold text-foreground truncate">{deck.title}</p>
+              <p className="text-sm font-semibold text-foreground truncate">
+                {examTitle ?? deck.title}
+              </p>
               {!zen && (
                 <span className="text-xs text-muted-foreground tabular-nums ml-1 bg-muted px-2 py-0.5 rounded-md">
                   {currentIndex + 1}/{cards.length}

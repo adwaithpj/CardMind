@@ -5,6 +5,12 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Search, Loader2, Youtube, ExternalLink, Sparkles, Trash2, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  clearRecentsCache,
+  getCachedSearch,
+  searchCacheKey,
+  setCachedSearch,
+} from "@/lib/local-db/video-cache";
 
 type DeckOption = { id: string; title: string; emoji: string };
 
@@ -62,6 +68,7 @@ export function VideoSearchClient({ decks, initialVideos }: Props) {
     try {
       const res = await fetch("/api/recommendations/recent", { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to clear");
+      await clearRecentsCache();
       setClearDialogOpen(false);
       router.refresh();
     } catch {
@@ -80,6 +87,14 @@ export function VideoSearchClient({ decks, initialVideos }: Props) {
     setSearched(true);
 
     try {
+      const cacheKey = searchCacheKey(searchQuery || "_deck_", selectedDeck || "");
+      const cached = await getCachedSearch(cacheKey);
+      if (cached?.length) {
+        setSearchResults(cached);
+        setSearching(false);
+        return;
+      }
+
       const res = await fetch("/api/recommendations/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -87,7 +102,11 @@ export function VideoSearchClient({ decks, initialVideos }: Props) {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Search failed");
-      setSearchResults(json.data?.videos ?? []);
+      const videos = json.data?.videos ?? [];
+      setSearchResults(videos);
+      if (videos.length > 0) {
+        await setCachedSearch(cacheKey, videos);
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     } finally {

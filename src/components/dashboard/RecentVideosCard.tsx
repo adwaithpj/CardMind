@@ -3,6 +3,11 @@
 import { useEffect, useState } from "react";
 import { ExternalLink, Youtube } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  getCachedRecents,
+  setCachedRecents,
+  type CachedVideo,
+} from "@/lib/local-db/video-cache";
 
 type RecentVideo = {
   id: string;
@@ -15,18 +20,54 @@ type RecentVideo = {
   createdAt: string;
 };
 
+function toCached(v: RecentVideo): CachedVideo {
+  return {
+    id: v.id,
+    videoId: v.videoId,
+    title: v.title,
+    channelName: v.channelName,
+    thumbnailUrl: v.thumbnailUrl,
+    videoUrl: v.videoUrl,
+    cardFront: v.cardFront,
+    createdAt: typeof v.createdAt === "string" ? v.createdAt : String(v.createdAt),
+  };
+}
+
 export function RecentVideosCard() {
   const [videos, setVideos] = useState<RecentVideo[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    fetch("/api/recommendations/recent")
-      .then((r) => r.json())
-      .then((json) => {
-        if (json.data) setVideos(json.data.slice(0, 5));
-      })
-      .catch(() => {})
-      .finally(() => setLoaded(true));
+    let cancelled = false;
+
+    (async () => {
+      const cached = await getCachedRecents();
+      if (cached?.length && !cancelled) {
+        setVideos(cached.slice(0, 5) as RecentVideo[]);
+        setLoaded(true);
+      }
+
+      const res = await fetch("/api/recommendations/recent", {
+        credentials: "include",
+      });
+      if (!res.ok) {
+        if (!cancelled) setLoaded(true);
+        return;
+      }
+      const json: { data?: RecentVideo[] } = await res.json();
+      const list = json.data?.slice(0, 5) ?? [];
+      if (list.length > 0) {
+        await setCachedRecents(list.map(toCached));
+      }
+      if (!cancelled) {
+        if (list.length > 0) setVideos(list);
+        setLoaded(true);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (!loaded || videos.length === 0) return null;

@@ -17,13 +17,25 @@ export type LocalDeckRecord = {
   lastStudiedAt: Date | null;
 };
 
+/** Generic JSON blob cache (video recents, search results). */
+export type VideoCacheRow = {
+  key: string;
+  value: string;
+  cachedAt: number;
+};
+
 class CardMindDexie extends Dexie {
   decks!: EntityTable<LocalDeckRecord, "id">;
+  videoCache!: EntityTable<VideoCacheRow, "key">;
 
   constructor() {
     super("CardMindLocal");
     this.version(1).stores({
       decks: "id, userId, updatedAt",
+    });
+    this.version(2).stores({
+      decks: "id, userId, updatedAt",
+      videoCache: "key, cachedAt",
     });
   }
 }

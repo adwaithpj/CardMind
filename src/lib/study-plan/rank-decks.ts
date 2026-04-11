@@ -10,7 +10,8 @@ export type DeckInput = {
 };
 
 export type ExamInput = {
-  deckId: string | null;
+  /** Empty = exam tracks all decks; otherwise only these decks get the exam boost */
+  linkedDeckIds: string[];
   examDate: Date;
   title: string;
 };
@@ -56,12 +57,14 @@ function scoreDeck(
   let examScore = 0;
   let examDays = Infinity;
   for (const exam of exams) {
-    if (exam.deckId === null || exam.deckId === deck.id) {
-      const days = daysUntil(exam.examDate);
-      if (days > 0 && days <= 14 && days < examDays) {
-        examDays = days;
-        examScore = Math.min(((14 - days) / 14) * 100, 100);
-      }
+    const applies =
+      exam.linkedDeckIds.length === 0 ||
+      exam.linkedDeckIds.includes(deck.id);
+    if (!applies) continue;
+    const days = daysUntil(exam.examDate);
+    if (days > 0 && days <= 14 && days < examDays) {
+      examDays = days;
+      examScore = Math.min(((14 - days) / 14) * 100, 100);
     }
   }
 

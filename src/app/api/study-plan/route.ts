@@ -7,6 +7,7 @@ import {
   type DeckInput,
   type ExamInput,
 } from "@/lib/study-plan/rank-decks";
+import { getExamLinkedDeckIds } from "@/lib/exams/exam-decks";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -85,10 +86,10 @@ export async function GET() {
 
     const exams = await prisma.examCountdown.findMany({
       where: { userId, examDate: { gte: now } },
-      select: { deckId: true, examDate: true, title: true },
+      select: { deckId: true, examDate: true, title: true, examDecks: { select: { deckId: true } } },
     });
     const examInputs: ExamInput[] = exams.map((e) => ({
-      deckId: e.deckId,
+      linkedDeckIds: getExamLinkedDeckIds(e),
       examDate: e.examDate,
       title: e.title,
     }));

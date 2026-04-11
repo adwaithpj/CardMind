@@ -4,6 +4,12 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { computeReadiness } from "@/lib/exams/readiness";
 import type { ReadinessResult } from "@/lib/exams/readiness";
+import {
+  getLiveDeckStudyStats,
+  getLiveStatsForDeckIds,
+  getLiveUserStudyStats,
+} from "@/lib/exams/live-card-stats";
+import { getExamLinkedDeckIds } from "@/lib/exams/exam-decks";
 import Link from "next/link";
 import { ArrowLeft, CalendarDays, Target, BookOpen } from "lucide-react";
 import { ExamSetupDialogWithRefresh } from "./ExamSetupDialogWithRefresh";
@@ -21,7 +27,23 @@ export default async function ExamsPage() {
     prisma.examCountdown.findMany({
       where: { userId },
       orderBy: { examDate: "asc" },
-      include: { deck: { select: { id: true, title: true, emoji: true, totalCards: true, masteredCards: true, dueCards: true } } },
+      include: {
+        deck: {
+          select: {
+            id: true,
+            title: true,
+            emoji: true,
+            totalCards: true,
+            masteredCards: true,
+            dueCards: true,
+          },
+        },
+        examDecks: {
+          include: {
+            deck: { select: { id: true, title: true, emoji: true } },
+          },
+        },
+      },
     }),
     prisma.deck.findMany({
       where: { userId },
@@ -29,18 +51,24 @@ export default async function ExamsPage() {
     }),
   ]);
 
-  const aggTotals = userDecks.reduce(
-    (acc, d) => ({ totalCards: acc.totalCards + d.totalCards, masteredCards: acc.masteredCards + d.masteredCards, dueCards: acc.dueCards + (d.dueCards ?? 0) }),
-    { totalCards: 0, masteredCards: 0, dueCards: 0 },
+  const exams = await Promise.all(
+    rawExams.map(async (exam) => {
+      const linked = getExamLinkedDeckIds(exam);
+      const { totalCards, masteredCards, dueCards } =
+        linked.length === 0
+          ? await getLiveUserStudyStats(userId)
+          : linked.length === 1
+            ? await getLiveDeckStudyStats(linked[0])
+            : await getLiveStatsForDeckIds(linked);
+      const readiness = computeReadiness({
+        totalCards,
+        masteredCards,
+        dueCards,
+        examDate: exam.examDate,
+      });
+      return { ...exam, readiness };
+    }),
   );
-
-  const exams = rawExams.map((exam) => {
-    const tc = exam.deck ? exam.deck.totalCards : aggTotals.totalCards;
-    const mc = exam.deck ? exam.deck.masteredCards : aggTotals.masteredCards;
-    const dc = exam.deck ? (exam.deck.dueCards ?? 0) : aggTotals.dueCards;
-    const readiness = computeReadiness({ totalCards: tc, masteredCards: mc, dueCards: dc, examDate: exam.examDate });
-    return { ...exam, readiness };
-  });
 
   const deckOptions = userDecks.map((d) => ({ id: d.id, title: d.title, emoji: d.emoji }));
 
@@ -98,6 +126,10 @@ type ExamWithReadiness = {
   dailyGoal: number;
   readiness: ReadinessResult;
   deck: { id: string; title: string; emoji: string | null } | null;
+  examDecks: {
+    deckId: string;
+    deck: { id: string; title: string; emoji: string | null };
+  }[];
 };
 
 function ExamCard({ exam }: { exam: ExamWithReadiness }) {
@@ -167,7 +199,26 @@ function ExamCard({ exam }: { exam: ExamWithReadiness }) {
         {exam.readiness.message}
       </p>
 
-      {exam.deck && (
+      {exam.examDecks.length > 0 ? (
+        <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
+          <span className="inline-flex items-center gap-1.5 font-medium text-foreground">
+            <BookOpen className="h-3 w-3 shrink-0" />
+            Linked decks
+          </span>
+          {": "}
+          {exam.examDecks.map((row, i) => (
+            <span key={row.deckId}>
+              {i > 0 ? ", " : ""}
+              <Link
+                href={`/decks/${row.deckId}`}
+                className="font-medium text-primary hover:underline"
+              >
+                {row.deck.emoji ?? "📚"} {row.deck.title}
+              </Link>
+            </span>
+          ))}
+        </p>
+      ) : exam.deck ? (
         <p className="mt-2 text-xs text-muted-foreground flex items-center gap-1.5">
           <BookOpen className="h-3 w-3 shrink-0" />
           <Link
@@ -177,11 +228,15 @@ function ExamCard({ exam }: { exam: ExamWithReadiness }) {
             {exam.deck.emoji ?? "📚"} {exam.deck.title}
           </Link>
         </p>
+      ) : (
+        <p className="mt-2 text-xs text-muted-foreground">
+          All decks — mixed session uses your full library.
+        </p>
       )}
 
       <div className="mt-auto pt-4 flex items-center gap-2 border-t border-border">
         <Link
-          href={exam.deckId ? `/review/${exam.deckId}?fresh=1` : "/review"}
+          href={`/review/exam/${exam.id}?fresh=1&mode=recall`}
           className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground hover:opacity-95 transition"
         >
           Study now

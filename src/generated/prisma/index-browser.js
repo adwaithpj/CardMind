@@ -156,7 +156,8 @@ exports.Prisma.ReviewSessionScalarFieldEnum = {
   pendingRatings: 'pendingRatings',
   status: 'status',
   lastActivityAt: 'lastActivityAt',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  examCountdownId: 'examCountdownId'
 };
 
 exports.Prisma.CardScalarFieldEnum = {
@@ -181,6 +182,12 @@ exports.Prisma.ExamCountdownScalarFieldEnum = {
   examDate: 'examDate',
   dailyGoal: 'dailyGoal',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.ExamCountdownDeckScalarFieldEnum = {
+  id: 'id',
+  examId: 'examId',
+  deckId: 'deckId'
 };
 
 exports.Prisma.VideoRecommendationScalarFieldEnum = {
@@ -246,6 +253,7 @@ exports.Prisma.ModelName = {
   ReviewSession: 'ReviewSession',
   Card: 'Card',
   ExamCountdown: 'ExamCountdown',
+  ExamCountdownDeck: 'ExamCountdownDeck',
   VideoRecommendation: 'VideoRecommendation',
   StudyGoal: 'StudyGoal',
   ReviewLog: 'ReviewLog'

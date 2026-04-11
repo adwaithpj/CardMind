@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { BookOpen, Clock, PlayCircle } from "lucide-react";
 import { formatRelativeDate } from "@/lib/utils";
@@ -12,6 +12,7 @@ type ActiveSession = {
   deckId: string;
   deckTitle: string;
   deckEmoji: string;
+  examId?: string | null;
   cardsTotal: number;
   currentIndex: number;
   lastActivityAt: string;
@@ -29,10 +30,14 @@ type RecentDeck = {
   dueCards: number;
 };
 
+const MIN_REFRESH_MS = 45_000;
+
 export function ReviewActivityCard() {
   const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
   const [recentDeck, setRecentDeck] = useState<RecentDeck | null>(null);
   const [loading, setLoading] = useState(true);
+  const lastFetchAt = useRef(0);
+  const hiddenAt = useRef<number | null>(null);
 
   const apply = useCallback((json: { data?: unknown }) => {
     if (json.data) {
@@ -45,12 +50,18 @@ export function ReviewActivityCard() {
     }
   }, []);
 
-  const refresh = useCallback(() => {
-    fetch("/api/review/active")
-      .then((r) => r.json())
-      .then(apply)
-      .catch(() => {});
-  }, [apply]);
+  const refresh = useCallback(
+    (force?: boolean) => {
+      const now = Date.now();
+      if (!force && now - lastFetchAt.current < MIN_REFRESH_MS) return;
+      lastFetchAt.current = now;
+      fetch("/api/review/active")
+        .then((r) => r.json())
+        .then(apply)
+        .catch(() => {});
+    },
+    [apply],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -63,29 +74,33 @@ export function ReviewActivityCard() {
         })
         .catch(() => {})
         .finally(() => {
+          lastFetchAt.current = Date.now();
           if (!cancelled) setLoading(false);
         });
     }
 
     load();
 
-    const onFocus = () => refresh();
     const onVisibility = () => {
-      if (document.visibilityState === "visible") refresh();
+      if (document.visibilityState === "hidden") {
+        hiddenAt.current = Date.now();
+        return;
+      }
+      const hiddenFor = hiddenAt.current ? Date.now() - hiddenAt.current : 0;
+      hiddenAt.current = null;
+      if (hiddenFor > 8_000) refresh(true);
     };
-    const onActivityEvent = () => refresh();
+    const onActivityEvent = () => refresh(true);
     const onPageShow = (e: PageTransitionEvent) => {
-      if (e.persisted) refresh();
+      if (e.persisted) refresh(true);
     };
 
-    window.addEventListener("focus", onFocus);
     document.addEventListener("visibilitychange", onVisibility);
     window.addEventListener(REVIEW_ACTIVITY_CHANGED, onActivityEvent);
     window.addEventListener("pageshow", onPageShow);
 
     return () => {
       cancelled = true;
-      window.removeEventListener("focus", onFocus);
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener(REVIEW_ACTIVITY_CHANGED, onActivityEvent);
       window.removeEventListener("pageshow", onPageShow);
@@ -147,7 +162,11 @@ export function ReviewActivityCard() {
             />
           </div>
           <Link
-            href={`/review/${activeSession.deckId}`}
+            href={
+              activeSession.examId
+                ? `/review/exam/${activeSession.examId}`
+                : `/review/${activeSession.deckId}`
+            }
             className={cn(
               "mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5",
               "text-sm font-semibold text-primary-foreground shadow-sm hover:opacity-95 transition"

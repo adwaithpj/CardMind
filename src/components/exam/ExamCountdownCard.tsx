@@ -11,8 +11,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-type DeckOption = { id: string; title: string; emoji: string | null };
+import { REVIEW_ACTIVITY_CHANGED } from "@/lib/review/activity-events";
 
 type ReadinessResult = {
   daysRemaining: number;
@@ -31,10 +30,7 @@ type ExamData = {
   dailyGoal: number;
   readiness: ReadinessResult;
   deck?: { id: string; title: string; emoji: string | null } | null;
-};
-
-type ExamCountdownCardProps = {
-  decks: DeckOption[];
+  examDecks?: { deckId: string; deck?: { id: string; title: string; emoji: string | null } }[];
 };
 
 const statusConfig = {
@@ -72,22 +68,28 @@ const statusConfig = {
   },
 } as const;
 
-export function ExamCountdownCard({ decks }: ExamCountdownCardProps) {
+export function ExamCountdownCard() {
   const [exams, setExams] = useState<ExamData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchExams = useCallback(() => {
+  const fetchExams = useCallback((silent?: boolean) => {
+    if (!silent) setLoading(true);
     fetch("/api/exams")
       .then((r) => r.json())
       .then((json: { data?: ExamData[] }) => {
         if (json.data) setExams(json.data);
       })
       .catch(() => {})
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!silent) setLoading(false);
+      });
   }, []);
 
   useEffect(() => {
-    fetchExams();
+    fetchExams(false);
+    const onActivity = () => fetchExams(true);
+    window.addEventListener(REVIEW_ACTIVITY_CHANGED, onActivity);
+    return () => window.removeEventListener(REVIEW_ACTIVITY_CHANGED, onActivity);
   }, [fetchExams]);
 
   if (loading) {
@@ -106,9 +108,7 @@ export function ExamCountdownCard({ decks }: ExamCountdownCardProps) {
   const config = statusConfig[nearest.readiness.status];
   const StatusIcon = config.icon;
 
-  const reviewHref = nearest.deckId
-    ? `/review/${nearest.deckId}?fresh=1`
-    : "/review";
+  const reviewHref = `/review/exam/${nearest.id}?fresh=1&mode=recall`;
 
   return (
     <div
@@ -220,15 +220,38 @@ export function ExamCountdownCard({ decks }: ExamCountdownCardProps) {
         )}
       </div>
 
-      {nearest.deck && (
+      {(nearest.examDecks && nearest.examDecks.length > 0) || nearest.deck ? (
         <p className="mt-3 text-xs text-muted-foreground">
-          Linked to{" "}
-          <Link
-            href={`/decks/${nearest.deck.id}`}
-            className="font-medium text-primary hover:underline"
-          >
-            {nearest.deck.emoji ?? "📚"} {nearest.deck.title}
-          </Link>
+          {nearest.examDecks && nearest.examDecks.length > 0 ? (
+            <>
+              Linked decks:{" "}
+              {nearest.examDecks.map((row, i) => (
+                <span key={row.deckId}>
+                  {i > 0 ? ", " : ""}
+                  <Link
+                    href={`/decks/${row.deckId}`}
+                    className="font-medium text-primary hover:underline"
+                  >
+                    {row.deck?.emoji ?? "📚"} {row.deck?.title ?? "Deck"}
+                  </Link>
+                </span>
+              ))}
+            </>
+          ) : nearest.deck ? (
+            <>
+              Linked to{" "}
+              <Link
+                href={`/decks/${nearest.deck.id}`}
+                className="font-medium text-primary hover:underline"
+              >
+                {nearest.deck.emoji ?? "📚"} {nearest.deck.title}
+              </Link>
+            </>
+          ) : null}
+        </p>
+      ) : (
+        <p className="mt-3 text-xs text-muted-foreground">
+          All decks — session mixes cards from your library.
         </p>
       )}
     </div>

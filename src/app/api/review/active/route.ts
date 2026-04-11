@@ -28,6 +28,9 @@ export async function GET() {
             lastStudiedAt: true,
           },
         },
+        examCountdown: {
+          select: { id: true, title: true },
+        },
       },
     });
 
@@ -83,8 +86,11 @@ export async function GET() {
         activeSession: {
           id: activeSession.id,
           deckId: activeSession.deckId,
-          deckTitle: activeSession.deck.title,
+          deckTitle: activeSession.examCountdown
+            ? activeSession.examCountdown.title
+            : activeSession.deck.title,
           deckEmoji: activeSession.deck.emoji ?? "📚",
+          examId: activeSession.examCountdownId,
           cardsTotal: activeSession.cardIds.length,
           currentIndex: activeSession.currentIndex,
           lastActivityAt: activeSession.lastActivityAt.toISOString(),

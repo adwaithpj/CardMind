@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useSidebar } from "@/components/layout/SidebarProvider";
 import { UploadFab } from "@/components/layout/UploadFab";
 import { ChatAssistant } from "@/components/chat/ChatAssistant";
+import { DashboardClock } from "@/components/layout/DashboardClock";
 import { DashboardServerRefresh } from "@/components/dashboard/DashboardServerRefresh";
 import { cn } from "@/lib/utils";
 
@@ -51,7 +52,12 @@ export function DashboardContent({ children }: { children: React.ReactNode }) {
       >
         {children}
       </motion.div>
-      {!isReviewRoute && <ChatAssistant />}
+      {!isReviewRoute && (
+        <>
+          <DashboardClock />
+          <ChatAssistant />
+        </>
+      )}
       <UploadFab />
       <DashboardServerRefresh />
     </main>

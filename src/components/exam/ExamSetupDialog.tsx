@@ -22,7 +22,9 @@ export function ExamSetupDialog({
   const [mounted, setMounted] = useState(false);
   const [title, setTitle] = useState("");
   const [examDate, setExamDate] = useState("");
-  const [deckId, setDeckId] = useState("");
+  const [selectedDeckIds, setSelectedDeckIds] = useState<Set<string>>(
+    () => new Set(),
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const titleRef = useRef<HTMLInputElement>(null);
@@ -38,8 +40,17 @@ export function ExamSetupDialog({
   const reset = useCallback(() => {
     setTitle("");
     setExamDate("");
-    setDeckId("");
+    setSelectedDeckIds(new Set());
     setError(null);
+  }, []);
+
+  const toggleDeck = useCallback((id: string) => {
+    setSelectedDeckIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
   }, []);
 
   useEffect(() => {
@@ -58,13 +69,14 @@ export function ExamSetupDialog({
     setError(null);
 
     try {
+      const deckIds = [...selectedDeckIds];
       const res = await fetch("/api/exams", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: title.trim(),
           examDate,
-          ...(deckId && { deckId }),
+          ...(deckIds.length > 0 ? { deckIds } : {}),
         }),
       });
       const json = (await res.json()) as { data?: unknown; error?: string };
@@ -104,7 +116,7 @@ export function ExamSetupDialog({
           role="dialog"
           aria-modal="true"
           aria-labelledby="exam-setup-title"
-          className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-xl"
+          className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-xl max-h-[90dvh] overflow-y-auto"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -168,28 +180,50 @@ export function ExamSetupDialog({
             </div>
 
             <div>
-              <label
-                htmlFor="exam-deck"
-                className="block text-sm font-medium text-foreground mb-1.5"
-              >
-                Linked deck{" "}
+              <p className="block text-sm font-medium text-foreground mb-2">
+                Linked decks{" "}
                 <span className="text-muted-foreground font-normal">
-                  (optional)
+                  (optional — select several for one subject)
                 </span>
-              </label>
-              <select
-                id="exam-deck"
-                value={deckId}
-                onChange={(e) => setDeckId(e.target.value)}
-                className="w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition"
-              >
-                <option value="">All decks (overall progress)</option>
-                {decks.map((d) => (
-                  <option key={d.id} value={d.id}>
-                    {d.emoji ?? "📚"} {d.title}
-                  </option>
-                ))}
-              </select>
+              </p>
+              <p className="text-xs text-muted-foreground mb-2">
+                If none selected, readiness uses all your decks. “Start
+                today&apos;s session” mixes cards from every linked deck.
+              </p>
+              {decks.length === 0 ? (
+                <p className="text-sm text-muted-foreground">
+                  Create a deck first to link specific material.
+                </p>
+              ) : (
+                <ul className="rounded-xl border border-border bg-muted/20 divide-y divide-border max-h-48 overflow-y-auto">
+                  {decks.map((d) => {
+                    const checked = selectedDeckIds.has(d.id);
+                    return (
+                      <li key={d.id}>
+                        <label
+                          className={cn(
+                            "flex cursor-pointer items-center gap-3 px-3 py-2.5 text-sm transition",
+                            checked ? "bg-primary/5" : "hover:bg-muted/50",
+                          )}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            onChange={() => toggleDeck(d.id)}
+                            className="rounded border-border"
+                          />
+                          <span className="text-lg" aria-hidden>
+                            {d.emoji ?? "📚"}
+                          </span>
+                          <span className="text-foreground font-medium truncate">
+                            {d.title}
+                          </span>
+                        </label>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
 
             {error && (

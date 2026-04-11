@@ -33,12 +33,9 @@ export async function HomePage() {
   const sorted = [...userDecksRaw].sort(sortDecksByLastOpened);
   const userDecks = await enrichDecksWithMasteryProgress(sorted);
 
-  const totalDue = userDecks.reduce((s, d) => s + (d.dueCards ?? 0), 0);
-  const totalCards = userDecks.reduce((s, d) => s + (d.totalCards ?? 0), 0);
-  const totalMastered = userDecks.reduce(
-    (s, d) => s + (d.masteredCards ?? 0),
-    0,
-  );
+  const totalDue = userDecks.reduce((sum, d) => sum + (d.dueCards ?? 0) + (d.newCards ?? 0), 0);
+  const totalCards = userDecks.reduce((sum, d) => sum + (d.totalCards ?? 0), 0);
+  const totalMastered = userDecks.reduce((sum, d) => sum + (d.masteredCards ?? 0), 0);
 
   const activity = await getStudyActivitySummary(userId);
   const firstReviewDeck = userDecks.find(
@@ -61,13 +58,7 @@ export async function HomePage() {
         </p>
       </div>
 
-      <ExamCountdownCard
-        decks={userDecks.map((d) => ({
-          id: d.id,
-          title: d.title,
-          emoji: d.emoji,
-        }))}
-      />
+      <ExamCountdownCard />
 
       {userDecks.length > 0 && (
         <StatsBar

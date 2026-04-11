@@ -4,73 +4,115 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { z } from "zod";
 import { computeReadiness } from "@/lib/exams/readiness";
+import {
+  getLiveDeckStudyStats,
+  getLiveStatsForDeckIds,
+  getLiveUserStudyStats,
+} from "@/lib/exams/live-card-stats";
+import { getExamLinkedDeckIds } from "@/lib/exams/exam-decks";
 
-const createSchema = z.object({
-  title: z.string().min(1).max(255),
-  examDate: z.coerce.date().refine((d) => d > new Date(), "Exam date must be in the future"),
-  deckId: z.string().uuid().optional(),
-});
+const createSchema = z
+  .object({
+    title: z.string().min(1).max(255),
+    examDate: z.coerce
+      .date()
+      .refine((d) => d > new Date(), "Exam date must be in the future"),
+    deckId: z.string().uuid().optional(),
+    deckIds: z.array(z.string().uuid()).max(40).optional(),
+  })
+  .strict();
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   try {
     const body = await req.json();
     const parsed = createSchema.parse(body);
+
+    let deckIds =
+      parsed.deckIds && parsed.deckIds.length > 0
+        ? [...new Set(parsed.deckIds)]
+        : parsed.deckId
+          ? [parsed.deckId]
+          : [];
+
+    if (deckIds.length > 0) {
+      const owned = await prisma.deck.count({
+        where: { userId: session.user.id, id: { in: deckIds } },
+      });
+      if (owned !== deckIds.length) {
+        return NextResponse.json(
+          { error: "One or more decks were not found" },
+          { status: 400 },
+        );
+      }
+    }
 
     const exam = await prisma.examCountdown.create({
       data: {
         userId: session.user.id,
         title: parsed.title,
         examDate: parsed.examDate,
-        deckId: parsed.deckId ?? null,
+        deckId: deckIds[0] ?? null,
+        examDecks:
+          deckIds.length > 0
+            ? { create: deckIds.map((deckId) => ({ deckId })) }
+            : undefined,
+      },
+      include: {
+        examDecks: { include: { deck: true } },
+        deck: true,
       },
     });
 
     return NextResponse.json({ data: exam }, { status: 201 });
   } catch (err) {
-    if (err instanceof z.ZodError) return NextResponse.json({ error: err.errors[0].message }, { status: 400 });
+    if (err instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: err.issues[0]?.message ?? "Invalid input" },
+        { status: 400 },
+      );
+    }
     throw err;
   }
 }
 
 export async function GET() {
   const session = await getServerSession(authOptions);
-  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   const exams = await prisma.examCountdown.findMany({
     where: { userId: session.user.id },
     orderBy: { examDate: "asc" },
-    include: { deck: true },
+    include: {
+      deck: true,
+      examDecks: { include: { deck: true } },
+    },
   });
 
   const results = await Promise.all(
     exams.map(async (exam) => {
-      let totalCards = 0;
-      let masteredCards = 0;
-      let dueCards = 0;
+      const linked = getExamLinkedDeckIds(exam);
+      const { totalCards, masteredCards, dueCards } =
+        linked.length === 0
+          ? await getLiveUserStudyStats(session.user.id)
+          : linked.length === 1
+            ? await getLiveDeckStudyStats(linked[0])
+            : await getLiveStatsForDeckIds(linked);
 
-      if (exam.deckId) {
-        const deck = await prisma.deck.findUnique({ where: { id: exam.deckId } });
-        if (deck) {
-          totalCards = deck.totalCards;
-          masteredCards = deck.masteredCards;
-          dueCards = deck.dueCards;
-        }
-      } else {
-        const agg = await prisma.deck.aggregate({
-          where: { userId: session.user.id },
-          _sum: { totalCards: true, masteredCards: true, dueCards: true },
-        });
-        totalCards = agg._sum.totalCards ?? 0;
-        masteredCards = agg._sum.masteredCards ?? 0;
-        dueCards = agg._sum.dueCards ?? 0;
-      }
-
-      const readiness = computeReadiness({ totalCards, masteredCards, dueCards, examDate: exam.examDate });
+      const readiness = computeReadiness({
+        totalCards,
+        masteredCards,
+        dueCards,
+        examDate: exam.examDate,
+      });
       return { ...exam, readiness };
-    })
+    }),
   );
 
   return NextResponse.json({ data: results });

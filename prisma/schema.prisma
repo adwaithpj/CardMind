@@ -47,6 +47,7 @@ model Deck {
   cards                Card[]
   reviewSessions       ReviewSession[]
   examCountdowns       ExamCountdown[]
+  examCountdownDecks   ExamCountdownDeck[]
   videoRecommendations VideoRecommendation[]
 
   @@index([userId], map: "decks_user_id_idx")
@@ -67,9 +68,12 @@ model ReviewSession {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   deck Deck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  examCountdown   ExamCountdown? @relation(fields: [examCountdownId], references: [id], onDelete: SetNull)
+  examCountdownId String?        @map("exam_countdown_id")
 
   @@index([userId, status], map: "review_sessions_user_status_idx")
   @@index([deckId], map: "review_sessions_deck_id_idx")
+  @@index([examCountdownId], map: "review_sessions_exam_countdown_id_idx")
   @@map("review_sessions")
 }
 
@@ -104,11 +108,26 @@ model ExamCountdown {
   dailyGoal Int      @default(10) @map("daily_goal")
   createdAt DateTime @default(now()) @map("created_at")
 
-  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  deck Deck? @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  user            User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deck            Deck?                 @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  examDecks       ExamCountdownDeck[]
+  reviewSessions  ReviewSession[]
 
   @@index([userId], map: "exam_countdowns_user_id_idx")
   @@map("exam_countdowns")
+}
+
+model ExamCountdownDeck {
+  id     String @id @default(uuid())
+  examId String @map("exam_id")
+  deckId String @map("deck_id")
+
+  exam ExamCountdown @relation(fields: [examId], references: [id], onDelete: Cascade)
+  deck Deck          @relation(fields: [deckId], references: [id], onDelete: Cascade)
+
+  @@unique([examId, deckId], map: "exam_countdown_decks_exam_deck_uidx")
+  @@index([deckId], map: "exam_countdown_decks_deck_id_idx")
+  @@map("exam_countdown_decks")
 }
 
 model VideoRecommendation {

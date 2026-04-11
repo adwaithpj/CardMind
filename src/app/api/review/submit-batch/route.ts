@@ -7,6 +7,7 @@ import { calculateSM2 } from "@/lib/srs/sm2";
 import { countMasteredCards } from "@/lib/srs/mastery";
 import { z } from "zod";
 import { parsePendingRatings } from "@/lib/review/pending-ratings";
+import { getExamLinkedDeckIds } from "@/lib/exams/exam-decks";
 
 const schema = z.object({
   sessionId: z.string().uuid(),
@@ -38,23 +39,48 @@ export async function POST(req: NextRequest) {
     }
 
     const cardIdSet = new Set(row.cardIds);
-    const deckId = row.deckId;
     const submittedRatings = [...pending];
     const n = row.cardIds.length;
-    // Full queue saved in one batch (common) even if PATCH debounce left currentIndex stale
     const sessionComplete =
       row.currentIndex >= n || pending.length === n;
 
-    // Fetch all cards in bulk first
-    const cardIds = pending.map(p => p.cardId);
+    let allowedDeckIds: string[] = [row.deckId];
+    if (row.examCountdownId) {
+      const exam = await prisma.examCountdown.findFirst({
+        where: { id: row.examCountdownId, userId },
+        include: { examDecks: true },
+      });
+      if (!exam) {
+        return NextResponse.json({ error: "Exam not found" }, { status: 404 });
+      }
+      const linked = getExamLinkedDeckIds(exam);
+      allowedDeckIds =
+        linked.length > 0
+          ? linked
+          : (
+              await prisma.deck.findMany({
+                where: { userId },
+                select: { id: true },
+              })
+            ).map((d) => d.id);
+    }
+
+    const cardIds = pending.map((p) => p.cardId);
     const cards = await prisma.card.findMany({
-      where: { 
-        id: { in: cardIds },
-        deckId
-      },
+      where: { id: { in: cardIds } },
     });
-    
-    const cardMap = new Map(cards.map(c => [c.id, c]));
+
+    const allowed = new Set(allowedDeckIds);
+    for (const c of cards) {
+      if (!allowed.has(c.deckId)) {
+        return NextResponse.json(
+          { error: "Invalid card in session" },
+          { status: 400 },
+        );
+      }
+    }
+
+    const cardMap = new Map(cards.map((c) => [c.id, c]));
 
     const operations = [];
     const logsToCreate = [];
@@ -120,12 +146,18 @@ export async function POST(req: NextRequest) {
 
     await prisma.$transaction(operations);
 
-    await updateDeckStats(deckId);
+    const affectedDeckIds = [...new Set(cards.map((c) => c.deckId))];
+    for (const did of affectedDeckIds) {
+      await updateDeckStats(did);
+      revalidatePath(`/decks/${did}`);
+    }
 
     revalidatePath("/");
     revalidatePath("/review");
-    revalidatePath(`/decks/${deckId}`);
-    revalidatePath(`/review/${deckId}`);
+    revalidatePath(`/review/${row.deckId}`);
+    if (row.examCountdownId) {
+      revalidatePath(`/review/exam/${row.examCountdownId}`);
+    }
 
     return NextResponse.json({
       data: {

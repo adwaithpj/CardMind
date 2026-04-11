@@ -142,10 +142,8 @@ export function DailyStudyPlanCard() {
 
     const handler = () => fetchPlan();
     window.addEventListener(REVIEW_ACTIVITY_EVENT, handler);
-    window.addEventListener("focus", handler);
     return () => {
       window.removeEventListener(REVIEW_ACTIVITY_EVENT, handler);
-      window.removeEventListener("focus", handler);
     };
   }, [fetchPlan]);
 
