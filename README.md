@@ -4,7 +4,7 @@ Turn any PDF into a practice-ready flashcard deck powered by Gemini AI and SM-2 
 
 ## Features
 
-- **AI Card Generation** — Gemini 1.5 Flash reads your PDF directly (no pre-extraction needed) and creates 15-60 high-quality flashcards across 5 specialized types:
+- **AI Card Generation** — Gemini 3 Flash reads your PDF directly (no pre-extraction needed) and creates 15-60 high-quality flashcards across 5 specialized types:
   - **DEFINITION** — Key term to precise, example-supported definition.
   - **CONCEPT** — Plain-language explanations of core ideas.
   - **RELATIONSHIP** — Comparison, contrast, or cause-effect between concepts.
